@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { turkishSlugify } from "../../lib/slugify";
 
 export const storeType = defineType({
   name: "store",
@@ -19,6 +20,7 @@ export const storeType = defineType({
       description: "Mağaza detay sayfasının URL'sini belirler (Örn: /magazalar/lc-waikiki). Başlığa göre otomatik üretilebilir.",
       options: {
         source: "title",
+        slugify: turkishSlugify,
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),

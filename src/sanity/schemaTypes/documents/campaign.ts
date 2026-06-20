@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { turkishSlugify } from "../../lib/slugify";
 
 export const campaignType = defineType({
   name: "campaign",
@@ -19,6 +20,7 @@ export const campaignType = defineType({
       description: "Kampanya detay sayfası URL'sini belirler (Örn: /kampanyalar/babalar-gunu-indirimi). Türkçe başlığa göre otomatik üretilebilir.",
       options: {
         source: "title.tr",
+        slugify: turkishSlugify,
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { turkishSlugify } from "../../lib/slugify";
 
 export const foodCategoryType = defineType({
   name: "foodCategory",
@@ -19,6 +20,7 @@ export const foodCategoryType = defineType({
       description: "Sayfa URL'sini belirler (Örn: /yeme-icme/fast-food). Türkçe başlığa göre otomatik üretilebilir.",
       options: {
         source: "title.tr",
+        slugify: turkishSlugify,
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { turkishSlugify } from "../../lib/slugify";
 
 export const eventType = defineType({
   name: "event",
@@ -19,6 +20,7 @@ export const eventType = defineType({
       description: "Etkinlik detay sayfası URL'sini belirler (Örn: /etkinlikler/acilis-konseri). Türkçe başlığa göre otomatik üretilebilir.",
       options: {
         source: "title.tr",
+        slugify: turkishSlugify,
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
