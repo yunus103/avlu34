@@ -1,9 +1,22 @@
+import { notFound } from "next/navigation";
+import { isLocale } from "@/lib/i18n/config";
 import { getLayoutData } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
-export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export default async function SiteLayout({ children, params }: Props) {
+  const { locale } = await params;
+
+  if (!isLocale(locale)) {
+    notFound();
+  }
+
   const data = await getLayoutData();
 
   return (

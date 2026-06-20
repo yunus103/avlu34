@@ -13,11 +13,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata();
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+type RootProps = {
+  children: React.ReactNode;
+  params: Promise<{ locale?: string }>;
+};
+
+export default async function RootLayout({ children, params }: RootProps) {
+  const { locale } = await params;
+  const currentLocale = locale || "tr";
   const { settings } = await getLayoutData();
 
   return (
-    <html lang="tr" suppressHydrationWarning>
+    <html lang={currentLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <noscript>
           <style>{`[data-fade-in]{opacity:1!important;transform:none!important}`}</style>

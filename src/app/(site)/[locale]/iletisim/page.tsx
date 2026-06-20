@@ -6,17 +6,30 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { ContactPage as ContactPageType } from "@/types";
+import { getPublicPath } from "@/lib/i18n/routes";
+import { locales, Locale } from "@/lib/i18n/config";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const data = await cachedFetch<ContactPageType>(contactPageQuery, {}, { next: { tags: ["contact"] } });
+  
   return buildMetadata({
     title: data?.heroTitle || data?.pageTitle || "İletişim",
-    canonicalPath: "/iletisim",
+    canonicalPath: getPublicPath("iletisim", locale as Locale),
     pageSeo: data?.seo,
   });
 }
 
-export default async function ContactPage() {
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params;
   const data = await cachedFetch<ContactPageType>(contactPageQuery, {}, { next: { tags: ["contact"] } });
 
   return (

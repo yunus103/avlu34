@@ -7,17 +7,30 @@ import { SanityImage } from "@/components/ui/SanityImage";
 import { RichText } from "@/components/ui/RichText";
 import { PageHero } from "@/components/layout/PageHero";
 import { AboutPage as AboutPageType } from "@/types";
+import { getPublicPath } from "@/lib/i18n/routes";
+import { locales, Locale } from "@/lib/i18n/config";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const data = await cachedFetch<AboutPageType>(aboutPageQuery, {}, { next: { tags: ["about"] } });
+  
   return buildMetadata({
     title: data?.heroTitle || data?.pageTitle || "Hakkımızda",
-    canonicalPath: "/hakkimizda",
+    canonicalPath: getPublicPath("hakkimizda", locale as Locale),
     pageSeo: data?.seo,
   });
 }
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: Props) {
+  const { locale } = await params;
   const data = await cachedFetch<AboutPageType>(aboutPageQuery, {}, { next: { tags: ["about"] } });
 
   return (
@@ -33,7 +46,6 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Sol Kolon: Metin İçeriği */}
           <div className="lg:col-span-7">
-            {/* If there was a body block or pageSubtitle, render it */}
             <FadeIn direction="up">
               <h2 className="text-3xl font-bold tracking-tight mb-6">
                 {data?.pageTitle || "Hakkımızda"}

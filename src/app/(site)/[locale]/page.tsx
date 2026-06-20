@@ -13,8 +13,18 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { ProjectsSection } from "@/components/home/ProjectsSection";
 import { BlogSection } from "@/components/home/BlogSection";
 import { HomePage as HomePageType, Service, Project, BlogPost } from "@/types";
+import { locales } from "@/lib/i18n/config";
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const data = await cachedFetch<HomePageType>(homePageQuery, {}, { next: { tags: ["home"] } });
   return buildMetadata({
     canonicalPath: "/",
@@ -22,7 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+  
   // 1. First fetch the main homepage configuration
   const data = await cachedFetch<HomePageType>(homePageQuery, {}, { next: { tags: ["home"] } });
 
