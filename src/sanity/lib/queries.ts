@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 
-// ─── Layout ────────────────────────────────────────────────────────────────────
-// Her sayfada bir kez çekilir — header, footer, global ayarlar
+// ─── Layout Query ─────────────────────────────────────────────────────────────
+// Fetches header, footer, and site settings for the layout
 export const layoutQuery = groq`{
   "settings": *[_type == "siteSettings"][0] {
     siteName, siteTagline,
@@ -15,172 +15,368 @@ export const layoutQuery = groq`{
     defaultOgImage { asset->{ _id, url, metadata { lqip, dimensions } } }
   },
   "navigation": *[_type == "navigation"][0] {
-    headerLinks[] { label, href, openInNewTab, subLinks[] { label, href, openInNewTab } },
-    footerLinks[] { label, href, openInNewTab, subLinks[] { label, href, openInNewTab } }
+    headerLinks[] { 
+      "label": coalesce(label[$locale], label.tr), 
+      href, 
+      openInNewTab, 
+      subLinks[] { 
+        "label": coalesce(label[$locale], label.tr), 
+        href, 
+        openInNewTab 
+      } 
+    },
+    footerLinks[] { 
+      "label": coalesce(label[$locale], label.tr), 
+      href, 
+      openInNewTab, 
+      subLinks[] { 
+        "label": coalesce(label[$locale], label.tr), 
+        href, 
+        openInNewTab 
+      } 
+    }
   }
 }`;
 
-// ─── Sayfalar ──────────────────────────────────────────────────────────────────
-
+// ─── Home Page Query ──────────────────────────────────────────────────────────
 export const homePageQuery = groq`*[_type == "homePage"][0] {
-  heroTitle, heroSubtitle, heroCtaLabel,
-  heroCtaLink {
-    linkType,
-    manual,
-    internal->{ _type, "slug": slug.current }
-  },
-  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  aboutTitle, aboutSubtitle, aboutText,
+  "aboutTitle": coalesce(aboutTitle[$locale], aboutTitle.tr),
+  "aboutSubtitle": coalesce(aboutSubtitle[$locale], aboutSubtitle.tr),
+  "aboutText": coalesce(aboutText[$locale], aboutText.tr),
   aboutImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  aboutCtaLabel, aboutCtaLink,
-  servicesTitle, servicesSubtitle,
-  featuredServices[]-> {
-    title, slug,
-    mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt }
-  },
-  projectsTitle, projectsSubtitle,
-  featuredProjects[]-> {
-    title, slug,
-    mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt }
-  },
-  blogTitle, blogSubtitle,
-  featuredPosts[]-> {
-    title, slug, excerpt, publishedAt,
-    category->{ title, slug },
-    mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt }
-  },
+  "aboutCtaLabel": coalesce(aboutCtaLabel[$locale], aboutCtaLabel.tr),
+
+  "campaignsTitle": coalesce(campaignsTitle[$locale], campaignsTitle.tr),
+  "campaignsSubtitle": coalesce(campaignsSubtitle[$locale], campaignsSubtitle.tr),
+  campaignsImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+
+  "eventsTitle": coalesce(eventsTitle[$locale], eventsTitle.tr),
+  "eventsSubtitle": coalesce(eventsSubtitle[$locale], eventsSubtitle.tr),
+  eventsImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+
+  "storesTitle": coalesce(storesTitle[$locale], storesTitle.tr),
+  "storesSubtitle": coalesce(storesSubtitle[$locale], storesSubtitle.tr),
+
+  "diningTitle": coalesce(diningTitle[$locale], diningTitle.tr),
+  "diningSubtitle": coalesce(diningSubtitle[$locale], diningSubtitle.tr),
+
+  "cinemaTitle": coalesce(cinemaTitle[$locale], cinemaTitle.tr),
+  "cinemaSubtitle": coalesce(cinemaSubtitle[$locale], cinemaSubtitle.tr),
+
+  "mapTitle": coalesce(mapTitle[$locale], mapTitle.tr),
+  "mapSubtitle": coalesce(mapSubtitle[$locale], mapSubtitle.tr),
+
+  "visitTitle": coalesce(visitTitle[$locale], visitTitle.tr),
+  "visitSubtitle": coalesce(visitSubtitle[$locale], visitSubtitle.tr),
+
   seo
 }`;
 
+// ─── Hero Slides Query ────────────────────────────────────────────────────────
+export const activeHeroSlidesQuery = groq`*[_type == "heroSlide" && isPublished == true && (isDefault == true || (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now())))] | order(isDefault asc, priority desc, _createdAt desc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  desktopImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  mobileImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "ctaLabel": coalesce(ctaLabel[$locale], ctaLabel.tr),
+  ctaLink,
+  isDefault
+}`;
+
+// ─── About Page Query ─────────────────────────────────────────────────────────
 export const aboutPageQuery = groq`*[_type == "aboutPage"][0] {
-  heroTitle, heroSubtitle,
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
   heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  pageTitle, pageSubtitle, body,
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "pageSubtitle": coalesce(pageSubtitle[$locale], pageSubtitle.tr),
+  "body": coalesce(body[$locale], body.tr),
   mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   seo
 }`;
 
+// ─── Contact Page Query ───────────────────────────────────────────────────────
 export const contactPageQuery = groq`*[_type == "contactPage"][0] {
-  heroTitle, heroSubtitle,
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
   heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  pageTitle, pageSubtitle, formTitle, successMessage, seo
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "pageSubtitle": coalesce(pageSubtitle[$locale], pageSubtitle.tr),
+  "formTitle": coalesce(formTitle[$locale], formTitle.tr),
+  "successMessage": coalesce(successMessage[$locale], successMessage.tr),
+  seo
 }`;
 
-export const blogPageQuery = groq`*[_type == "blogPage"][0] {
-  heroTitle, heroSubtitle,
+// ─── Cinema Page Query ────────────────────────────────────────────────────────
+export const cinemaPageQuery = groq`*[_type == "cinemaPage"][0] {
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
   heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  pageTitle, pageSubtitle, ctaLabel, ctaLink, seo
-}`;
-
-export const servicesPageQuery = groq`*[_type == "servicesPage"][0] {
-  heroTitle, heroSubtitle,
-  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  pageTitle, pageSubtitle, ctaLabel, ctaLink, seo
-}`;
-
-export const projectsPageQuery = groq`*[_type == "projectsPage"][0] {
-  heroTitle, heroSubtitle,
-  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  pageTitle, pageSubtitle, ctaLabel, ctaLink, seo
-}`;
-
-// ─── Blog ──────────────────────────────────────────────────────────────────────
-
-export const blogListQuery = groq`*[_type == "blogPost"] | order(publishedAt desc) {
-  title, slug, excerpt, publishedAt, category->{title, slug},
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
-}`;
-
-export const blogPostBySlugQuery = groq`*[_type == "blogPost" && slug.current == $slug][0] {
-  _id, _updatedAt, title, slug, publishedAt, excerpt, category->{_id, title, slug}, seoTags,
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "body": coalesce(body[$locale], body.tr),
   mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  body[] {
-    ...,
-    _type == "image" => {
-      asset->{ _id, url, metadata { lqip, dimensions } },
-      alt, alignment, size, hotspot, crop
-    }
+  ticketUrl,
+  seo
+}`;
+
+// ─── Mall Map Page Query ──────────────────────────────────────────────────────
+export const mallMapPageQuery = groq`*[_type == "mallMapPage"][0] {
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "description": coalesce(description[$locale], description.tr),
+  pdfFile { asset->{ url } },
+  mapImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  seo
+}`;
+
+// ─── Visit Plan Page Query ────────────────────────────────────────────────────
+export const visitPlanPageQuery = groq`*[_type == "visitPlanPage"][0] {
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "body": coalesce(body[$locale], body.tr),
+  services[] {
+    "title": coalesce(title[$locale], title.tr),
+    "description": coalesce(description[$locale], description.tr),
+    icon { asset->{ _id, url, metadata { lqip, dimensions } }, alt }
   },
   seo
 }`;
 
-export const blogCategoriesQuery = groq`*[_type == "blogCategory"] | order(title asc) {
-  _id, title, slug
+// ─── KVKK Page Query ──────────────────────────────────────────────────────────
+export const kvkkPageQuery = groq`*[_type == "kvkkPage"][0] {
+  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
+  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
+  "body": coalesce(body[$locale], body.tr),
+  seo
 }`;
 
-export const blogListByCategorySlugQuery = groq`*[_type == "blogPost" && category->slug.current == $slug] | order(publishedAt desc) {
-  title, slug, excerpt, publishedAt, category->{title, slug},
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
+// ─── Store / Dining Categories Query ──────────────────────────────────────────
+export const storeCategoriesQuery = groq`*[_type == "storeCategory"] | order(title.tr asc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug
 }`;
 
-export const blogRelatedPostsQuery = groq`*[_type == "blogPost" && category._ref == $categoryId && _id != $currentPostId] | order(publishedAt desc)[0...3] {
-  title, slug, excerpt, publishedAt, category->{title, slug},
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
+export const foodCategoriesQuery = groq`*[_type == "foodCategory"] | order(title.tr asc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug
 }`;
 
-// ─── Hizmetler ─────────────────────────────────────────────────────────────────
-
-export const serviceListQuery = groq`*[_type == "service"] | order(_createdAt asc) {
-  title, slug,
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
+// ─── Store Queries ────────────────────────────────────────────────────────────
+export const storeListQuery = groq`*[_type == "store" && shopType in ["store", "both"]] | order(title asc) {
+  _id,
+  title,
+  slug,
+  logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+  floor,
+  storeCategory-> {
+    _id,
+    "title": coalesce(title[$locale], title.tr),
+    slug
+  }
 }`;
 
-export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $slug][0] {
-  title, slug,
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  body[] {
-    ...,
-    _type == "image" => { asset->{ _id, url, metadata { lqip, dimensions } }, alt, alignment, size, hotspot, crop }
+export const storeBySlugQuery = groq`*[_type == "store" && slug.current == $slug && shopType in ["store", "both"]][0] {
+  _id,
+  title,
+  slug,
+  logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  floor,
+  "description": coalesce(description[$locale], description.tr),
+  "workingHours": coalesce(workingHours[$locale], workingHours.tr),
+  phone,
+  website,
+  socialLinks[] { platform, url },
+  storeCategory-> {
+    _id,
+    "title": coalesce(title[$locale], title.tr),
+    slug
   },
   seo
 }`;
 
-// ─── Projeler ──────────────────────────────────────────────────────────────────
-
-export const projectListQuery = groq`*[_type == "project"] | order(_createdAt asc) {
-  title, slug,
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
+// ─── Dining Queries ───────────────────────────────────────────────────────────
+export const diningListQuery = groq`*[_type == "store" && shopType in ["dining", "both"]] | order(title asc) {
+  _id,
+  title,
+  slug,
+  logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+  floor,
+  foodCategory-> {
+    _id,
+    "title": coalesce(title[$locale], title.tr),
+    slug
+  }
 }`;
 
-export const projectBySlugQuery = groq`*[_type == "project" && slug.current == $slug][0] {
-  title, slug,
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  body[] {
-    ...,
-    _type == "image" => { asset->{ _id, url, metadata { lqip, dimensions } }, alt, alignment, size, hotspot, crop }
+export const diningBySlugQuery = groq`*[_type == "store" && slug.current == $slug && shopType in ["dining", "both"]][0] {
+  _id,
+  title,
+  slug,
+  logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  floor,
+  "description": coalesce(description[$locale], description.tr),
+  "workingHours": coalesce(workingHours[$locale], workingHours.tr),
+  phone,
+  website,
+  socialLinks[] { platform, url },
+  foodCategory-> {
+    _id,
+    "title": coalesce(title[$locale], title.tr),
+    slug
   },
   seo
 }`;
 
-// ─── Sitemap ───────────────────────────────────────────────────────────────────
+// ─── Campaign Queries ─────────────────────────────────────────────────────────
+export const activeCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now()))] | order(priority desc, startsAt desc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt
+}`;
 
+export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt
+}`;
+
+export const campaignBySlugQuery = groq`*[_type == "campaign" && slug.current == $slug][0] {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt,
+  relatedStores[]-> {
+    title,
+    slug,
+    logo { asset->{ _id, url } }
+  },
+  "body": coalesce(body[$locale], body.tr),
+  "terms": coalesce(terms[$locale], terms.tr),
+  seo
+}`;
+
+// ─── Event Queries ────────────────────────────────────────────────────────────
+export const activeEventsQuery = groq`*[_type == "event" && isPublished == true && dateTime(endsAt) >= dateTime(now())] | order(priority desc, startsAt asc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt,
+  "time": coalesce(time[$locale], time.tr),
+  "location": coalesce(location[$locale], location.tr)
+}`;
+
+export const pastEventsQuery = groq`*[_type == "event" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt,
+  "time": coalesce(time[$locale], time.tr),
+  "location": coalesce(location[$locale], location.tr)
+}`;
+
+export const eventBySlugQuery = groq`*[_type == "event" && slug.current == $slug][0] {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt,
+  "time": coalesce(time[$locale], time.tr),
+  "location": coalesce(location[$locale], location.tr),
+  "body": coalesce(body[$locale], body.tr),
+  gallery[] { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+  seo
+}`;
+
+// ─── Sitemap Query ────────────────────────────────────────────────────────────
 export const allSlugsForSitemapQuery = groq`{
   "pages": {
     "home": *[_type == "homePage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "about": *[_type == "aboutPage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "contact": *[_type == "contactPage"][0] { _updatedAt, "noIndex": seo.noIndex },
-    "blog": *[_type == "blogPage"][0] { _updatedAt, "noIndex": seo.noIndex },
-    "services": *[_type == "servicesPage"][0] { _updatedAt, "noIndex": seo.noIndex },
-    "projects": *[_type == "projectsPage"][0] { _updatedAt, "noIndex": seo.noIndex }
+    "cinema": *[_type == "cinemaPage"][0] { _updatedAt, "noIndex": seo.noIndex },
+    "mallMap": *[_type == "mallMapPage"][0] { _updatedAt, "noIndex": seo.noIndex },
+    "visitPlan": *[_type == "visitPlanPage"][0] { _updatedAt, "noIndex": seo.noIndex },
+    "kvkk": *[_type == "kvkkPage"][0] { _updatedAt, "noIndex": seo.noIndex }
   },
-  "blogPosts": *[_type == "blogPost" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt },
-  "services": *[_type == "service" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt },
-  "projects": *[_type == "project" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt }
+  "stores": *[_type == "store" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt },
+  "campaigns": *[_type == "campaign" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt },
+  "events": *[_type == "event" && defined(slug.current) && !(seo.noIndex == true)] { "slug": slug.current, _updatedAt }
 }`;
 
-// ─── Varsayılan SEO ────────────────────────────────────────────────────────────
+// ─── Static Parameters Queries (for Pre-rendering) ───────────────────────────
+export const storeSlugsQuery = groq`*[_type == "store" && defined(slug.current)] { "slug": slug.current }`;
+export const campaignSlugsQuery = groq`*[_type == "campaign" && defined(slug.current)] { "slug": slug.current }`;
+export const eventSlugsQuery = groq`*[_type == "event" && defined(slug.current)] { "slug": slug.current }`;
+export const storeCategorySlugsQuery = groq`*[_type == "storeCategory" && defined(slug.current)] { "slug": slug.current }`;
+export const foodCategorySlugsQuery = groq`*[_type == "foodCategory" && defined(slug.current)] { "slug": slug.current }`;
 
-export const defaultSeoQuery = groq`*[_type == "siteSettings"][0] {
-  "title": defaultSeo.metaTitle,
-  "description": defaultSeo.metaDescription,
-  "ogImage": defaultOgImage,
-  siteName,
-  siteTagline,
-  favicon { asset->{ _id, url } },
-  googleSearchConsoleId
+// ─── Global Search Query ──────────────────────────────────────────────────────
+export const globalSearchQuery = groq`{
+  "stores": *[_type == "store" && shopType in ["store", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.tr)
+  },
+  "dining": *[_type == "store" && shopType in ["dining", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.tr)
+  },
+  "campaigns": *[_type == "campaign" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
+    _id,
+    _type,
+    "title": coalesce(title[$locale], title.tr),
+    "slug": slug.current,
+    "description": coalesce(body[$locale], body.tr)
+  },
+  "events": *[_type == "event" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
+    _id,
+    _type,
+    "title": coalesce(title[$locale], title.tr),
+    "slug": slug.current,
+    "description": coalesce(body[$locale], body.tr)
+  },
+  "pages": {
+    "about": *[_type == "aboutPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)][0] {
+      _type,
+      "title": coalesce(pageTitle[$locale], pageTitle.tr),
+      "description": coalesce(body[$locale], body.tr)
+    },
+    "visitPlan": *[_type == "visitPlanPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)][0] {
+      _type,
+      "title": coalesce(pageTitle[$locale], pageTitle.tr),
+      "description": coalesce(body[$locale], body.tr)
+    },
+    "mallMap": *[_type == "mallMapPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)][0] {
+      _type,
+      "title": coalesce(pageTitle[$locale], pageTitle.tr),
+      "description": coalesce(description[$locale], description.tr)
+    }
+  }
 }`;
-
-export const blogSlugsQuery = groq`*[_type == "blogPost" && defined(slug.current)] { "slug": slug.current }`;
-export const projectSlugsQuery = groq`*[_type == "project" && defined(slug.current)] { "slug": slug.current }`;
-export const serviceSlugsQuery = groq`*[_type == "service" && defined(slug.current)] { "slug": slug.current }`;
-

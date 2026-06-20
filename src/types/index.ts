@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Global TypeScript interfaces for Sanity documents and models.
+ * Global TypeScript interfaces for AVLU34 Sanity documents and models.
  * Ensures strict typing, autocomplete, and zero warnings in IDE.
  */
 
@@ -28,26 +28,13 @@ export interface SanitySlug {
   _type?: "slug";
 }
 
-export interface BlogCategory {
-  _id: string;
-  title: string;
-  slug: SanitySlug;
-}
-
-export interface BlogPost {
-  _id?: string;
-  _createdAt?: string;
-  _updatedAt?: string;
-  title: string;
-  slug: SanitySlug;
-  excerpt?: string;
-  publishedAt?: string;
-  category?: BlogCategory;
-  mainImage?: SanityImage;
-  body?: any[];
-  seoTags?: string[];
-  seo?: SeoSettings;
-}
+/**
+ * Localized field structure at field-level
+ */
+export type LocalizedField<T> = {
+  tr: T;
+  en?: T;
+} & Record<string, T | undefined>;
 
 export interface SocialLink {
   platform: string;
@@ -81,7 +68,7 @@ export interface SiteSettings {
 }
 
 export interface NavItem {
-  label: string;
+  label: string | LocalizedField<string>;
   href: string;
   openInNewTab?: boolean;
   subLinks?: NavItem[];
@@ -90,28 +77,6 @@ export interface NavItem {
 export interface Navigation {
   headerLinks?: NavItem[];
   footerLinks?: NavItem[];
-}
-
-export interface Service {
-  _id?: string;
-  _createdAt?: string;
-  _updatedAt?: string;
-  title: string;
-  slug: SanitySlug;
-  mainImage?: SanityImage;
-  body?: any[];
-  seo?: SeoSettings;
-}
-
-export interface Project {
-  _id?: string;
-  _createdAt?: string;
-  _updatedAt?: string;
-  title: string;
-  slug: SanitySlug;
-  mainImage?: SanityImage;
-  body?: any[];
-  seo?: SeoSettings;
 }
 
 export interface CtaLink {
@@ -139,6 +104,96 @@ export interface BasePage {
   seo?: SeoSettings;
 }
 
+/**
+ * Dynamic AVM Document Types (Projected / Flat versions after query)
+ */
+
+export interface StoreCategory {
+  _id: string;
+  title: string; // Projected dynamically by query
+  slug: SanitySlug;
+}
+
+export interface FoodCategory {
+  _id: string;
+  title: string; // Projected dynamically by query
+  slug: SanitySlug;
+}
+
+export interface Store {
+  _id: string;
+  _createdAt?: string;
+  _updatedAt?: string;
+  title: string; // Brand names are unlocalized
+  slug: SanitySlug;
+  logo: SanityImage;
+  shopType: "store" | "dining" | "both";
+  storeCategory?: StoreCategory;
+  foodCategory?: FoodCategory;
+  floor: "zemin" | "kat1" | "kat2" | "kat3";
+  description: string; // Projected dynamically
+  workingHours: string; // Projected dynamically
+  phone?: string;
+  website?: string;
+  socialLinks?: SocialLink[];
+  seo?: SeoSettings;
+}
+
+export interface Campaign {
+  _id: string;
+  _createdAt?: string;
+  _updatedAt?: string;
+  title: string; // Projected
+  slug: SanitySlug;
+  image: SanityImage;
+  startsAt: string;
+  endsAt: string;
+  isPublished: boolean;
+  showOnHome: boolean;
+  priority: number;
+  relatedStores?: Store[];
+  body: any[]; // Projected or handled client-side
+  terms?: any[];
+  seo?: SeoSettings;
+}
+
+export interface Event {
+  _id: string;
+  _createdAt?: string;
+  _updatedAt?: string;
+  title: string; // Projected
+  slug: SanitySlug;
+  image: SanityImage;
+  startsAt: string;
+  endsAt: string;
+  time: string; // Projected
+  location: string; // Projected
+  isPublished: boolean;
+  showOnHome: boolean;
+  priority: number;
+  body: any[];
+  gallery?: SanityImage[];
+  seo?: SeoSettings;
+}
+
+export interface HeroSlide {
+  _id: string;
+  title: string; // Projected
+  subtitle?: string; // Projected
+  desktopImage: SanityImage;
+  mobileImage?: SanityImage;
+  ctaLabel?: string; // Projected
+  ctaLink?: string;
+  startsAt?: string;
+  endsAt?: string;
+  isDefault: boolean;
+  isPublished: boolean;
+  priority: number;
+}
+
+/**
+ * Singleton Page Types
+ */
 export interface AboutPage extends BasePage {
   pageTitle: string;
   pageSubtitle?: string;
@@ -153,37 +208,85 @@ export interface ContactPage extends BasePage {
   successMessage?: string;
 }
 
-export interface InnerPageWithCta extends BasePage {
+export interface CinemaPage extends BasePage {
   pageTitle: string;
-  pageSubtitle?: string;
-  ctaLabel?: string;
-  ctaLink?: string;
+  body?: any[];
+  mainImage?: SanityImage;
+  ticketUrl?: string;
 }
 
-export type BlogPage = InnerPageWithCta;
-export type ServicesPage = InnerPageWithCta;
-export type ProjectsPage = InnerPageWithCta;
+export interface MallMapPage extends BasePage {
+  pageTitle: string;
+  description?: string;
+  pdfFile?: { asset: { url: string } };
+  mapImage?: SanityImage;
+}
+
+export interface VisitService {
+  title: string; // Projected
+  description?: string; // Projected
+  icon?: SanityImage;
+}
+
+export interface VisitPlanPage extends BasePage {
+  pageTitle: string;
+  body?: any[];
+  services?: VisitService[];
+}
+
+export interface KvkkPage extends BasePage {
+  pageTitle: string;
+  body?: any[];
+}
 
 export interface HomePage {
-  heroTitle: string;
-  heroSubtitle?: string;
-  heroImage?: SanityImage;
-  heroCtaLabel?: string;
-  heroCtaLink?: CtaLink;
   aboutTitle?: string;
   aboutSubtitle?: string;
   aboutText?: any[];
   aboutImage?: SanityImage;
   aboutCtaLabel?: string;
-  aboutCtaLink?: string;
-  servicesTitle?: string;
-  servicesSubtitle?: string;
-  featuredServices?: Service[];
-  projectsTitle?: string;
-  projectsSubtitle?: string;
-  featuredProjects?: Project[];
-  blogTitle?: string;
-  blogSubtitle?: string;
-  featuredPosts?: BlogPost[];
+  
+  campaignsTitle?: string;
+  campaignsSubtitle?: string;
+  campaignsImage?: SanityImage;
+  
+  eventsTitle?: string;
+  eventsSubtitle?: string;
+  eventsImage?: SanityImage;
+  
+  storesTitle?: string;
+  storesSubtitle?: string;
+  
+  diningTitle?: string;
+  diningSubtitle?: string;
+  
+  cinemaTitle?: string;
+  cinemaSubtitle?: string;
+  
+  mapTitle?: string;
+  mapSubtitle?: string;
+  
+  visitTitle?: string;
+  visitSubtitle?: string;
   seo?: SeoSettings;
+}
+
+export interface SearchItem {
+  _id: string;
+  _type: string;
+  title: string;
+  slug?: string;
+  description?: string;
+}
+
+export interface SearchResults {
+  stores: SearchItem[];
+  dining: SearchItem[];
+  campaigns: SearchItem[];
+  events: SearchItem[];
+  pages: {
+    about?: SearchItem;
+    visitPlan?: SearchItem;
+    mallMap?: SearchItem;
+  };
 }

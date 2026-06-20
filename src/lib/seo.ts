@@ -52,12 +52,13 @@ export interface LayoutData {
 }
 
 export const getLayoutData = cache(
-  (): Promise<LayoutData> =>
-    client.fetch<LayoutData>(layoutQuery, {}, { next: { tags: ["layout"] } })
+  (locale = "tr"): Promise<LayoutData> =>
+    client.fetch<LayoutData>(layoutQuery, { locale }, { next: { tags: ["layout"] } })
 );
 
-export async function buildMetadata(params: BuildMetadataParams = {}): Promise<Metadata> {
-  const { settings } = await getLayoutData();
+export async function buildMetadata(params: BuildMetadataParams & { locale?: string } = {}): Promise<Metadata> {
+  const locale = params.locale || "tr";
+  const { settings } = await getLayoutData(locale);
 
   const siteName = settings?.siteName || "Site Adı";
   const siteTagline = settings?.siteTagline || "";

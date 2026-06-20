@@ -11,18 +11,10 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { RiMailLine, RiPhoneLine, RiMapPinLine } from "react-icons/ri";
 
-import { SiteSettings, Navigation } from "@/types";
-
-type NavItem = {
-  label: string;
-  href: string;
-  openInNewTab?: boolean;
-};
-
-type SocialLink = {
-  platform: string;
-  url: string;
-};
+import { SiteSettings, Navigation, SocialLink } from "@/types";
+import { Locale } from "@/lib/i18n/config";
+import { localize } from "@/lib/i18n/localize";
+import { getPublicPath } from "@/lib/i18n/routes";
 
 const socialIconMap: Record<string, React.ElementType> = {
   instagram: FaInstagram,
@@ -30,17 +22,21 @@ const socialIconMap: Record<string, React.ElementType> = {
   twitter: FaXTwitter,
   linkedin: FaLinkedin,
   youtube: FaYoutube,
-  tiktok: FaTiktok,
   pinterest: FaPinterest,
   whatsapp: FaWhatsapp,
+  tiktok: FaTiktok,
 };
 
-function resolveHref(item: NavItem): string {
-  return item.href || "#";
-}
-
-export function Footer({ settings, navigation }: { settings: SiteSettings; navigation: Navigation }) {
-  const footerLinks: NavItem[] = navigation?.footerLinks || [];
+export function Footer({ 
+  settings, 
+  navigation, 
+  locale 
+}: { 
+  settings: SiteSettings; 
+  navigation: Navigation; 
+  locale: Locale 
+}) {
+  const footerLinks = navigation?.footerLinks || [];
   const socialLinks: SocialLink[] = (settings?.socialLinks || []).filter((s: SocialLink) => s.url);
   const contact = settings?.contactInfo;
   const currentYear = new Date().getFullYear();
@@ -87,17 +83,19 @@ export function Footer({ settings, navigation }: { settings: SiteSettings; navig
           {/* Footer Linkleri */}
           {footerLinks.length > 0 && (
             <div className="space-y-4">
-              <h3 className="font-bold text-sm uppercase tracking-wider">Hızlı Linkler</h3>
+              <h3 className="font-bold text-sm uppercase tracking-wider">
+                {locale === "en" ? "Quick Links" : "Hızlı Linkler"}
+              </h3>
               <nav className="space-y-2">
                 {footerLinks.map((item, i) => (
                   <Link
                     key={i}
-                    href={resolveHref(item)}
+                    href={getPublicPath(item.href, locale)}
                     target={item.openInNewTab ? "_blank" : undefined}
                     rel={item.openInNewTab ? "noopener noreferrer" : undefined}
                     className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
-                    {item.label}
+                    {localize(item.label, locale)}
                   </Link>
                 ))}
               </nav>
@@ -107,7 +105,9 @@ export function Footer({ settings, navigation }: { settings: SiteSettings; navig
           {/* Sosyal Medya */}
           {socialLinks.length > 0 && (
             <div className="space-y-4">
-              <h3 className="font-bold text-sm uppercase tracking-wider">Sosyal Medya</h3>
+              <h3 className="font-bold text-sm uppercase tracking-wider">
+                {locale === "en" ? "Social Media" : "Sosyal Medya"}
+              </h3>
               <div className="flex flex-wrap gap-3">
                 {socialLinks.map((social, i) => {
                   const Icon = socialIconMap[social.platform];
@@ -133,7 +133,7 @@ export function Footer({ settings, navigation }: { settings: SiteSettings; navig
         {/* Alt Bar */}
         <div className="mt-12 border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground w-full text-center sm:text-left">
-            © {currentYear} {settings?.siteName}. Tüm hakları saklıdır.
+            © {currentYear} {settings?.siteName}. {locale === "en" ? "All rights reserved." : "Tüm hakları saklıdır."}
           </p>
         </div>
       </div>

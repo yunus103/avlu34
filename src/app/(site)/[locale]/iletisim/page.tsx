@@ -19,18 +19,19 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const data = await cachedFetch<ContactPageType>(contactPageQuery, {}, { next: { tags: ["contact"] } });
+  const data = await cachedFetch<ContactPageType>(contactPageQuery, { locale }, { next: { tags: ["contact"] } });
   
   return buildMetadata({
     title: data?.heroTitle || data?.pageTitle || "İletişim",
     canonicalPath: getPublicPath("iletisim", locale as Locale),
     pageSeo: data?.seo,
+    locale,
   });
 }
 
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
-  const data = await cachedFetch<ContactPageType>(contactPageQuery, {}, { next: { tags: ["contact"] } });
+  const data = await cachedFetch<ContactPageType>(contactPageQuery, { locale }, { next: { tags: ["contact"] } });
 
   return (
     <div className="flex flex-col gap-12 md:gap-16 pb-16">

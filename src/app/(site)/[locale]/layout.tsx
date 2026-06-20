@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { isLocale } from "@/lib/i18n/config";
+import { isLocale, Locale } from "@/lib/i18n/config";
 import { getLayoutData } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -17,13 +17,13 @@ export default async function SiteLayout({ children, params }: Props) {
     notFound();
   }
 
-  const data = await getLayoutData();
+  const data = await getLayoutData(locale);
 
   return (
     <>
-      <Header settings={data?.settings} navigation={data?.navigation} />
+      <Header settings={data?.settings} navigation={data?.navigation} locale={locale as Locale} />
       <main>{children}</main>
-      <Footer settings={data?.settings} navigation={data?.navigation} />
+      <Footer settings={data?.settings} navigation={data?.navigation} locale={locale as Locale} />
       {data?.settings?.contactInfo?.whatsappNumber && (
         <WhatsAppButton number={data.settings.contactInfo.whatsappNumber} />
       )}

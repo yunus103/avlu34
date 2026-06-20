@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: kategori,
     canonicalPath: `${getPublicPath("yeme-icme", locale as Locale)}/${kategori}`,
+    locale
   });
 }
 

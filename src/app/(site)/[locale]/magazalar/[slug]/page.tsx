@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     title: slug, // Fallback to slug title for now
     canonicalPath: `${getPublicPath("magazalar", locale as Locale)}/${slug}`,
+    locale
   });
 }
 

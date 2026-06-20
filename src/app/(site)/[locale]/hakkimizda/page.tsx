@@ -20,18 +20,19 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const data = await cachedFetch<AboutPageType>(aboutPageQuery, {}, { next: { tags: ["about"] } });
+  const data = await cachedFetch<AboutPageType>(aboutPageQuery, { locale }, { next: { tags: ["about"] } });
   
   return buildMetadata({
     title: data?.heroTitle || data?.pageTitle || "Hakkımızda",
     canonicalPath: getPublicPath("hakkimizda", locale as Locale),
     pageSeo: data?.seo,
+    locale,
   });
 }
 
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
-  const data = await cachedFetch<AboutPageType>(aboutPageQuery, {}, { next: { tags: ["about"] } });
+  const data = await cachedFetch<AboutPageType>(aboutPageQuery, { locale }, { next: { tags: ["about"] } });
 
   return (
     <div className="flex flex-col gap-12 md:gap-16 pb-16">

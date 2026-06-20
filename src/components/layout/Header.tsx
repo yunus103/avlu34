@@ -10,34 +10,42 @@ import { RiMenu3Line, RiCloseLine, RiArrowDownSLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 
 import { SiteSettings, Navigation, NavItem } from "@/types";
+import { Locale } from "@/lib/i18n/config";
+import { localize } from "@/lib/i18n/localize";
+import { getPublicPath } from "@/lib/i18n/routes";
 
-function resolveHref(item: NavItem): string {
-  return item.href || "#";
-}
-
-export function Header({ settings, navigation }: { settings: SiteSettings; navigation: Navigation }) {
+export function Header({ 
+  settings, 
+  navigation, 
+  locale 
+}: { 
+  settings: SiteSettings; 
+  navigation: Navigation; 
+  locale: Locale 
+}) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const links: NavItem[] = navigation?.headerLinks || [];
 
-  // Sayfa değiştiğinde menüyü kapat
+  // Close menu on pathname change
   useEffect(() => {
     if (menuOpen) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMenuOpen(false);
     }
-  }, [pathname, menuOpen, setMenuOpen]);
+  }, [pathname, menuOpen]);
 
   const isActive = (item: NavItem) => {
-    const href = resolveHref(item);
-    if (href === "/" && pathname !== "/") return false;
-    return pathname.startsWith(href);
+    const resolvedPath = getPublicPath(item.href, locale);
+    if (resolvedPath === "/" || resolvedPath === "/en") {
+      return pathname === resolvedPath;
+    }
+    return pathname.startsWith(resolvedPath);
   };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
-        <Link href="/" className="flex items-center group h-full">
+        <Link href={getPublicPath("/", locale)} className="flex items-center group h-full">
           <div className="relative flex items-center justify-start transition-all duration-200 group-hover:scale-[1.02] active:scale-95 h-full py-4 max-w-[250px] md:max-w-[450px]">
             {settings?.logo ? (
               <SanityImage
@@ -57,12 +65,25 @@ export function Header({ settings, navigation }: { settings: SiteSettings; navig
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           {links.map((item, i) => (
-            <DesktopNavItem key={i} item={item} active={isActive(item)} />
+            <DesktopNavItem key={i} item={item} active={isActive(item)} locale={locale} />
           ))}
+          {/* Simple Language switcher */}
+          <Link 
+            href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
+            className="text-xs font-semibold px-2 py-1 border rounded hover:bg-muted transition-colors uppercase"
+          >
+            {locale === "tr" ? "EN" : "TR"}
+          </Link>
         </nav>
 
         {/* Mobile Controls */}
         <div className="flex items-center gap-2 md:hidden">
+          <Link 
+            href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
+            className="text-xs font-semibold px-2 py-1 border rounded hover:bg-muted transition-colors uppercase mr-2"
+          >
+            {locale === "tr" ? "EN" : "TR"}
+          </Link>
           <Button variant="ghost" size="icon" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menüyü aç/kapat">
             {menuOpen ? <RiCloseLine size={20} /> : <RiMenu3Line size={20} />}
           </Button>
@@ -83,13 +104,15 @@ export function Header({ settings, navigation }: { settings: SiteSettings; navig
                 <div key={i} className="flex flex-col gap-1">
                   <div className="flex items-center justify-between">
                     <Link
-                      href={resolveHref(item)}
+                      href={getPublicPath(item.href, locale)}
+                      target={item.openInNewTab ? "_blank" : undefined}
+                      rel={item.openInNewTab ? "noopener noreferrer" : undefined}
                       className={cn(
                         "text-base font-medium py-2 transition-colors hover:text-primary",
                         isActive(item) ? "text-primary" : "text-foreground"
                       )}
                     >
-                      {item.label}
+                      {localize(item.label, locale)}
                     </Link>
                   </div>
                   {item.subLinks && (
@@ -97,13 +120,15 @@ export function Header({ settings, navigation }: { settings: SiteSettings; navig
                       {item.subLinks.map((sub, j) => (
                         <Link
                           key={j}
-                          href={resolveHref(sub)}
+                          href={getPublicPath(sub.href, locale)}
+                          target={sub.openInNewTab ? "_blank" : undefined}
+                          rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
                           className={cn(
                             "text-sm font-medium py-2 transition-colors hover:text-primary",
                             isActive(sub) ? "text-primary" : "text-muted-foreground"
                           )}
                         >
-                          {sub.label}
+                          {localize(sub.label, locale)}
                         </Link>
                       ))}
                     </div>
@@ -118,18 +143,25 @@ export function Header({ settings, navigation }: { settings: SiteSettings; navig
   );
 }
 
-function DesktopNavItem({ item, active }: { item: NavItem; active: boolean }) {
+function DesktopNavItem({ 
+  item, 
+  active, 
+  locale 
+}: { 
+  item: NavItem; 
+  active: boolean; 
+  locale: Locale 
+}) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Alt menü linklerinden biri aktifse üst menüyü de aktif boyarız
-  const isSubActive = item.subLinks?.some(sub => pathname === resolveHref(sub));
+  const isSubActive = item.subLinks?.some(sub => pathname === getPublicPath(sub.href, locale));
   const reallyActive = active || isSubActive;
 
   if (!item.subLinks || item.subLinks.length === 0) {
     return (
       <Link
-        href={resolveHref(item)}
+        href={getPublicPath(item.href, locale)}
         target={item.openInNewTab ? "_blank" : undefined}
         rel={item.openInNewTab ? "noopener noreferrer" : undefined}
         className={cn(
@@ -137,7 +169,7 @@ function DesktopNavItem({ item, active }: { item: NavItem; active: boolean }) {
           reallyActive ? "text-primary font-semibold" : "text-foreground/70"
         )}
       >
-        {item.label}
+        {localize(item.label, locale)}
       </Link>
     );
   }
@@ -149,13 +181,13 @@ function DesktopNavItem({ item, active }: { item: NavItem; active: boolean }) {
       onMouseLeave={() => setIsOpen(false)}
     >
       <Link
-        href={resolveHref(item)}
+        href={getPublicPath(item.href, locale)}
         className={cn(
           "flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary",
           reallyActive ? "text-primary font-semibold" : "text-foreground/70"
         )}
       >
-        {item.label}
+        {localize(item.label, locale)}
         <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
           <RiArrowDownSLine size={16} />
         </motion.span>
@@ -172,11 +204,11 @@ function DesktopNavItem({ item, active }: { item: NavItem; active: boolean }) {
           >
             <div className="bg-popover border rounded-xl shadow-xl p-2 overflow-hidden">
               {item.subLinks.map((sub, j) => {
-                const subActive = pathname === resolveHref(sub);
+                const subActive = pathname === getPublicPath(sub.href, locale);
                 return (
                   <Link
                     key={j}
-                    href={resolveHref(sub)}
+                    href={getPublicPath(sub.href, locale)}
                     target={sub.openInNewTab ? "_blank" : undefined}
                     rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
                     className={cn(
@@ -184,7 +216,7 @@ function DesktopNavItem({ item, active }: { item: NavItem; active: boolean }) {
                       subActive ? "text-primary bg-primary/5" : "text-foreground/70"
                     )}
                   >
-                    {sub.label}
+                    {localize(sub.label, locale)}
                   </Link>
                 );
               })}

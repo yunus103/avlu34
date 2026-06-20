@@ -1,5 +1,5 @@
 import { getSiteUrl } from "@/lib/utils";
-import { SiteSettings, BlogPost, SocialLink, Service, Project } from "@/types";
+import { SiteSettings, Store, Campaign, Event, SocialLink } from "@/types";
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -35,37 +35,50 @@ export function websiteJsonLd(settings?: SiteSettings) {
   };
 }
 
-export function articleJsonLd(post?: BlogPost, settings?: SiteSettings) {
-  const url = `${getSiteUrl()}/${post?.slug?.current}`;
-  const publisherName = settings?.siteName || "Site Adı";
-
+export function storeJsonLd(store?: Store) {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post?.title,
-    datePublished: post?.publishedAt,
-    dateModified: post?._updatedAt || post?.publishedAt,
-    url,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
+    "@type": "LocalBusiness",
+    name: store?.title,
+    url: `${getSiteUrl()}/magazalar/${store?.slug?.current}`,
+    ...(store?.logo?.asset?.url && { image: store.logo.asset.url }),
+    ...(store?.phone && { telephone: store.phone }),
+  };
+}
+
+export function campaignJsonLd(campaign?: Campaign) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SpecialAnnouncement",
+    name: campaign?.title,
+    url: `${getSiteUrl()}/kampanyalar/${campaign?.slug?.current}`,
+    ...(campaign?.image?.asset?.url && { image: campaign.image.asset.url }),
+    startDate: campaign?.startsAt,
+    endDate: campaign?.endsAt,
+  };
+}
+
+export function eventJsonLd(event?: Event) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event?.title,
+    url: `${getSiteUrl()}/etkinlikler/${event?.slug?.current}`,
+    ...(event?.image?.asset?.url && { image: event.image.asset.url }),
+    startDate: event?.startsAt,
+    endDate: event?.endsAt,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: {
+      "@type": "Place",
+      name: "AVLU34 AVM",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Arnavutköy",
+        addressLocality: "İstanbul",
+        addressCountry: "TR",
+      },
     },
-    ...(post?.mainImage?.asset?.url && { image: [post.mainImage.asset.url] }),
-    author: {
-      "@type": "Organization",
-      name: publisherName,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: publisherName,
-      ...(settings?.logo?.asset?.url && {
-        logo: {
-          "@type": "ImageObject",
-          url: settings.logo.asset.url,
-        },
-      }),
-    },
-    description: post?.excerpt,
   };
 }
 
@@ -95,25 +108,5 @@ export function breadcrumbListJsonLd(items: { label: string; href: string }[]) {
       name: item.label,
       item: item.href.startsWith("http") ? item.href : `${siteUrl}${item.href}`,
     })),
-  };
-}
-
-export function serviceJsonLd(service?: Service) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service?.title,
-    url: `${getSiteUrl()}/hizmetler/${service?.slug?.current}`,
-    ...(service?.mainImage?.asset?.url && { image: service.mainImage.asset.url }),
-  };
-}
-
-export function projectJsonLd(project?: Project) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: project?.title,
-    url: `${getSiteUrl()}/projeler/${project?.slug?.current}`,
-    ...(project?.mainImage?.asset?.url && { image: project.mainImage.asset.url }),
   };
 }
