@@ -5,120 +5,201 @@ export const homePageType = defineType({
   title: "Ana Sayfa",
   type: "document",
   groups: [
-    { name: "hero", title: "Hero Bölümü" },
-    { name: "about", title: "Hakkımızda Önizleme" },
-    { name: "services", title: "Hizmetler Önizleme" },
-    { name: "projects", title: "Projeler Önizleme" },
-    { name: "blog", title: "Blog Önizleme" },
+    { name: "about", title: "Hakkımızda Bölümü" },
+    { name: "campaigns", title: "Kampanyalar Bölümü" },
+    { name: "events", title: "Etkinlikler Bölümü" },
+    { name: "stores", title: "Mağazalar Bölümü" },
+    { name: "dining", title: "Yeme-İçme Bölümü" },
+    { name: "cinema", title: "Sinema Bölümü" },
+    { name: "map", title: "Kat Planı Bölümü" },
+    { name: "visit", title: "Ziyaret Bilgileri" },
     { name: "seo", title: "SEO Ayarları" },
   ],
   fields: [
-    // Hero Group
-    defineField({ name: "heroTitle", title: "Hero Başlık", type: "string", group: "hero", validation: (Rule) => Rule.required() }),
-    defineField({ name: "heroSubtitle", title: "Hero Alt Başlık", type: "text", rows: 3, group: "hero" }),
+    // About Section
     defineField({
-      name: "heroImage",
-      title: "Hero Görseli",
-      type: "image",
-      group: "hero",
-      options: { hotspot: true },
-      fields: [defineField({ name: "alt", title: "Alt Metni", type: "string", validation: (Rule) => Rule.required() })],
+      name: "aboutTitle",
+      title: "Hakkımızda Başlık",
+      type: "localizedString",
+      group: "about",
+      initialValue: { tr: "AVLU34'e Hoş Geldiniz", en: "Welcome to AVLU34" },
     }),
-    defineField({ name: "heroCtaLabel", title: "Hero Buton Metni", type: "string", group: "hero" }),
     defineField({
-      name: "heroCtaLink",
-      title: "Hero Buton Linki",
-      type: "object",
-      group: "hero",
-      fields: [
-        defineField({
-          name: "linkType",
-          title: "Link Tipi",
-          type: "string",
-          options: {
-            list: [
-              { title: "İç Sayfa (Önerilen)", value: "internal" },
-              { title: "Manuel Link", value: "manual" },
-            ],
-            layout: "radio",
-          },
-          initialValue: "internal",
-        }),
-        defineField({
-          name: "internal",
-          title: "İç Sayfa Seç",
-          type: "reference",
-          to: [
-            { type: "service" },
-            { type: "project" },
-            { type: "blogPost" },
-            { type: "aboutPage" },
-            { type: "contactPage" },
-          ],
-          hidden: ({ parent }) => parent?.linkType !== "internal",
-        }),
-        defineField({
-          name: "manual",
-          title: "Manuel Link",
-          type: "string",
-          description: "Örn: /blog, /galeri veya https://google.com (Link başındaki / işaretini unutmayın)",
-          hidden: ({ parent }) => parent?.linkType !== "manual",
-        }),
-      ],
+      name: "aboutSubtitle",
+      title: "Hakkımızda Alt Başlık",
+      type: "localizedText",
+      group: "about",
     }),
-
-    // About Preview Group
-    defineField({ name: "aboutTitle", title: "Hakkımızda Bölüm Başlığı", type: "string", group: "about", initialValue: "Hakkımızda" }),
-    defineField({ name: "aboutSubtitle", title: "Hakkımızda Bölüm Alt Başlığı", type: "text", rows: 2, group: "about" }),
-    defineField({ name: "aboutText", title: "Hakkımızda Kısa Yazı", type: "array", of: [{ type: "block" }], group: "about" }),
+    defineField({
+      name: "aboutText",
+      title: "Hakkımızda Tanıtım Yazısı",
+      type: "localizedBlock",
+      group: "about",
+    }),
     defineField({
       name: "aboutImage",
       title: "Hakkımızda Görseli",
       type: "image",
       group: "about",
       options: { hotspot: true },
-      fields: [defineField({ name: "alt", title: "Alt Metni", type: "string" })],
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
     }),
-    defineField({ name: "aboutCtaLabel", title: "Daha Fazla Buton Metni", type: "string", group: "about", initialValue: "Devamını Oku" }),
-    defineField({ name: "aboutCtaLink", title: "Buton Linki", type: "string", group: "about", initialValue: "/hakkimizda" }),
-
-    // Services Preview Group
-    defineField({ name: "servicesTitle", title: "Hizmetler Bölüm Başlığı", type: "string", group: "services", initialValue: "Hizmetlerimiz" }),
-    defineField({ name: "servicesSubtitle", title: "Hizmetler Bölüm Alt Başlığı", type: "text", rows: 2, group: "services" }),
     defineField({
-      name: "featuredServices",
-      title: "Öne Çıkan Hizmetler",
-      description: "Ana sayfada gösterilecek hizmetleri seçin ve sıralayın (Sürükleyip bırakarak sıralayabilirsiniz).",
-      type: "array",
-      group: "services",
-      of: [{ type: "reference", to: [{ type: "service" }] }],
+      name: "aboutCtaLabel",
+      title: "Daha Fazla Buton Metni",
+      type: "localizedString",
+      group: "about",
+      initialValue: { tr: "Devamını Oku", en: "Read More" },
     }),
 
-    // Projects Preview Group
-    defineField({ name: "projectsTitle", title: "Projeler Bölüm Başlığı", type: "string", group: "projects", initialValue: "Projelerimiz" }),
-    defineField({ name: "projectsSubtitle", title: "Projeler Bölüm Alt Başlığı", type: "text", rows: 2, group: "projects" }),
+    // Campaigns Section
     defineField({
-      name: "featuredProjects",
-      title: "Öne Çıkan Projeler",
-      description: "Ana sayfada gösterilecek projeleri seçin ve sıralayın.",
-      type: "array",
-      group: "projects",
-      of: [{ type: "reference", to: [{ type: "project" }] }],
+      name: "campaignsTitle",
+      title: "Kampanyalar Başlık",
+      type: "localizedString",
+      group: "campaigns",
+      initialValue: { tr: "Güncel Kampanyalar", en: "Current Offers" },
     }),
-
-    // Blog Preview Group
-    defineField({ name: "blogTitle", title: "Blog Bölüm Başlığı", type: "string", group: "blog", initialValue: "Son Haberler & Blog" }),
-    defineField({ name: "blogSubtitle", title: "Blog Bölüm Alt Başlığı", type: "text", rows: 2, group: "blog" }),
     defineField({
-      name: "featuredPosts",
-      title: "Öne Çıkan Blog Yazıları",
-      description: "Ana sayfada gösterilecek blog yazılarını seçin ve sıralayın. Boş bırakılırsa en son eklenen blog yazıları otomatik gösterilir.",
-      type: "array",
-      group: "blog",
-      of: [{ type: "reference", to: [{ type: "blogPost" }] }],
+      name: "campaignsSubtitle",
+      title: "Kampanyalar Alt Başlık",
+      type: "localizedText",
+      group: "campaigns",
+    }),
+    defineField({
+      name: "campaignsImage",
+      title: "Kampanya Tanıtım Görseli",
+      type: "image",
+      group: "campaigns",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
     }),
 
-    // SEO Group
-    defineField({ name: "seo", title: "SEO", type: "seo", group: "seo" }),
+    // Events Section
+    defineField({
+      name: "eventsTitle",
+      title: "Etkinlikler Başlık",
+      type: "localizedString",
+      group: "events",
+      initialValue: { tr: "Eğlenceli Etkinlikler", en: "Exciting Events" },
+    }),
+    defineField({
+      name: "eventsSubtitle",
+      title: "Etkinlikler Alt Başlık",
+      type: "localizedText",
+      group: "events",
+    }),
+    defineField({
+      name: "eventsImage",
+      title: "Etkinlik Tanıtım Görseli",
+      type: "image",
+      group: "events",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+
+    // Stores Section
+    defineField({
+      name: "storesTitle",
+      title: "Mağazalar Başlık",
+      type: "localizedString",
+      group: "stores",
+      initialValue: { tr: "Mağazalarımız", en: "Our Stores" },
+    }),
+    defineField({
+      name: "storesSubtitle",
+      title: "Mağazalar Alt Başlık",
+      type: "localizedText",
+      group: "stores",
+    }),
+
+    // Dining Section
+    defineField({
+      name: "diningTitle",
+      title: "Yeme-İçme Başlık",
+      type: "localizedString",
+      group: "dining",
+      initialValue: { tr: "Lezzet Noktaları", en: "Dining & Cafes" },
+    }),
+    defineField({
+      name: "diningSubtitle",
+      title: "Yeme-İçme Alt Başlık",
+      type: "localizedText",
+      group: "dining",
+    }),
+
+    // Cinema Section
+    defineField({
+      name: "cinemaTitle",
+      title: "Sinema Başlık",
+      type: "localizedString",
+      group: "cinema",
+      initialValue: { tr: "AVLU34 Sinema", en: "AVLU34 Cinema" },
+    }),
+    defineField({
+      name: "cinemaSubtitle",
+      title: "Sinema Alt Başlık",
+      type: "localizedText",
+      group: "cinema",
+    }),
+
+    // Floor Plan Section
+    defineField({
+      name: "mapTitle",
+      title: "Kat Planı Başlık",
+      type: "localizedString",
+      group: "map",
+      initialValue: { tr: "AVM Kat Planı", en: "Mall Directory" },
+    }),
+    defineField({
+      name: "mapSubtitle",
+      title: "Kat Planı Alt Başlık",
+      type: "localizedText",
+      group: "map",
+    }),
+
+    // Visit Section
+    defineField({
+      name: "visitTitle",
+      title: "Ziyaret Başlık",
+      type: "localizedString",
+      group: "visit",
+      initialValue: { tr: "Ziyaretinizi Planlayın", en: "Plan Your Visit" },
+    }),
+    defineField({
+      name: "visitSubtitle",
+      title: "Ziyaret Alt Başlık",
+      type: "localizedText",
+      group: "visit",
+    }),
+
+    // SEO
+    defineField({
+      name: "seo",
+      title: "SEO Ayarları",
+      type: "seo",
+      group: "seo",
+    }),
   ],
 });

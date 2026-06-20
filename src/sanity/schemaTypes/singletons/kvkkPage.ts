@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const aboutPageType = defineType({
-  name: "aboutPage",
-  title: "Hakkımızda",
+export const kvkkPageType = defineType({
+  name: "kvkkPage",
+  title: "KVKK Sayfası",
   type: "document",
   groups: [
     { name: "hero", title: "Page Hero Bölümü" },
@@ -10,20 +10,17 @@ export const aboutPageType = defineType({
     { name: "seo", title: "SEO Ayarları" },
   ],
   fields: [
-    // Page Hero Group
     defineField({
       name: "heroTitle",
       title: "Hero Başlık",
       type: "localizedString",
       group: "hero",
-      description: "Sayfa üst kısmında duracak ana başlık. Boş bırakılırsa Sayfa Başlığı kullanılır.",
     }),
     defineField({
       name: "heroSubtitle",
-      title: "Hero Alt Başlık / Kısa Açıklama",
+      title: "Hero Alt Başlık",
       type: "localizedText",
       group: "hero",
-      description: "Sayfa üst kısmında duracak kısa açıklama yazısı.",
     }),
     defineField({
       name: "heroImage",
@@ -39,9 +36,7 @@ export const aboutPageType = defineType({
           validation: (Rule) => Rule.required(),
         },
       ],
-      description: "Hero arka plan resmi. Yüklenmezse şık bir degrade renk arka planı kullanılır.",
     }),
-    // Content Group
     defineField({
       name: "pageTitle",
       title: "Sayfa Başlığı",
@@ -50,36 +45,14 @@ export const aboutPageType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "pageSubtitle",
-      title: "Giriş Alt Başlığı",
-      type: "localizedText",
-      group: "content",
-    }),
-    defineField({
       name: "body",
-      title: "Detaylı İçerik",
+      title: "Hukuki Metin (KVKK, Kullanım Şartları)",
       type: "localizedBlock",
       group: "content",
     }),
     defineField({
-      name: "mainImage",
-      title: "Ana Görsel (Yandaki Resim)",
-      type: "image",
-      group: "content",
-      options: { hotspot: true },
-      fields: [
-        {
-          name: "alt",
-          type: "string",
-          title: "Alt Metni",
-          validation: (Rule) => Rule.required(),
-        },
-      ],
-    }),
-    // SEO Group
-    defineField({
       name: "seo",
-      title: "SEO",
+      title: "SEO Ayarları",
       type: "seo",
       group: "seo",
     }),

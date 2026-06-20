@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const contactPageType = defineType({
-  name: "contactPage",
-  title: "İletişim Sayfası",
+export const mallMapPageType = defineType({
+  name: "mallMapPage",
+  title: "Kat Planı Sayfası",
   type: "document",
   groups: [
     { name: "hero", title: "Page Hero Bölümü" },
@@ -10,20 +10,17 @@ export const contactPageType = defineType({
     { name: "seo", title: "SEO Ayarları" },
   ],
   fields: [
-    // Page Hero Group
     defineField({
       name: "heroTitle",
       title: "Hero Başlık",
       type: "localizedString",
       group: "hero",
-      description: "Sayfa üst kısmında duracak ana başlık. Boş bırakılırsa Sayfa Başlığı kullanılır.",
     }),
     defineField({
       name: "heroSubtitle",
-      title: "Hero Alt Başlık / Kısa Açıklama",
+      title: "Hero Alt Başlık",
       type: "localizedText",
       group: "hero",
-      description: "Sayfa üst kısmında duracak kısa açıklama yazısı.",
     }),
     defineField({
       name: "heroImage",
@@ -39,9 +36,7 @@ export const contactPageType = defineType({
           validation: (Rule) => Rule.required(),
         },
       ],
-      description: "Hero arka plan resmi. Yüklenmezse şık bir degrade renk arka planı kullanılır.",
     }),
-    // Content Group
     defineField({
       name: "pageTitle",
       title: "Sayfa Başlığı",
@@ -50,35 +45,37 @@ export const contactPageType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "pageSubtitle",
-      title: "Giriş Metni",
+      name: "description",
+      title: "Açıklama Metni",
       type: "localizedText",
       group: "content",
     }),
     defineField({
-      name: "formTitle",
-      title: "Form Başlığı",
-      type: "localizedString",
+      name: "pdfFile",
+      title: "Kat Planı PDF Dosyası",
+      type: "file",
+      description: "Ziyaretçilerin kat planını indirebileceği PDF dosyası.",
       group: "content",
-      initialValue: {
-        tr: "Bize Ulaşın",
-        en: "Contact Us",
-      },
     }),
     defineField({
-      name: "successMessage",
-      title: "Form Başarı Mesajı",
-      type: "localizedText",
+      name: "mapImage",
+      title: "Kat Planı Görseli",
+      type: "image",
+      description: "Sayfada önizleme olarak gösterilecek görsel.",
       group: "content",
-      initialValue: {
-        tr: "Mesajınız alındı. En kısa sürede size dönüş yapacağız.",
-        en: "Your message has been received. We will get back to you as soon as possible.",
-      },
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Metni",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
     }),
-    // SEO Group
     defineField({
       name: "seo",
-      title: "SEO",
+      title: "SEO Ayarları",
       type: "seo",
       group: "seo",
     }),
