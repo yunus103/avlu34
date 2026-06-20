@@ -4,6 +4,9 @@ trigger: always_on
 
 # Next.js + Sanity Boilerplate - Agent Coding Rules
 
+> [!IMPORTANT]
+> Bu projenin temel tasarım ve içerik kararları için [site-plan.md](file:///c:/PROJECTS/WebProject/avlu34/docs/site-plan.md) ve kurulum planı için [setup-roadmap.md](file:///c:/PROJECTS/WebProject/avlu34/docs/setup-roadmap.md) dokümanları esas alınmalıdır.
+
 Bu kural dosyası, bu boilerplate üzerinde geliştirme yapacak tüm yapay zeka ajanlarının (AI Agents) uymak zorunda olduğu kesin yönergeleri, mimari sınırları ve kodlama standartlarını belirler.
 
 ---
