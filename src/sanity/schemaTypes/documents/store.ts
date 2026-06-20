@@ -7,15 +7,16 @@ export const storeType = defineType({
   fields: [
     defineField({
       name: "title",
-      title: "Mağaza Adı",
+      title: "Mağaza / Marka Adı",
       type: "string",
-      description: "Marka adı (Örn: Nike, Starbucks)",
+      description: "Marka adı (Örn: Nike, Starbucks, LC Waikiki)",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      description: "Mağaza detay sayfasının URL'sini belirler (Örn: /magazalar/lc-waikiki). Başlığa göre otomatik üretilebilir.",
       options: {
         source: "title",
         maxLength: 96,
@@ -26,12 +27,14 @@ export const storeType = defineType({
       name: "logo",
       title: "Logo / Görsel",
       type: "image",
+      description: "Mağaza logosu veya vitrin görseli. Şeffaf arka planlı PNG logolar veya yüksek kaliteli kare görseller önerilir.",
       options: { hotspot: true },
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Görselin ne olduğunu açıklayan kısa metin (Ekran okuyucular ve SEO için zorunludur).",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -39,8 +42,9 @@ export const storeType = defineType({
     }),
     defineField({
       name: "shopType",
-      title: "Mağaza Türü",
+      title: "Nokta Türü",
       type: "string",
+      description: "Bu noktanın bir mağaza mı (Alışveriş) yoksa lezzet noktası mı (Yeme-İçme) olduğunu belirler.",
       options: {
         list: [
           { title: "Sadece Mağaza (Alışveriş)", value: "store" },
@@ -56,6 +60,7 @@ export const storeType = defineType({
       name: "storeCategory",
       title: "Alışveriş Kategorisi",
       type: "reference",
+      description: "Mağazanın ait olduğu ana alışveriş kategorisi.",
       to: [{ type: "storeCategory" }],
       hidden: ({ parent }) => parent?.shopType === "dining",
     }),
@@ -63,6 +68,7 @@ export const storeType = defineType({
       name: "foodCategory",
       title: "Yeme-İçme Kategorisi",
       type: "reference",
+      description: "Lezzet noktasının ait olduğu ana yeme-içme kategorisi.",
       to: [{ type: "foodCategory" }],
       hidden: ({ parent }) => parent?.shopType === "store",
     }),
@@ -70,6 +76,7 @@ export const storeType = defineType({
       name: "floor",
       title: "Bulunduğu Kat",
       type: "string",
+      description: "Mağazanın AVM içerisinde bulunduğu kat konumu.",
       options: {
         list: [
           { title: "Zemin Kat", value: "zemin" },
@@ -84,12 +91,14 @@ export const storeType = defineType({
       name: "description",
       title: "Mağaza Açıklaması",
       type: "localizedText",
+      description: "Mağaza hakkında kısa bilgi, sattığı ürün grupları vb. detaylı açıklama.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "workingHours",
       title: "Çalışma Saatleri",
       type: "localizedString",
+      description: "Mağazanın açık olduğu saat aralığı.",
       initialValue: {
         tr: "10:00 - 22:00",
         en: "10:00 AM - 10:00 PM",
@@ -98,24 +107,28 @@ export const storeType = defineType({
     }),
     defineField({
       name: "phone",
-      title: "Telefon",
+      title: "Telefon Numarası",
       type: "string",
+      description: "Ziyaretçilerin doğrudan mağazaya ulaşabileceği telefon (Örn: 0212 XXX XX XX).",
     }),
     defineField({
       name: "website",
       title: "Web Sitesi",
       type: "url",
+      description: "Varsa markanın resmi web sitesi bağlantısı.",
     }),
     defineField({
       name: "socialLinks",
       title: "Sosyal Medya Hesapları",
       type: "array",
+      description: "Markanın Instagram, Facebook vb. sosyal medya bağlantıları.",
       of: [{ type: "socialLink" }],
     }),
     defineField({
       name: "seo",
       title: "SEO Ayarları",
       type: "seo",
+      description: "Bu mağazanın detay sayfası için özel SEO başlık, açıklama ve görsel ayarları.",
     }),
   ],
   preview: {

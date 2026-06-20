@@ -9,12 +9,14 @@ export const foodCategoryType = defineType({
       name: "title",
       title: "Kategori Başlığı",
       type: "localizedString",
+      description: "Restoran/kafe kategorisinin Türkçe ve İngilizce adı (Örn: Restoran / Restaurant)",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      description: "Sayfa URL'sini belirler (Örn: /yeme-icme/fast-food). Türkçe başlığa göre otomatik üretilebilir.",
       options: {
         source: "title.tr",
         maxLength: 96,

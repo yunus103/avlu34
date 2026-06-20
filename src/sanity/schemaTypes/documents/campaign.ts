@@ -9,12 +9,14 @@ export const campaignType = defineType({
       name: "title",
       title: "Kampanya Başlığı",
       type: "localizedString",
+      description: "Kampanyanın Türkçe ve İngilizce dikkat çekici başlığı.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      description: "Kampanya detay sayfası URL'sini belirler (Örn: /kampanyalar/babalar-gunu-indirimi). Türkçe başlığa göre otomatik üretilebilir.",
       options: {
         source: "title.tr",
         maxLength: 96,
@@ -25,12 +27,14 @@ export const campaignType = defineType({
       name: "image",
       title: "Kampanya Görseli / Afişi",
       type: "image",
+      description: "Kampanya afişi veya listelerde görünecek kapak görseli. Önerilen: Yatay/Geniş oranlı görseller.",
       options: { hotspot: true },
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Görselin ne olduğunu açıklayan kısa metin (Ekran okuyucular ve SEO için zorunludur).",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -40,12 +44,14 @@ export const campaignType = defineType({
       name: "startsAt",
       title: "Başlangıç Tarihi",
       type: "datetime",
+      description: "Kampanyanın başlayacağı ve sitede gösterileceği tarih-saat.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "endsAt",
       title: "Bitiş Tarihi",
       type: "datetime",
+      description: "Kampanyanın sona ereceği ve sitedeki listelerden otomatik kalkacağı tarih-saat.",
       validation: (Rule) =>
         Rule.required().custom((endsAt, context) => {
           const parent = context.parent as { startsAt?: string };
@@ -59,6 +65,7 @@ export const campaignType = defineType({
       name: "isPublished",
       title: "Yayında mı?",
       type: "boolean",
+      description: "İşaretlenmezse kampanya sitede taslak olarak kalır ve hiçbir yerde görünmez.",
       initialValue: true,
       validation: (Rule) => Rule.required(),
     }),
@@ -66,6 +73,7 @@ export const campaignType = defineType({
       name: "showOnHome",
       title: "Ana Sayfada Göster",
       type: "boolean",
+      description: "İşaretlenirse kampanya ana sayfadaki öne çıkanlar vitrininde gösterilir.",
       initialValue: true,
       validation: (Rule) => Rule.required(),
     }),
@@ -73,7 +81,7 @@ export const campaignType = defineType({
       name: "priority",
       title: "Gösterim Önceliği",
       type: "number",
-      description: "Yüksek sayılar listede ve vitrinde en önce gösterilir.",
+      description: "Yüksek sayılar (Örn: 100) listede ve vitrinde en önce gösterilir.",
       initialValue: 0,
       validation: (Rule) => Rule.required(),
     }),
@@ -81,23 +89,27 @@ export const campaignType = defineType({
       name: "relatedStores",
       title: "İlişkili Mağazalar",
       type: "array",
+      description: "Bu kampanyayı düzenleyen veya kampanyanın geçerli olduğu mağaza(lar).",
       of: [{ type: "reference", to: [{ type: "store" }] }],
     }),
     defineField({
       name: "body",
       title: "Kampanya Detay Metni",
       type: "localizedBlock",
+      description: "Kampanya içeriği, indirim oranları veya katılım koşullarına dair detaylı zengin metin.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "terms",
       title: "Kampanya Katılım Koşulları",
       type: "localizedBlock",
+      description: "Varsa yasal katılım koşulları, küçük yazılar veya uyarı metinleri.",
     }),
     defineField({
       name: "seo",
       title: "SEO Ayarları",
       type: "seo",
+      description: "Bu kampanyanın detay sayfası için özel SEO başlık, açıklama ve sosyal medya paylaşım ayarları.",
     }),
   ],
   preview: {
