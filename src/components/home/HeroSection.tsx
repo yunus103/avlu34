@@ -159,14 +159,14 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   </div>
                 )}
                 
-                {/* Black Overlay for readability */}
-                <div className="absolute inset-0 bg-black/40" />
+                {/* Subtle Linear Gradient Overlay (not too dark, preserves image details on top) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
               </div>
             )}
 
             {/* Slide Content Overlay */}
             <div className="absolute inset-0 z-10 flex flex-col justify-end pb-20 md:pb-32">
-              <div className="w-full max-w-[1400px] mx-auto px-6 md:px-16 lg:px-20">
+              <div className="w-full max-w-[1600px] mx-auto px-6 md:px-16 lg:px-20">
                 {/* Top Section: Tag and Large Title above the line */}
                 <div className="text-white">
                   {/* Localized optional Tag / Category label */}
@@ -176,14 +176,14 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                     </span>
                   )}
                   
-                  {/* Slide Main Title */}
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold font-serif uppercase tracking-wide leading-tight mb-2 select-text max-w-full">
+                  {/* Slide Main Title (Medium weight Serif, responsive size to stay on single line on desktop) */}
+                  <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-[44px] xl:text-[52px] font-medium font-serif uppercase tracking-[0.05em] leading-tight mb-2 select-text max-w-full">
                     {activeSlide.title}
                   </h1>
                 </div>
 
-                {/* Horizontal dividing line - right under title */}
-                <div className="w-full h-[1px] bg-white/20 my-5" />
+                {/* Horizontal dividing line - right under title (slightly more distinct) */}
+                <div className="w-full h-[1px] bg-white/25 my-5" />
 
                 {/* Bottom Section: Split Columns (Description + Button on Left, Info Block on Right) */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start text-white">
@@ -191,7 +191,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   {/* Left Column: Subtitle & CTA Button */}
                   <div className="md:col-span-7 lg:col-span-8 flex flex-col gap-5 items-start">
                     {activeSlide?.subtitle && (
-                      <p className="text-xs sm:text-sm md:text-base text-white/80 font-normal leading-relaxed max-w-2xl select-text">
+                      <p className="text-xs sm:text-sm md:text-base text-white/90 font-normal leading-relaxed max-w-2xl select-text">
                         {activeSlide.subtitle}
                       </p>
                     )}
@@ -207,13 +207,13 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                     )}
                   </div>
 
-                  {/* Right Column: Working Hours & Plan Visit Quick Links */}
-                  <div className="md:col-span-5 lg:col-span-4 flex flex-col sm:flex-row gap-6 md:gap-8 sm:items-center md:justify-end text-xs md:text-sm pt-2 md:pt-0">
+                  {/* Right Column: Working Hours & Plan Visit Quick Links (Responsive layout: side-by-side on mobile) */}
+                  <div className="md:col-span-5 lg:col-span-4 flex flex-row items-center justify-between md:justify-end gap-6 md:gap-8 text-[11px] sm:text-xs md:text-sm pt-2 md:pt-0 w-full">
                     {/* Working Hours Block */}
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
+                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-white/60 leading-none mb-1">
                           {strings.openToday}
                         </span>
                         <span className="font-normal text-white whitespace-nowrap">
@@ -223,13 +223,13 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                     </div>
 
                     {/* Separator for tablet/desktop */}
-                    <div className="hidden sm:block md:hidden lg:block w-[1px] h-6 bg-white/10" />
+                    <div className="hidden md:block lg:block w-[1px] h-6 bg-white/10" />
 
                     {/* Plan Visit Link Block */}
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
+                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-white/60 leading-none mb-1">
                           {strings.planVisit}
                         </span>
                         <Link
@@ -252,14 +252,14 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
       {/* 2. Left / Right Navigation Arrows - Vertically aligned with the Title line */}
       <button
         onClick={() => paginate(-1)}
-        className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[250px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
+        className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[230px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
         aria-label="Önceki Slayt"
       >
         <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
       </button>
       <button
         onClick={() => paginate(1)}
-        className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[250px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
+        className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[230px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
         aria-label="Sonraki Slayt"
       >
         <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
