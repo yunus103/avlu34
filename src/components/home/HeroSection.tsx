@@ -126,7 +126,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                 paginate(-1);
               }
             }}
-            className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
+            className="absolute inset-0 w-full h-full cursor-default"
           >
             {/* Background Images */}
             {activeSlide?.desktopImage && (
@@ -199,7 +199,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                       <div className="pt-1">
                         <Link
                           href={getLocalizedCtaLink(activeSlide.ctaLink)}
-                          className="inline-block border border-white/85 text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-[10px] md:text-xs font-semibold py-3.5 px-7 rounded-none"
+                          onPointerDown={(e) => e.stopPropagation()}
+                          className="inline-block border border-white/85 text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-[10px] md:text-xs font-semibold py-3.5 px-7 rounded-none cursor-pointer"
                         >
                           {activeSlide.ctaLabel}
                         </Link>
@@ -234,7 +235,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                         </span>
                         <Link
                           href={getPublicPath("ziyaret-plani", locale)}
-                          className="font-medium text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base"
+                          onPointerDown={(e) => e.stopPropagation()}
+                          className="font-medium text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer"
                         >
                           {locale === "en" ? "View Details" : "Detaylı Bilgi"}
                         </Link>
@@ -252,21 +254,23 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
       {/* 2. Left / Right Navigation Arrows - Vertically aligned with the Title line */}
       <button
         onClick={() => paginate(-1)}
-        className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[230px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
+        onPointerDown={(e) => e.stopPropagation()}
+        className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
         aria-label="Önceki Slayt"
       >
         <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
       </button>
       <button
         onClick={() => paginate(1)}
-        className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[230px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
+        onPointerDown={(e) => e.stopPropagation()}
+        className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
         aria-label="Sonraki Slayt"
       >
         <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
       </button>
 
       {/* 3. Dots Panel at the bottom center */}
-      <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2.5">
+      <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -276,7 +280,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
               setActiveIndex(index);
               resetAutoplay();
             }}
-            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none ${
+            onPointerDown={(e) => e.stopPropagation()}
+            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${
               index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`Slayt ${index + 1}`}
