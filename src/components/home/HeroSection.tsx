@@ -80,6 +80,11 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
     return getPublicPath(cleanPath, locale);
   };
 
+  // Text shadow style to ensure readability on any background (light reflections, pavement)
+  const textShadowStyle = {
+    textShadow: "0 2px 4px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.5)",
+  };
+
   // Framer Motion Sliding Animation Variants
   const slideVariants: Variants = {
     enter: (dir: number) => ({
@@ -159,8 +164,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   </div>
                 )}
                 
-                {/* Subtle Linear Gradient Overlay (not too dark, preserves image details on top) */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                {/* Optimized bottom-heavy linear gradient overlay (dark at the pavement level, clear at the sky level) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
               </div>
             )}
 
@@ -171,13 +176,19 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                 <div className="text-white">
                   {/* Localized optional Tag / Category label */}
                   {activeSlide?.tag && (
-                    <span className="font-semibold text-xs tracking-[0.25em] uppercase text-white/90 block mb-3 md:mb-4 select-none">
+                    <span 
+                      style={textShadowStyle}
+                      className="font-bold text-xs tracking-[0.25em] uppercase text-white block mb-3 md:mb-4 select-none"
+                    >
                       {activeSlide.tag}
                     </span>
                   )}
                   
                   {/* Slide Main Title (Medium weight Serif, responsive size to stay on single line on desktop) */}
-                  <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-[44px] xl:text-[52px] font-medium font-serif uppercase tracking-[0.05em] leading-tight mb-2 select-text max-w-full">
+                  <h1 
+                    style={textShadowStyle}
+                    className="text-xl sm:text-2xl md:text-4xl lg:text-[44px] xl:text-[52px] font-medium font-serif uppercase tracking-[0.05em] leading-tight mb-2 select-text max-w-full"
+                  >
                     {activeSlide.title}
                   </h1>
                 </div>
@@ -191,7 +202,10 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   {/* Left Column: Subtitle & CTA Button */}
                   <div className="md:col-span-7 lg:col-span-8 flex flex-col gap-5 items-start">
                     {activeSlide?.subtitle && (
-                      <p className="text-xs sm:text-sm md:text-base text-white/90 font-normal leading-relaxed max-w-2xl select-text">
+                      <p 
+                        style={textShadowStyle}
+                        className="text-xs sm:text-sm md:text-base text-white font-medium leading-relaxed max-w-2xl select-text"
+                      >
                         {activeSlide.subtitle}
                       </p>
                     )}
@@ -212,12 +226,18 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   <div className="md:col-span-5 lg:col-span-4 flex flex-row items-center justify-between md:justify-end gap-4 sm:gap-6 md:gap-8 pt-3 md:pt-0 w-full">
                     {/* Working Hours Block */}
                     <div className="flex items-center gap-3">
-                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" />
+                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" style={{ filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.5))" }} />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/60 leading-none mb-1">
+                        <span 
+                          style={textShadowStyle}
+                          className="font-bold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/70 leading-none mb-1"
+                        >
                           {strings.openToday}
                         </span>
-                        <span className="font-medium text-white text-xs sm:text-sm md:text-base whitespace-nowrap">
+                        <span 
+                          style={textShadowStyle}
+                          className="font-medium text-white text-xs sm:text-sm md:text-base whitespace-nowrap"
+                        >
                           {settings?.workingHours || (locale === "en" ? "10:00 AM - 10:00 PM" : "10:00 - 22:00")}
                         </span>
                       </div>
@@ -228,14 +248,18 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
 
                     {/* Plan Visit Link Block */}
                     <div className="flex items-center gap-3">
-                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" />
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" style={{ filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.5))" }} />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/60 leading-none mb-1">
+                        <span 
+                          style={textShadowStyle}
+                          className="font-bold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/70 leading-none mb-1"
+                        >
                           {strings.planVisit}
                         </span>
                         <Link
                           href={getPublicPath("ziyaret-plani", locale)}
                           onPointerDown={(e) => e.stopPropagation()}
+                          style={textShadowStyle}
                           className="font-medium text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base cursor-pointer"
                         >
                           {locale === "en" ? "View Details" : "Detaylı Bilgi"}
@@ -258,7 +282,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
         className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
         aria-label="Önceki Slayt"
       >
-        <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
+        <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))" }} />
       </button>
       <button
         onClick={() => paginate(1)}
@@ -266,7 +290,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
         className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
         aria-label="Sonraki Slayt"
       >
-        <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
+        <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))" }} />
       </button>
 
       {/* 3. Dots Panel at the bottom center */}
@@ -285,6 +309,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
               index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`Slayt ${index + 1}`}
+            style={{ filter: "drop-shadow(0px 1px 2px rgba(0,0,0,0.6))" }}
           />
         ))}
       </div>
