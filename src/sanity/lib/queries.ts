@@ -5,6 +5,7 @@ import { groq } from "next-sanity";
 export const layoutQuery = groq`{
   "settings": *[_type == "siteSettings"][0] {
     siteName, siteTagline,
+    "workingHours": coalesce(workingHours[$locale], workingHours.tr),
     logo { asset->{ _id, url, metadata { lqip, dimensions } }, hotspot, crop },
     logoHeight,
     favicon { asset->{ _id, url } },
@@ -17,21 +18,22 @@ export const layoutQuery = groq`{
   "navigation": *[_type == "navigation"][0] {
     headerLinks[] { 
       "label": coalesce(label[$locale], label.tr), 
-      href, 
+      "href": coalesce(href[$locale], href.tr, href), 
       openInNewTab, 
+      isMegaMenu,
       subLinks[] { 
         "label": coalesce(label[$locale], label.tr), 
-        href, 
+        "href": coalesce(href[$locale], href.tr, href), 
         openInNewTab 
       } 
     },
     footerLinks[] { 
       "label": coalesce(label[$locale], label.tr), 
-      href, 
+      "href": coalesce(href[$locale], href.tr, href), 
       openInNewTab, 
       subLinks[] { 
         "label": coalesce(label[$locale], label.tr), 
-        href, 
+        "href": coalesce(href[$locale], href.tr, href), 
         openInNewTab 
       } 
     }
@@ -77,6 +79,7 @@ export const activeHeroSlidesQuery = groq`*[_type == "heroSlide" && isPublished 
   _id,
   "title": coalesce(title[$locale], title.tr),
   "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  "tag": coalesce(tag[$locale], tag.tr),
   desktopImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   mobileImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "ctaLabel": coalesce(ctaLabel[$locale], ctaLabel.tr),
@@ -161,13 +164,13 @@ export const kvkkPageQuery = groq`*[_type == "kvkkPage"][0] {
 export const storeCategoriesQuery = groq`*[_type == "storeCategory"] | order(title.tr asc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
-  slug
+  "slug": coalesce(slug[$locale].current, slug.tr.current)
 }`;
 
 export const foodCategoriesQuery = groq`*[_type == "foodCategory"] | order(title.tr asc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
-  slug
+  "slug": coalesce(slug[$locale].current, slug.tr.current)
 }`;
 
 // ─── Store Queries ────────────────────────────────────────────────────────────
@@ -180,7 +183,7 @@ export const storeListQuery = groq`*[_type == "store" && shopType in ["store", "
   storeCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    slug
+    "slug": coalesce(slug[$locale].current, slug.tr.current)
   }
 }`;
 
@@ -198,7 +201,7 @@ export const storeBySlugQuery = groq`*[_type == "store" && slug.current == $slug
   storeCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    slug
+    "slug": coalesce(slug[$locale].current, slug.tr.current)
   },
   seo
 }`;
@@ -213,7 +216,7 @@ export const diningListQuery = groq`*[_type == "store" && shopType in ["dining",
   foodCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    slug
+    "slug": coalesce(slug[$locale].current, slug.tr.current)
   }
 }`;
 
@@ -231,7 +234,7 @@ export const diningBySlugQuery = groq`*[_type == "store" && slug.current == $slu
   foodCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    slug
+    "slug": coalesce(slug[$locale].current, slug.tr.current)
   },
   seo
 }`;
@@ -329,8 +332,8 @@ export const allSlugsForSitemapQuery = groq`{
 export const storeSlugsQuery = groq`*[_type == "store" && defined(slug.current)] { "slug": slug.current }`;
 export const campaignSlugsQuery = groq`*[_type == "campaign" && defined(slug.current)] { "slug": slug.current }`;
 export const eventSlugsQuery = groq`*[_type == "event" && defined(slug.current)] { "slug": slug.current }`;
-export const storeCategorySlugsQuery = groq`*[_type == "storeCategory" && defined(slug.current)] { "slug": slug.current }`;
-export const foodCategorySlugsQuery = groq`*[_type == "foodCategory" && defined(slug.current)] { "slug": slug.current }`;
+export const storeCategorySlugsQuery = groq`*[_type == "storeCategory"] { "slugs": [slug.tr.current, slug.en.current] }`;
+export const foodCategorySlugsQuery = groq`*[_type == "foodCategory"] { "slugs": [slug.tr.current, slug.en.current] }`;
 
 // ─── Global Search Query ──────────────────────────────────────────────────────
 export const globalSearchQuery = groq`{
@@ -339,6 +342,11 @@ export const globalSearchQuery = groq`{
     _type,
     title,
     "slug": slug.current,
+    logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+    floor,
+    storeCategory-> {
+      "title": coalesce(title[$locale], title.tr)
+    },
     "description": coalesce(description[$locale], description.tr)
   },
   "dining": *[_type == "store" && shopType in ["dining", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
@@ -346,6 +354,11 @@ export const globalSearchQuery = groq`{
     _type,
     title,
     "slug": slug.current,
+    logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+    floor,
+    foodCategory-> {
+      "title": coalesce(title[$locale], title.tr)
+    },
     "description": coalesce(description[$locale], description.tr)
   },
   "campaigns": *[_type == "campaign" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
@@ -353,6 +366,9 @@ export const globalSearchQuery = groq`{
     _type,
     "title": coalesce(title[$locale], title.tr),
     "slug": slug.current,
+    image { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+    startsAt,
+    endsAt,
     "description": coalesce(body[$locale], body.tr)
   },
   "events": *[_type == "event" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
@@ -360,7 +376,24 @@ export const globalSearchQuery = groq`{
     _type,
     "title": coalesce(title[$locale], title.tr),
     "slug": slug.current,
+    image { asset->{ _id, url, metadata { lqip, dimensions } }, alt },
+    startsAt,
+    endsAt,
+    "time": coalesce(time[$locale], time.tr),
+    "location": coalesce(location[$locale], location.tr),
     "description": coalesce(body[$locale], body.tr)
+  },
+  "storeCategories": *[_type == "storeCategory" && (coalesce(title[$locale], title.tr) match $searchQuery)] | order(coalesce(title[$locale], title.tr) asc) {
+    _id,
+    _type,
+    "title": coalesce(title[$locale], title.tr),
+    "slug": slug.tr.current
+  },
+  "foodCategories": *[_type == "foodCategory" && (coalesce(title[$locale], title.tr) match $searchQuery)] | order(coalesce(title[$locale], title.tr) asc) {
+    _id,
+    _type,
+    "title": coalesce(title[$locale], title.tr),
+    "slug": slug.tr.current
   },
   "pages": {
     "about": *[_type == "aboutPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)][0] {

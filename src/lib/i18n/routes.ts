@@ -12,6 +12,18 @@ export const englishToTurkishRouteMap: Record<string, string> = {
   "about-us": "hakkimizda",
   "contact": "iletisim",
   "privacy": "kvkk",
+  "search": "arama",
+  // Categories
+  "fashion": "giyim",
+  "technology": "teknoloji",
+  "kids": "cocuk",
+  "health-beauty": "saglik-guzellik",
+  "service": "hizmet",
+  "entertainment": "eglence",
+  "restaurant": "restoran",
+  "fast-food": "fast-food",
+  "coffee": "kahve",
+  "dessert": "tatli",
 };
 
 // Maps Turkish internal segments to English public segments
@@ -26,6 +38,18 @@ export const turkishToEnglishRouteMap: Record<string, string> = {
   "hakkimizda": "about-us",
   "iletisim": "contact",
   "kvkk": "privacy",
+  "arama": "search",
+  // Categories
+  "giyim": "fashion",
+  "teknoloji": "technology",
+  "cocuk": "kids",
+  "saglik-guzellik": "health-beauty",
+  "hizmet": "service",
+  "eglence": "entertainment",
+  "restoran": "restaurant",
+  "fast-food": "fast-food",
+  "kahve": "coffee",
+  "tatli": "dessert",
 };
 
 /**
@@ -67,6 +91,9 @@ export function getInternalPath(pathname: string): string {
  * Useful for Lang Switcher and Link components.
  */
 export function getPublicPath(internalPath: string, targetLocale: Locale): string {
+  if (!internalPath) {
+    return "/";
+  }
   // 1. Return immediately for external URLs, relative hashes, tel/mailto, etc.
   if (
     internalPath.startsWith("http://") ||

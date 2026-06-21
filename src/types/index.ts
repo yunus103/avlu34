@@ -52,6 +52,7 @@ export interface ContactInfo {
 export interface SiteSettings {
   siteName: string;
   siteTagline?: string;
+  workingHours?: string;
   logo?: SanityImage;
   logoHeight?: number;
   favicon?: { asset: { url: string } };
@@ -71,6 +72,7 @@ export interface NavItem {
   label: string | LocalizedField<string>;
   href: string;
   openInNewTab?: boolean;
+  isMegaMenu?: boolean;
   subLinks?: NavItem[];
 }
 
@@ -180,6 +182,7 @@ export interface HeroSlide {
   _id: string;
   title: string; // Projected
   subtitle?: string; // Projected
+  tag?: string; // Projected
   desktopImage: SanityImage;
   mobileImage?: SanityImage;
   ctaLabel?: string; // Projected

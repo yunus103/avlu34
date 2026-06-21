@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { buildMetadata, getLayoutData } from "@/lib/seo";
 
@@ -7,7 +7,17 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/components/seo/JsonLd";
 import NextTopLoader from "nextjs-toploader";
 
-const inter = Inter({ subsets: ["latin"] });
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata();
@@ -25,7 +35,7 @@ export default async function RootLayout({ children, params }: RootProps) {
 
   return (
     <html lang={currentLocale} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${plusJakarta.variable} ${playfair.variable} font-sans`}>
         <noscript>
           <style>{`[data-fade-in]{opacity:1!important;transform:none!important}`}</style>
         </noscript>

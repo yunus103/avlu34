@@ -1,5 +1,7 @@
 import { StructureResolver } from "sanity/structure";
 
+const API_VERSION = "2024-01-01";
+
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("AVLU34 AVM Yönetim Paneli")
@@ -85,6 +87,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Aktif Slaytlar")
                     .schemaType("heroSlide")
                     .filter('_type == "heroSlide" && isPublished == true && (isDefault == true || (startsAt <= now() && endsAt >= now()))')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🟡 Planlanan Slaytlar")
@@ -93,6 +96,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Planlanan Slaytlar")
                     .schemaType("heroSlide")
                     .filter('_type == "heroSlide" && isPublished == true && isDefault != true && startsAt > now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔴 Süresi Geçen Slaytlar")
@@ -101,6 +105,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Süresi Geçen Slaytlar")
                     .schemaType("heroSlide")
                     .filter('_type == "heroSlide" && isPublished == true && isDefault != true && endsAt < now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("⚪ Varsayılan (Fallback) Slaytlar")
@@ -109,6 +114,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Varsayılan Slaytlar")
                     .schemaType("heroSlide")
                     .filter('_type == "heroSlide" && isDefault == true')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔵 Tüm Slaytlar (Düzenleme/Ekleme)")
@@ -117,6 +123,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Tüm Slaytlar")
                     .schemaType("heroSlide")
                     .filter('_type == "heroSlide"')
+                    .apiVersion(API_VERSION)
                 ),
             ])
         ),
@@ -137,6 +144,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Tüm Mağazalar")
                     .schemaType("store")
                     .filter('_type == "store" && (shopType == "store" || shopType == "both")')
+                    .apiVersion(API_VERSION)
                 ),
             ])
         ),
@@ -156,6 +164,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Tüm Lezzet Noktaları")
                     .schemaType("store")
                     .filter('_type == "store" && (shopType == "dining" || shopType == "both")')
+                    .apiVersion(API_VERSION)
                 ),
             ])
         ),
@@ -175,6 +184,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Aktif Kampanyalar")
                     .schemaType("campaign")
                     .filter('_type == "campaign" && isPublished == true && startsAt <= now() && endsAt >= now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🟡 Planlanan Kampanyalar")
@@ -183,6 +193,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Planlanan Kampanyalar")
                     .schemaType("campaign")
                     .filter('_type == "campaign" && isPublished == true && startsAt > now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔴 Geçmiş Kampanyalar")
@@ -191,6 +202,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Geçmiş Kampanyalar")
                     .schemaType("campaign")
                     .filter('_type == "campaign" && isPublished == true && endsAt < now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔵 Tüm Kampanyalar (Düzenleme/Ekleme)")
@@ -199,6 +211,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Tüm Kampanyalar")
                     .schemaType("campaign")
                     .filter('_type == "campaign"')
+                    .apiVersion(API_VERSION)
                 ),
             ])
         ),
@@ -217,6 +230,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Yaklaşan / Aktif Etkinlikler")
                     .schemaType("event")
                     .filter('_type == "event" && isPublished == true && endsAt >= now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔴 Geçmiş Etkinlikler")
@@ -225,6 +239,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Geçmiş Etkinlikler")
                     .schemaType("event")
                     .filter('_type == "event" && isPublished == true && endsAt < now()')
+                    .apiVersion(API_VERSION)
                 ),
               S.listItem()
                 .title("🔵 Tüm Etkinlikler (Düzenleme/Ekleme)")
@@ -233,6 +248,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Tüm Etkinlikler")
                     .schemaType("event")
                     .filter('_type == "event"')
+                    .apiVersion(API_VERSION)
                 ),
             ])
         ),

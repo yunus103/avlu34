@@ -8,6 +8,12 @@ export const siteSettingsType = defineType({
     defineField({ name: "siteName", title: "Site Adı", type: "string", validation: (Rule) => Rule.required() }),
     defineField({ name: "siteTagline", title: "Slogan", type: "string" }),
     defineField({
+      name: "workingHours",
+      title: "Genel Çalışma Saatleri",
+      type: "localizedString",
+      description: "AVM'nin genel çalışma saatleridir. Ana sayfa hero slider ve footer gibi alanlarda gösterilir. (Örn: Her Gün: 10:00 - 22:00)",
+    }),
+    defineField({
       name: "logo",
       title: "Logo",
       type: "image",

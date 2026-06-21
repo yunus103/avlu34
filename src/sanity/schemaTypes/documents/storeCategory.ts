@@ -15,21 +15,38 @@ export const storeCategoryType = defineType({
     }),
     defineField({
       name: "slug",
-      title: "Slug",
-      type: "slug",
-      description: "Sayfa URL'sini belirler (Örn: /magazalar/giyim). Türkçe başlığa göre otomatik üretilebilir.",
-      options: {
-        source: "title.tr",
-        slugify: turkishSlugify,
-        maxLength: 96,
-      },
-      validation: (Rule) => Rule.required(),
+      title: "Slug (TR / EN)",
+      type: "object",
+      fields: [
+        defineField({
+          name: "tr",
+          title: "Türkçe Slug",
+          type: "slug",
+          options: {
+            source: "title.tr",
+            slugify: turkishSlugify,
+            maxLength: 96,
+          },
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "en",
+          title: "İngilizce Slug",
+          type: "slug",
+          options: {
+            source: "title.en",
+            slugify: turkishSlugify,
+            maxLength: 96,
+          },
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
     }),
   ],
   preview: {
     select: {
       title: "title.tr",
-      subtitle: "slug.current",
+      subtitle: "slug.tr.current",
     },
   },
 });

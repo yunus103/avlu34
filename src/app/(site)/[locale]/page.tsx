@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cachedFetch } from "@/sanity/lib/client";
 import { homePageQuery, activeHeroSlidesQuery } from "@/sanity/lib/queries";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, getLayoutData } from "@/lib/seo";
 import { locales, Locale } from "@/lib/i18n/config";
 import { HomePage as HomePageType, HeroSlide } from "@/types";
 import { SanityImage } from "@/components/ui/SanityImage";
@@ -9,6 +9,7 @@ import { RichText } from "@/components/ui/RichText";
 import { getPublicPath } from "@/lib/i18n/routes";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { HeroSection } from "@/components/home/HeroSection";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -31,49 +32,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   
-  // Fetch homepage configurations and active slides in parallel
-  const [data, slides] = await Promise.all([
+  // Fetch homepage configurations, active slides, and site settings in parallel
+  const [data, slides, layoutData] = await Promise.all([
     cachedFetch<HomePageType>(homePageQuery, { locale }, { next: { tags: ["home"] } }),
     cachedFetch<HeroSlide[]>(activeHeroSlidesQuery, { locale }, { next: { tags: ["heroSlide"] } }),
+    getLayoutData(locale),
   ]);
-
-  const activeSlide = slides?.[0]; // Fallback to first active slide for hero placeholder
 
   return (
     <div className="flex flex-col w-full">
-      {/* 1. Hero Slide Section (Simple Placeholder) */}
-      <section className="relative min-h-[70vh] flex items-center bg-muted overflow-hidden">
-        {activeSlide?.desktopImage && (
-          <div className="absolute inset-0 z-0">
-            <SanityImage
-              image={activeSlide.desktopImage}
-              fill
-              sizes="100vw"
-              quality={90}
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/50" />
-          </div>
-        )}
-        <div className="relative z-10 container mx-auto px-4 py-20 text-white">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              {activeSlide?.title || "AVLU34 AVM"}
-            </h1>
-            {activeSlide?.subtitle && (
-              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl">
-                {activeSlide.subtitle}
-              </p>
-            )}
-            {activeSlide?.ctaLabel && activeSlide?.ctaLink && (
-              <Button size="lg" render={<Link href={activeSlide.ctaLink} />}>
-                {activeSlide.ctaLabel}
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* 1. Hero Carousel Section */}
+      <HeroSection
+        slides={slides || []}
+        settings={layoutData?.settings}
+        locale={locale as Locale}
+      />
 
       {/* 2. Hakkımızda Önizleme */}
       {data?.aboutTitle && (

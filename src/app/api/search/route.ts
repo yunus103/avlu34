@@ -16,6 +16,8 @@ export async function GET(req: Request) {
         dining: [],
         campaigns: [],
         events: [],
+        storeCategories: [],
+        foodCategories: [],
         pages: {}
       });
     }
