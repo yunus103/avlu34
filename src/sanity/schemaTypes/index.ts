@@ -4,6 +4,7 @@ import { customHtmlType } from "./objects/customHtml";
 import { localizedStringType } from "./objects/localizedString";
 import { localizedTextType } from "./objects/localizedText";
 import { localizedBlockType } from "./objects/localizedBlock";
+import { faqItem } from "./objects/faqItem";
 
 import { siteSettingsType } from "./singletons/siteSettings";
 import { navigationType } from "./singletons/navigation";
@@ -21,7 +22,6 @@ import { storeType } from "./documents/store";
 import { campaignType } from "./documents/campaign";
 import { eventType } from "./documents/event";
 import { heroSlideType } from "./documents/heroSlide";
-import { faqType } from "./documents/faq";
 
 export const schemaTypes = [
   // Objects
@@ -31,6 +31,7 @@ export const schemaTypes = [
   localizedStringType,
   localizedTextType,
   localizedBlockType,
+  faqItem,
   
   // Singletons
   siteSettingsType,
@@ -50,5 +51,4 @@ export const schemaTypes = [
   campaignType,
   eventType,
   heroSlideType,
-  faqType,
 ];

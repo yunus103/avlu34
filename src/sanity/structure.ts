@@ -238,6 +238,4 @@ export const structure: StructureResolver = (S) =>
         ),
       S.divider(),
 
-      // 8. SSS (FAQ)
-      S.documentTypeListItem("faq").title("❓ SSS (Sıkça Sorulan Sorular)"),
     ]);

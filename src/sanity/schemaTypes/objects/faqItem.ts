@@ -1,11 +1,9 @@
 import { defineField, defineType } from "sanity";
-import { RiQuestionAnswerLine } from "react-icons/ri";
 
-export const faqType = defineType({
-  name: "faq",
-  title: "SSS (Sıkça Sorulan Sorular)",
-  type: "document",
-  icon: RiQuestionAnswerLine,
+export const faqItem = defineType({
+  name: "faqItem",
+  title: "Soru & Cevap",
+  type: "object",
   fields: [
     defineField({
       name: "question",
@@ -18,12 +16,6 @@ export const faqType = defineType({
       title: "Cevap",
       type: "localizedText",
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "order",
-      title: "Sıralama",
-      type: "number",
-      initialValue: 0,
     }),
   ],
   preview: {
