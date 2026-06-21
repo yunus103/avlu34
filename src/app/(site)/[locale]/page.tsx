@@ -4,12 +4,11 @@ import { homePageQuery, activeHeroSlidesQuery } from "@/sanity/lib/queries";
 import { buildMetadata, getLayoutData } from "@/lib/seo";
 import { locales, Locale } from "@/lib/i18n/config";
 import { HomePage as HomePageType, HeroSlide } from "@/types";
-import { SanityImage } from "@/components/ui/SanityImage";
-import { RichText } from "@/components/ui/RichText";
-import { getPublicPath } from "@/lib/i18n/routes";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/home/HeroSection";
+import { AboutSection } from "@/components/home/AboutSection";
+import { ShopDineSection } from "@/components/home/ShopDineSection";
+import { CinemaSection } from "@/components/home/CinemaSection";
+import { CampaignsEventsSection } from "@/components/home/CampaignsEventsSection";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -48,75 +47,52 @@ export default async function HomePage({ params }: Props) {
         locale={locale as Locale}
       />
 
-      {/* 2. Hakkımızda Önizleme */}
-      {data?.aboutTitle && (
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
-              <h2 className="text-3xl font-bold mb-4">{data.aboutTitle}</h2>
-              {data.aboutSubtitle && <p className="text-lg text-muted-foreground mb-6">{data.aboutSubtitle}</p>}
-              <RichText value={data.aboutText} />
-              {data.aboutCtaLabel && (
-                <Button className="mt-6" variant="outline" render={<Link href={getPublicPath("hakkimizda", locale as Locale)} />}>
-                  {data.aboutCtaLabel}
-                </Button>
-              )}
-            </div>
-            {data.aboutImage && (
-              <div className="lg:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
-                <SanityImage image={data.aboutImage} fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+      {/* 2. Hakkımızda (About Us) Section */}
+      <AboutSection
+        tag={data?.aboutTag}
+        title={data?.aboutTitle}
+        subtitle={data?.aboutSubtitle}
+        text={data?.aboutText}
+        image={data?.aboutImage || data?.campaignsImage} // Fallback to campaignsImage if aboutImage is not set
+        ctaLabel={data?.aboutCtaLabel}
+        locale={locale as Locale}
+      />
 
-      {/* 3. Kampanyalar & Etkinlikler CTA Alanları */}
-      <section className="py-16 bg-muted/30 border-y">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Kampanyalar */}
-          <div className="bg-background p-8 rounded-2xl border flex flex-col justify-between">
-            <div>
-              <h3 className="text-2xl font-bold mb-2">{data?.campaignsTitle || "Kampanyalar"}</h3>
-              <p className="text-muted-foreground mb-6">{data?.campaignsSubtitle || "AVLU34 AVM güncel fırsatları."}</p>
-            </div>
-            <Button render={<Link href={getPublicPath("kampanyalar", locale as Locale)} />}>
-              {locale === "en" ? "View Offers" : "Kampanyaları Gör"}
-            </Button>
-          </div>
+      {/* 3. Mağazalar & Yeme-İçme (Shop & Dine) Section */}
+      <ShopDineSection
+        storesTag={data?.storesTag}
+        storesTitle={data?.storesTitle}
+        storesImage={data?.storesImage}
+        storesCtaLabel={data?.storesCtaLabel}
+        diningTag={data?.diningTag}
+        diningTitle={data?.diningTitle}
+        diningImage={data?.diningImage}
+        diningCtaLabel={data?.diningCtaLabel}
+        locale={locale as Locale}
+      />
 
-          {/* Etkinlikler */}
-          <div className="bg-background p-8 rounded-2xl border flex flex-col justify-between">
-            <div>
-              <h3 className="text-2xl font-bold mb-2">{data?.eventsTitle || "Etkinlikler"}</h3>
-              <p className="text-muted-foreground mb-6">{data?.eventsSubtitle || "AVLU34 eğlenceli etkinlikleri."}</p>
-            </div>
-            <Button render={<Link href={getPublicPath("etkinlikler", locale as Locale)} />}>
-              {locale === "en" ? "View Events" : "Etkinlikleri Gör"}
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* 4. Sinema (Cinema) Section */}
+      <CinemaSection
+        cinemaTag={data?.cinemaTag}
+        cinemaTitle={data?.cinemaTitle}
+        cinemaSubtitle={data?.cinemaSubtitle}
+        cinemaImage={data?.cinemaImage}
+        cinemaCtaLabel={data?.cinemaCtaLabel}
+        locale={locale as Locale}
+      />
 
-      {/* 4. Mağaza & Yeme-İçme Keşif Linkleri */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-          <div className="p-8 border rounded-2xl bg-muted/10">
-            <h3 className="text-2xl font-bold mb-4">{data?.storesTitle || "Mağazalar"}</h3>
-            <p className="text-muted-foreground mb-6">{data?.storesSubtitle || "Tüm mağazalarımızı keşfedin."}</p>
-            <Button variant="outline" render={<Link href={getPublicPath("magazalar", locale as Locale)} />}>
-              {locale === "en" ? "Explore Brands" : "Mağazaları Keşfet"}
-            </Button>
-          </div>
-          <div className="p-8 border rounded-2xl bg-muted/10">
-            <h3 className="text-2xl font-bold mb-4">{data?.diningTitle || "Yeme-İçme"}</h3>
-            <p className="text-muted-foreground mb-6">{data?.diningSubtitle || "Lezzetli restoranlar ve kafeler."}</p>
-            <Button variant="outline" render={<Link href={getPublicPath("yeme-icme", locale as Locale)} />}>
-              {locale === "en" ? "Explore Dining" : "Lezzetleri Keşfet"}
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* 5. Kampanyalar & Etkinlikler (Campaigns & Events) Section */}
+      <CampaignsEventsSection
+        campaignsTitle={data?.campaignsTitle}
+        campaignsSubtitle={data?.campaignsSubtitle}
+        campaignsImage={data?.campaignsImage}
+        campaignsCtaLabel={data?.campaignsCtaLabel}
+        eventsTitle={data?.eventsTitle}
+        eventsSubtitle={data?.eventsSubtitle}
+        eventsImage={data?.eventsImage}
+        eventsCtaLabel={data?.eventsCtaLabel}
+        locale={locale as Locale}
+      />
     </div>
   );
 }

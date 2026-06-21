@@ -42,6 +42,7 @@ export const layoutQuery = groq`{
 
 // ─── Home Page Query ──────────────────────────────────────────────────────────
 export const homePageQuery = groq`*[_type == "homePage"][0] {
+  "aboutTag": coalesce(aboutTag[$locale], aboutTag.tr),
   "aboutTitle": coalesce(aboutTitle[$locale], aboutTitle.tr),
   "aboutSubtitle": coalesce(aboutSubtitle[$locale], aboutSubtitle.tr),
   "aboutText": coalesce(aboutText[$locale], aboutText.tr),
@@ -51,19 +52,30 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   "campaignsTitle": coalesce(campaignsTitle[$locale], campaignsTitle.tr),
   "campaignsSubtitle": coalesce(campaignsSubtitle[$locale], campaignsSubtitle.tr),
   campaignsImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "campaignsCtaLabel": coalesce(campaignsCtaLabel[$locale], campaignsCtaLabel.tr),
 
   "eventsTitle": coalesce(eventsTitle[$locale], eventsTitle.tr),
   "eventsSubtitle": coalesce(eventsSubtitle[$locale], eventsSubtitle.tr),
   eventsImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "eventsCtaLabel": coalesce(eventsCtaLabel[$locale], eventsCtaLabel.tr),
 
+  "storesTag": coalesce(storesTag[$locale], storesTag.tr),
   "storesTitle": coalesce(storesTitle[$locale], storesTitle.tr),
   "storesSubtitle": coalesce(storesSubtitle[$locale], storesSubtitle.tr),
+  storesImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "storesCtaLabel": coalesce(storesCtaLabel[$locale], storesCtaLabel.tr),
 
+  "diningTag": coalesce(diningTag[$locale], diningTag.tr),
   "diningTitle": coalesce(diningTitle[$locale], diningTitle.tr),
   "diningSubtitle": coalesce(diningSubtitle[$locale], diningSubtitle.tr),
+  diningImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "diningCtaLabel": coalesce(diningCtaLabel[$locale], diningCtaLabel.tr),
 
+  "cinemaTag": coalesce(cinemaTag[$locale], cinemaTag.tr),
   "cinemaTitle": coalesce(cinemaTitle[$locale], cinemaTitle.tr),
   "cinemaSubtitle": coalesce(cinemaSubtitle[$locale], cinemaSubtitle.tr),
+  cinemaImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "cinemaCtaLabel": coalesce(cinemaCtaLabel[$locale], cinemaCtaLabel.tr),
 
   "mapTitle": coalesce(mapTitle[$locale], mapTitle.tr),
   "mapSubtitle": coalesce(mapSubtitle[$locale], mapSubtitle.tr),

@@ -18,6 +18,13 @@ export const homePageType = defineType({
   fields: [
     // About Section
     defineField({
+      name: "aboutTag",
+      title: "Hakkımızda Bölüm Etiketi (Opsiyonel)",
+      type: "localizedString",
+      group: "about",
+      description: "Başlığın hemen üstünde küçük harflerle görünen kategori veya etiket yazısıdır. (Örn: AVLU34 AVM, HAKKIMIZDA)",
+    }),
+    defineField({
       name: "aboutTitle",
       title: "Hakkımızda Başlık",
       type: "localizedString",
@@ -88,6 +95,13 @@ export const homePageType = defineType({
         },
       ],
     }),
+    defineField({
+      name: "campaignsCtaLabel",
+      title: "Kampanyalar Buton Metni",
+      type: "localizedString",
+      group: "campaigns",
+      initialValue: { tr: "Kampanyaları Gör", en: "View Offers" },
+    }),
 
     // Events Section
     defineField({
@@ -118,8 +132,22 @@ export const homePageType = defineType({
         },
       ],
     }),
+    defineField({
+      name: "eventsCtaLabel",
+      title: "Etkinlikler Buton Metni",
+      type: "localizedString",
+      group: "events",
+      initialValue: { tr: "Etkinlikleri Gör", en: "View Events" },
+    }),
 
-    // Stores Section
+    // Stores Section (Mağazalar)
+    defineField({
+      name: "storesTag",
+      title: "Mağazalar Bölüm Etiketi",
+      type: "localizedString",
+      group: "stores",
+      initialValue: { tr: "ALIŞVERİŞ", en: "SHOP" },
+    }),
     defineField({
       name: "storesTitle",
       title: "Mağazalar Başlık",
@@ -133,8 +161,37 @@ export const homePageType = defineType({
       type: "localizedText",
       group: "stores",
     }),
+    defineField({
+      name: "storesImage",
+      title: "Mağazalar Bölüm Görseli",
+      type: "image",
+      group: "stores",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
+      name: "storesCtaLabel",
+      title: "Mağazalar Buton Metni",
+      type: "localizedString",
+      group: "stores",
+      initialValue: { tr: "MARKALARI GEZ", en: "EXPLORE BRANDS" },
+    }),
 
-    // Dining Section
+    // Dining Section (Yeme-İçme)
+    defineField({
+      name: "diningTag",
+      title: "Yeme-İçme Bölüm Etiketi",
+      type: "localizedString",
+      group: "dining",
+      initialValue: { tr: "LEZZET", en: "DINE" },
+    }),
     defineField({
       name: "diningTitle",
       title: "Yeme-İçme Başlık",
@@ -148,8 +205,37 @@ export const homePageType = defineType({
       type: "localizedText",
       group: "dining",
     }),
+    defineField({
+      name: "diningImage",
+      title: "Yeme-İçme Bölüm Görseli",
+      type: "image",
+      group: "dining",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
+      name: "diningCtaLabel",
+      title: "Yeme-İçme Buton Metni",
+      type: "localizedString",
+      group: "dining",
+      initialValue: { tr: "LEZZETLERİ KEŞFET", en: "EXPLORE DINING" },
+    }),
 
-    // Cinema Section
+    // Cinema Section (Sinema)
+    defineField({
+      name: "cinemaTag",
+      title: "Sinema Bölüm Etiketi",
+      type: "localizedString",
+      group: "cinema",
+      initialValue: { tr: "SİNEMA / EĞLENCE", en: "ENTERTAIN" },
+    }),
     defineField({
       name: "cinemaTitle",
       title: "Sinema Başlık",
@@ -162,6 +248,28 @@ export const homePageType = defineType({
       title: "Sinema Alt Başlık",
       type: "localizedText",
       group: "cinema",
+    }),
+    defineField({
+      name: "cinemaImage",
+      title: "Sinema Bölüm Görseli",
+      type: "image",
+      group: "cinema",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
+      name: "cinemaCtaLabel",
+      title: "Sinema Buton Metni",
+      type: "localizedString",
+      group: "cinema",
+      initialValue: { tr: "SALONLARI İNCELE", en: "EXPLORE CINEMA" },
     }),
 
     // Floor Plan Section
