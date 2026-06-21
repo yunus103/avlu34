@@ -22,13 +22,14 @@ export const homePageType = defineType({
       title: "Hakkımızda Bölüm Etiketi (Opsiyonel)",
       type: "localizedString",
       group: "about",
-      description: "Başlığın hemen üstünde küçük harflerle görünen kategori veya etiket yazısıdır. (Örn: AVLU34 AVM, HAKKIMIZDA)",
+      description: "Hakkımızda başlığının hemen üstünde küçük harflerle ve aralıklı görünen kategori veya etiket yazısıdır. (Örn: HAKKIMIZDA, AVLU34 AVM)",
     }),
     defineField({
       name: "aboutTitle",
       title: "Hakkımızda Başlık",
       type: "localizedString",
       group: "about",
+      description: "Hakkımızda bölümünün ana başlığıdır. Büyük, şık ve zarif bir serif yazı tipiyle gösterilir. (Örn: AVLU34'E HOŞ GELDİNİZ)",
       initialValue: { tr: "AVLU34'e Hoş Geldiniz", en: "Welcome to AVLU34" },
     }),
     defineField({
@@ -36,12 +37,14 @@ export const homePageType = defineType({
       title: "Hakkımızda Alt Başlık",
       type: "localizedText",
       group: "about",
+      description: "Ana başlığın hemen altında yer alan, kısa açıklama veya slogan niteliğindeki alt başlıktır.",
     }),
     defineField({
       name: "aboutText",
       title: "Hakkımızda Tanıtım Yazısı",
       type: "localizedBlock",
       group: "about",
+      description: "Hakkımızda bölümünün merkezinde yer alan, AVM'yi tanıtan detaylı açıklama metnidir. Zengin metin editörü (bold, italik vb.) destekler.",
     }),
     defineField({
       name: "aboutImage",
@@ -49,11 +52,13 @@ export const homePageType = defineType({
       type: "image",
       group: "about",
       options: { hotspot: true },
+      description: "Bölümün sol tarafında, ekranı tam kaplayan (full-bleed) biçimde gösterilecek ana tanıtım görselidir. Yüksek kaliteli yatay/kare görseller önerilir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Görselin ne içerdiğini belirten kısa metin. Arama motorları (SEO) ve ekran okuyucular için doldurulması zorunludur.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -63,6 +68,7 @@ export const homePageType = defineType({
       title: "Daha Fazla Buton Metni",
       type: "localizedString",
       group: "about",
+      description: "Detaylı hakkımızda sayfasına yönlendiren geniş alt çizgisiz çerçevenin içindeki buton yazısıdır. (Örn: DEVAMINI OKU)",
       initialValue: { tr: "Devamını Oku", en: "Read More" },
     }),
 
@@ -72,6 +78,7 @@ export const homePageType = defineType({
       title: "Kampanyalar Başlık",
       type: "localizedString",
       group: "campaigns",
+      description: "Kampanyalar & Etkinlikler (What's On) bölümünün merkezinde büyük harflerle yer alan ana başlığıdır. (Örn: KAMPANYALAR & ETKİNLİKLER)",
       initialValue: { tr: "Güncel Kampanyalar", en: "Current Offers" },
     }),
     defineField({
@@ -79,6 +86,7 @@ export const homePageType = defineType({
       title: "Kampanyalar Alt Başlık",
       type: "localizedText",
       group: "campaigns",
+      description: "Kampanyalar & Etkinlikler ana başlığının hemen altında ortalanmış şekilde görünen açıklama veya alt başlıktır.",
     }),
     defineField({
       name: "campaignsImage",
@@ -86,11 +94,13 @@ export const homePageType = defineType({
       type: "image",
       group: "campaigns",
       options: { hotspot: true },
+      description: "Bölümün en altında yer alan tam genişlikteki (teaser/Whats New) afiş görselidir. Yatay panoramik formatta (sinematik 21:9 veya 16:7) olması önerilir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Afiş görselinin ne ile ilgili olduğunu belirten arama motoru (SEO) açıklamasıdır.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -100,6 +110,7 @@ export const homePageType = defineType({
       title: "Kampanyalar Buton Metni",
       type: "localizedString",
       group: "campaigns",
+      description: "Kullanıcıyı kampanyalar sayfasına yönlendiren birinci butonun üzerindeki yazıdır. (Örn: KAMPANYALARI GÖR)",
       initialValue: { tr: "Kampanyaları Gör", en: "View Offers" },
     }),
 
@@ -109,6 +120,7 @@ export const homePageType = defineType({
       title: "Etkinlikler Başlık",
       type: "localizedString",
       group: "events",
+      description: "Etkinlikler için ayrılan alternatif başlık alanıdır. Genellikle ana Kampanyalar başlığı ile birleştirilerek tek alanda gösterilir.",
       initialValue: { tr: "Eğlenceli Etkinlikler", en: "Exciting Events" },
     }),
     defineField({
@@ -116,6 +128,7 @@ export const homePageType = defineType({
       title: "Etkinlikler Alt Başlık",
       type: "localizedText",
       group: "events",
+      description: "Etkinlikler alternatif başlığının altındaki ek açıklama metnidir.",
     }),
     defineField({
       name: "eventsImage",
@@ -123,11 +136,13 @@ export const homePageType = defineType({
       type: "image",
       group: "events",
       options: { hotspot: true },
+      description: "Kampanya afiş görseli girilmemişse, onun yerine alttaki büyük teaser afiş alanında kullanılacak olan yedek afiş görselidir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Etkinlik afiş görselinin arama motoru (SEO) alt açıklamasıdır.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -137,6 +152,7 @@ export const homePageType = defineType({
       title: "Etkinlikler Buton Metni",
       type: "localizedString",
       group: "events",
+      description: "Kullanıcıyı etkinlikler listesi sayfasına yönlendiren ikinci butonun üzerindeki yazıdır. (Örn: ETKİNLİKLERİ GÖR)",
       initialValue: { tr: "Etkinlikleri Gör", en: "View Events" },
     }),
 
@@ -146,6 +162,7 @@ export const homePageType = defineType({
       title: "Mağazalar Bölüm Etiketi",
       type: "localizedString",
       group: "stores",
+      description: "Sol bloktaki mağazalar görselinin üzerinde, sol alt köşede yer alan küçük kategori etiketidir. (Örn: ALIŞVERİŞ, MAĞAZALAR)",
       initialValue: { tr: "ALIŞVERİŞ", en: "SHOP" },
     }),
     defineField({
@@ -153,6 +170,7 @@ export const homePageType = defineType({
       title: "Mağazalar Başlık",
       type: "localizedString",
       group: "stores",
+      description: "Sol blokta yer alan mağazalar görselinin üzerindeki ana başlık yazısıdır. (Örn: MARKALARIMIZ)",
       initialValue: { tr: "Mağazalarımız", en: "Our Stores" },
     }),
     defineField({
@@ -160,6 +178,7 @@ export const homePageType = defineType({
       title: "Mağazalar Alt Başlık",
       type: "localizedText",
       group: "stores",
+      description: "Mağazalar başlığının hemen altında yer alan ek detay veya açıklama yazısıdır.",
     }),
     defineField({
       name: "storesImage",
@@ -167,11 +186,13 @@ export const homePageType = defineType({
       type: "image",
       group: "stores",
       options: { hotspot: true },
+      description: "Mağazalar (Alışveriş) bloğunun arka planında gösterilecek olan görseldir. Dikey veya yüksek çözünürlüklü görseller önerilir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Mağazalar arka plan görselinin arama motoru (SEO) açıklamasıdır.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -181,6 +202,7 @@ export const homePageType = defineType({
       title: "Mağazalar Buton Metni",
       type: "localizedString",
       group: "stores",
+      description: "Mağazalar bloğundaki beyaz çerçeveli butonun üzerindeki yazıdır. (Örn: MARKALARI GEZ)",
       initialValue: { tr: "MARKALARI GEZ", en: "EXPLORE BRANDS" },
     }),
 
@@ -190,6 +212,7 @@ export const homePageType = defineType({
       title: "Yeme-İçme Bölüm Etiketi",
       type: "localizedString",
       group: "dining",
+      description: "Sağ bloktaki yeme-içme görselinin üzerinde, sol alt köşede yer alan küçük kategori etiketidir. (Örn: LEZZET, YEME-İÇME)",
       initialValue: { tr: "LEZZET", en: "DINE" },
     }),
     defineField({
@@ -197,6 +220,7 @@ export const homePageType = defineType({
       title: "Yeme-İçme Başlık",
       type: "localizedString",
       group: "dining",
+      description: "Sağ blokta yer alan yeme-içme görselinin üzerindeki ana başlık yazısıdır. (Örn: LEZZET NOKTALARI)",
       initialValue: { tr: "Lezzet Noktaları", en: "Dining & Cafes" },
     }),
     defineField({
@@ -204,6 +228,7 @@ export const homePageType = defineType({
       title: "Yeme-İçme Alt Başlık",
       type: "localizedText",
       group: "dining",
+      description: "Yeme-içme başlığının hemen altında yer alan ek detay veya açıklama yazısıdır.",
     }),
     defineField({
       name: "diningImage",
@@ -211,11 +236,13 @@ export const homePageType = defineType({
       type: "image",
       group: "dining",
       options: { hotspot: true },
+      description: "Yeme-içme bloğunun arka planında gösterilecek olan görseldir. Restoran, cafe veya lezzet sunumu içeren görseller önerilir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Yeme-içme arka plan görselinin arama motoru (SEO) açıklamasıdır.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -225,6 +252,7 @@ export const homePageType = defineType({
       title: "Yeme-İçme Buton Metni",
       type: "localizedString",
       group: "dining",
+      description: "Yeme-içme bloğundaki beyaz çerçeveli butonun üzerindeki yazıdır. (Örn: LEZZETLERİ KEŞFET)",
       initialValue: { tr: "LEZZETLERİ KEŞFET", en: "EXPLORE DINING" },
     }),
 
@@ -234,6 +262,7 @@ export const homePageType = defineType({
       title: "Sinema Bölüm Etiketi",
       type: "localizedString",
       group: "cinema",
+      description: "Sinema afiş/banner alanının sol alt köşesinde, başlığın üstünde küçük harflerle görünen kategori etiketidir. (Örn: SİNEMA / EĞLENCE)",
       initialValue: { tr: "SİNEMA / EĞLENCE", en: "ENTERTAIN" },
     }),
     defineField({
@@ -241,6 +270,7 @@ export const homePageType = defineType({
       title: "Sinema Başlık",
       type: "localizedString",
       group: "cinema",
+      description: "Sinema banner alanında yer alan büyük başlık yazısıdır. (Örn: AVLU34 SİNEMA DENEYİMİ)",
       initialValue: { tr: "AVLU34 Sinema", en: "AVLU34 Cinema" },
     }),
     defineField({
@@ -248,6 +278,7 @@ export const homePageType = defineType({
       title: "Sinema Alt Başlık",
       type: "localizedText",
       group: "cinema",
+      description: "Sinema başlığının hemen altında yer alan ek detay, vizyondaki filmler açıklaması veya slogan yazısıdır.",
     }),
     defineField({
       name: "cinemaImage",
@@ -255,11 +286,13 @@ export const homePageType = defineType({
       type: "image",
       group: "cinema",
       options: { hotspot: true },
+      description: "Sinema bölümünün arka planında tam genişlikte (banner) gösterilecek görseldir. Yatay, yüksek kaliteli ve sinematik karanlık görseller tercih edilmelidir.",
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alt Açıklama",
+          description: "Sinema arka plan görselinin arama motoru (SEO) açıklamasıdır.",
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -269,6 +302,7 @@ export const homePageType = defineType({
       title: "Sinema Buton Metni",
       type: "localizedString",
       group: "cinema",
+      description: "Sinema bölümündeki beyaz çerçeveli butonun üzerindeki yazıdır. (Örn: SALONLARI İNCELE)",
       initialValue: { tr: "SALONLARI İNCELE", en: "EXPLORE CINEMA" },
     }),
 
@@ -278,6 +312,7 @@ export const homePageType = defineType({
       title: "Kat Planı Başlık",
       type: "localizedString",
       group: "map",
+      description: "Kat Planı bölümünün başlık yazısıdır.",
       initialValue: { tr: "AVM Kat Planı", en: "Mall Directory" },
     }),
     defineField({
@@ -285,6 +320,7 @@ export const homePageType = defineType({
       title: "Kat Planı Alt Başlık",
       type: "localizedText",
       group: "map",
+      description: "Kat Planı başlığının hemen altında gösterilecek olan açıklama yazısıdır.",
     }),
 
     // Visit Section
@@ -293,6 +329,7 @@ export const homePageType = defineType({
       title: "Ziyaret Başlık",
       type: "localizedString",
       group: "visit",
+      description: "Ulaşım ve ziyaret bilgilerinin yer aldığı bölümün başlık yazısıdır.",
       initialValue: { tr: "Ziyaretinizi Planlayın", en: "Plan Your Visit" },
     }),
     defineField({
@@ -300,6 +337,7 @@ export const homePageType = defineType({
       title: "Ziyaret Alt Başlık",
       type: "localizedText",
       group: "visit",
+      description: "Ziyaret planı başlığının hemen altında gösterilecek olan açıklama yazısıdır.",
     }),
 
     // SEO
@@ -308,6 +346,7 @@ export const homePageType = defineType({
       title: "SEO Ayarları",
       type: "seo",
       group: "seo",
+      description: "Ana Sayfa için Google ve diğer arama motorlarında görünecek meta başlık (title), meta açıklama (description) ve anahtar kelime tanımlamalarıdır.",
     }),
   ],
 });

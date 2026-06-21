@@ -31,13 +31,13 @@ export function AboutSection({
     <section className="w-full bg-white grid grid-cols-1 md:grid-cols-2 border-b border-neutral-100 min-h-[450px] sm:min-h-[550px] md:min-h-[650px] lg:min-h-[750px]">
       
       {/* Left Column: Full-Bleed Monochrome Image (No margins/padding) */}
-      <div className="relative w-full h-[350px] md:h-auto overflow-hidden bg-neutral-50">
+      <div className="relative w-full h-[350px] md:h-auto overflow-hidden bg-neutral-50 group">
         {image && (
           <SanityImage
             image={image}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
             priority
             noBlur
           />
@@ -60,8 +60,11 @@ export function AboutSection({
           
           {/* Short description or Rich Text */}
           {text && text.length > 0 && (
-            <div className="text-neutral-500 font-sans font-light text-xs sm:text-sm leading-relaxed max-w-sm select-text mb-8 sm:mb-12">
-              <RichText value={text} />
+            <div className="w-full max-w-sm mb-8 sm:mb-12 select-text">
+              <RichText 
+                value={text} 
+                className="prose-sm text-center text-neutral-500 [&_p]:text-center [&_p]:!text-sm sm:[&_p]:!text-base [&_p]:!text-neutral-500 [&_p]:!font-light [&_p]:!leading-relaxed [&_p]:my-3 [&_p]:mx-auto"
+              />
             </div>
           )}
 
