@@ -46,14 +46,18 @@ export function portableTextToPlainText(value?: PortableTextBlock[], maxLength =
   return text.length > maxLength ? `${text.slice(0, maxLength - 3).trimEnd()}...` : text;
 }
 
+import { getValidLocale } from "@/lib/i18n/config";
+
 export interface LayoutData {
   settings: SiteSettings;
   navigation: Navigation;
 }
 
 export const getLayoutData = cache(
-  (locale = "tr"): Promise<LayoutData> =>
-    client.fetch<LayoutData>(layoutQuery, { locale }, { next: { tags: ["layout"] } })
+  (locale = "tr"): Promise<LayoutData> => {
+    const validLocale = getValidLocale(locale);
+    return client.fetch<LayoutData>(layoutQuery, { locale: validLocale }, { next: { tags: ["layout"] } });
+  }
 );
 
 export async function buildMetadata(params: BuildMetadataParams & { locale?: string } = {}): Promise<Metadata> {
