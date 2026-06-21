@@ -169,3 +169,15 @@ Her sayfa, `cachedFetch` ile `src/sanity/lib/queries.ts` dosyasındaki ilgili GR
 - **Canonical URL'ler**: `src/lib/seo.ts` altındaki `buildMetadata` canonical link üretirken varsayılan dil Türkçe ise `/tr` prefix'ini URL'den temizler (Örn: `https://avlu34.com/magazalar`).
 - **Hreflang (Alternates)**: İngilizce versiyonlarda sayfa meta etiketlerinde alternatif dil linki otomatik olarak basılır (Örn: `https://avlu34.com/en/stores`).
 - **Sitemap (`src/app/sitemap.ts`)**: Sanity API'den gelen verileri okuyarak her 24 saatte bir güncellenen dinamik XML sitemap üretir. Türkçe ve İngilizce rotaların tamamını (dinamik slug'lar dahil) doğru sitemap standartlarında birleştirir.
+
+---
+
+## 7. SSS (Soru & Cevap) Yapısı ve inline `faqItem` Kullanımı
+
+AVLU34 projesinde bağımsız bir SSS sayfası bulunmadığı için, Soru-Cevap verileri global bir doküman koleksiyonu yerine **ilgili sayfanın kendi doküman şeması içinde** inline bir dizi (array of objects) olarak tutulur.
+
+- **Şema Tipi**: `faqItem` (Nesne Tipi)
+- **Dosya**: `src/sanity/schemaTypes/objects/faqItem.ts`
+- **Gövde Alanları**: Dil duyarlı `question` (`localizedString`) ve `answer` (`localizedText`).
+- **Kullanım Yöntemi**: SSS listesi eklenmek istenen her singleton veya doküman şemasında `type: "array", of: [{ type: "faqItem" }]` alan tanımı kullanılır.
+- **Arayüz Entegrasyonu**: Bu inline veriler, doğrudan `<FAQ>` arayüz bileşenine (`src/components/ui/FAQ.tsx`) aktarılır. Bileşen, arama motorlarının tarayabilmesi için gerekli olan `FAQPage` yapılandırılmış JSON-LD verisini sayfaya otomatik olarak enjekte eder ve Framer Motion animasyonları ile cevapları DOM'da koruyarak açılır/kapanır şekilde listeler.
