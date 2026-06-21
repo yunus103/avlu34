@@ -68,10 +68,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
 
   // Localized static strings
   const strings = {
-    learnMore: locale === "en" ? "LEARN MORE" : "DETAYLI BİLGİ",
     openToday: locale === "en" ? "OPEN TODAY" : "BUGÜN AÇIK",
     planVisit: locale === "en" ? "PLAN YOUR VISIT" : "ZİYARETİNİZİ PLANLAYIN",
-    viewMap: locale === "en" ? "View Mall Map" : "Kat Planını Gör",
   };
 
   // Helper to localize CTA link
@@ -107,7 +105,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative w-full h-[80vh] md:h-[85vh] lg:h-[calc(100vh-130px)] bg-neutral-950 overflow-hidden select-none">
+    <section className="relative w-full h-[calc(100vh-80px)] md:h-[calc(100vh-128px)] bg-neutral-950 overflow-hidden select-none">
       {/* 1. Slides Container */}
       <div className="relative w-full h-full">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -162,44 +160,88 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                 )}
                 
                 {/* Black Overlay for readability */}
-                <div className="absolute inset-0 bg-black/45" />
+                <div className="absolute inset-0 bg-black/40" />
               </div>
             )}
 
             {/* Slide Content Overlay */}
-            <div className="absolute inset-0 z-10 flex flex-col justify-end">
-              <div className="container mx-auto px-6 md:px-12 pb-24 md:pb-28">
-                <div className="max-w-4xl text-white">
+            <div className="absolute inset-0 z-10 flex flex-col justify-end pb-20 md:pb-32">
+              <div className="w-full max-w-[1400px] mx-auto px-6 md:px-16 lg:px-20">
+                {/* Top Section: Tag and Large Title above the line */}
+                <div className="text-white">
                   {/* Localized optional Tag / Category label */}
                   {activeSlide?.tag && (
-                    <span className="font-semibold text-xs tracking-[0.25em] uppercase text-white/90 block mb-3 md:mb-4">
+                    <span className="font-semibold text-xs tracking-[0.25em] uppercase text-white/90 block mb-3 md:mb-4 select-none">
                       {activeSlide.tag}
                     </span>
                   )}
                   
                   {/* Slide Main Title */}
-                  <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-serif uppercase tracking-wide leading-tight mb-4 md:mb-6 select-text max-w-3xl">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold font-serif uppercase tracking-wide leading-tight mb-2 select-text max-w-full">
                     {activeSlide.title}
                   </h1>
+                </div>
+
+                {/* Horizontal dividing line - right under title */}
+                <div className="w-full h-[1px] bg-white/20 my-5" />
+
+                {/* Bottom Section: Split Columns (Description + Button on Left, Info Block on Right) */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start text-white">
                   
-                  {/* Slide Subtitle / Description */}
-                  {activeSlide?.subtitle && (
-                    <p className="text-sm sm:text-base md:text-lg text-white/80 font-normal leading-relaxed mb-6 md:mb-8 max-w-2xl select-text">
-                      {activeSlide.subtitle}
-                    </p>
-                  )}
-                  
-                  {/* Button / Call to Action */}
-                  {activeSlide?.ctaLabel && activeSlide?.ctaLink && (
-                    <div className="pt-1">
-                      <Link
-                        href={getLocalizedCtaLink(activeSlide.ctaLink)}
-                        className="inline-block border border-white/85 text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3.5 px-8 rounded-none"
-                      >
-                        {activeSlide.ctaLabel}
-                      </Link>
+                  {/* Left Column: Subtitle & CTA Button */}
+                  <div className="md:col-span-7 lg:col-span-8 flex flex-col gap-5 items-start">
+                    {activeSlide?.subtitle && (
+                      <p className="text-xs sm:text-sm md:text-base text-white/80 font-normal leading-relaxed max-w-2xl select-text">
+                        {activeSlide.subtitle}
+                      </p>
+                    )}
+                    {activeSlide?.ctaLabel && activeSlide?.ctaLink && (
+                      <div className="pt-1">
+                        <Link
+                          href={getLocalizedCtaLink(activeSlide.ctaLink)}
+                          className="inline-block border border-white/85 text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-[10px] md:text-xs font-semibold py-3.5 px-7 rounded-none"
+                        >
+                          {activeSlide.ctaLabel}
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Column: Working Hours & Plan Visit Quick Links */}
+                  <div className="md:col-span-5 lg:col-span-4 flex flex-col sm:flex-row gap-6 md:gap-8 sm:items-center md:justify-end text-xs md:text-sm pt-2 md:pt-0">
+                    {/* Working Hours Block */}
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
+                      <div>
+                        <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
+                          {strings.openToday}
+                        </span>
+                        <span className="font-normal text-white whitespace-nowrap">
+                          {settings?.workingHours || (locale === "en" ? "10:00 AM - 10:00 PM" : "10:00 - 22:00")}
+                        </span>
+                      </div>
                     </div>
-                  )}
+
+                    {/* Separator for tablet/desktop */}
+                    <div className="hidden sm:block md:hidden lg:block w-[1px] h-6 bg-white/10" />
+
+                    {/* Plan Visit Link Block */}
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
+                      <div>
+                        <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
+                          {strings.planVisit}
+                        </span>
+                        <Link
+                          href={getPublicPath("ziyaret-plani", locale)}
+                          className="font-normal text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap"
+                        >
+                          {locale === "en" ? "View Details" : "Detaylı Bilgi"}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -207,84 +249,39 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
         </AnimatePresence>
       </div>
 
-      {/* 2. Left / Right Navigation Arrows */}
+      {/* 2. Left / Right Navigation Arrows - Vertically aligned with the Title line */}
       <button
         onClick={() => paginate(-1)}
-        className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none"
+        className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[250px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
         aria-label="Önceki Slayt"
       >
         <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
       </button>
       <button
         onClick={() => paginate(1)}
-        className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none"
+        className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[250px] z-20 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block"
         aria-label="Sonraki Slayt"
       >
         <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" />
       </button>
 
-      {/* 3. Bottom Information & Dots Panel */}
-      <div className="absolute bottom-0 inset-x-0 z-20 w-full bg-gradient-to-t from-black/80 to-transparent pt-8 pb-4 md:pb-6 text-white">
-        <div className="container mx-auto px-6 md:px-12">
-          {/* Horizontal dividing line */}
-          <div className="w-full h-[1px] bg-white/20 mb-4" />
-
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            {/* Left side: Pagination Dots */}
-            <div className="flex items-center gap-2.5">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    const newDirection = index > activeIndex ? 1 : -1;
-                    setDirection(newDirection);
-                    setActiveIndex(index);
-                    resetAutoplay();
-                  }}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none ${
-                    index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
-                  }`}
-                  aria-label={`Slayt ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            {/* Right side: Dynamic Working Hours & Plan Visit Quick Links */}
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs md:text-sm">
-              {/* Working Hours Block */}
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-white/75 stroke-[1.5]" />
-                <div>
-                  <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
-                    {strings.openToday}
-                  </span>
-                  <span className="font-normal text-white">
-                    {settings?.workingHours || (locale === "en" ? "10:00 AM - 10:00 PM" : "10:00 - 22:00")}
-                  </span>
-                </div>
-              </div>
-
-              {/* Separator for desktop */}
-              <div className="hidden sm:block w-[1px] h-6 bg-white/10" />
-
-              {/* Plan Visit & Map Link Block */}
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-white/75 stroke-[1.5]" />
-                <div>
-                  <span className="font-semibold block uppercase tracking-wider text-[10px] text-white/60">
-                    {strings.planVisit}
-                  </span>
-                  <Link
-                    href={getPublicPath("kat-plani", locale)}
-                    className="font-normal text-white hover:text-neutral-300 underline transition-colors"
-                  >
-                    {strings.viewMap}
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* 3. Dots Panel at the bottom center */}
+      <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2.5">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              const newDirection = index > activeIndex ? 1 : -1;
+              setDirection(newDirection);
+              setActiveIndex(index);
+              resetAutoplay();
+            }}
+            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none ${
+              index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
+            }`}
+            aria-label={`Slayt ${index + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
