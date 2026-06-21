@@ -67,8 +67,28 @@ export function getInternalPath(pathname: string): string {
  * Useful for Lang Switcher and Link components.
  */
 export function getPublicPath(internalPath: string, targetLocale: Locale): string {
-  const segments = internalPath.split("/").filter(Boolean);
-  if (segments.length === 0) return "/";
+  // 1. Return immediately for external URLs, relative hashes, tel/mailto, etc.
+  if (
+    internalPath.startsWith("http://") ||
+    internalPath.startsWith("https://") ||
+    internalPath.startsWith("mailto:") ||
+    internalPath.startsWith("tel:") ||
+    internalPath.startsWith("#") ||
+    internalPath.startsWith("javascript:")
+  ) {
+    return internalPath;
+  }
+
+  // 2. Normalize and check home page path
+  const normalized = internalPath.replace(/\/+/g, "/").trim();
+  if (normalized === "" || normalized === "/" || normalized === "/tr" || normalized === "/en") {
+    return targetLocale === "en" ? "/en" : "/";
+  }
+
+  const segments = normalized.split("/").filter(Boolean);
+  if (segments.length === 0) {
+    return targetLocale === "en" ? "/en" : "/";
+  }
 
   let remainingSegments = segments;
 
@@ -76,8 +96,17 @@ export function getPublicPath(internalPath: string, targetLocale: Locale): strin
     remainingSegments = segments.slice(1);
   }
 
-  // Translate internal Turkish segments to target language
-  const translated = remainingSegments.map((segment) => {
+  if (remainingSegments.length === 0) {
+    return targetLocale === "en" ? "/en" : "/";
+  }
+
+  // 3. Convert any incoming English segments to Turkish first (to standardize)
+  const standardizedSegments = remainingSegments.map((segment) => {
+    return englishToTurkishRouteMap[segment] || segment;
+  });
+
+  // 4. Translate internal Turkish segments to target language
+  const translated = standardizedSegments.map((segment) => {
     if (targetLocale === "en") {
       return turkishToEnglishRouteMap[segment] || segment;
     }
