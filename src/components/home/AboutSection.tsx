@@ -24,60 +24,60 @@ export function AboutSection({
   locale,
 }: AboutSectionProps) {
   const displayTag = tag || (locale === "en" ? "ABOUT US" : "HAKKIMIZDA");
-  const displayTitle = title || (locale === "en" ? "THE MEETING POINT OF ARNAVUTKOY" : "ARNAVUTKÖY'ÜN BULUŞMA NOKTASI");
-  const displayCtaLabel = ctaLabel || (locale === "en" ? "EXPLORE MORE" : "AVLU34'Ü KEŞFET");
+  const displayTitle = title || (locale === "en" ? "REDEFINING LUXURY" : "LÜKSÜN YENİ TANIMI");
+  const displayCtaLabel = ctaLabel || (locale === "en" ? "EXPLORE MORE" : "DAHA FAZLA KEŞFET");
 
   return (
-    <section className="py-20 md:py-28 bg-white overflow-hidden border-b border-neutral-100">
-      <div className="w-full max-w-[1600px] mx-auto px-6 md:px-16 lg:px-20 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24 items-center">
-        
-        {/* Left Column: Premium Monochrome Image (Redefining Luxury style) */}
+    <section className="w-full bg-white grid grid-cols-1 md:grid-cols-2 border-b border-neutral-100 min-h-[450px] sm:min-h-[550px] md:min-h-[650px] lg:min-h-[750px]">
+      
+      {/* Left Column: Full-Bleed Monochrome Image (No margins/padding) */}
+      <div className="relative w-full h-[350px] md:h-auto overflow-hidden bg-neutral-50">
         {image && (
-          <div className="md:col-span-6 relative w-full aspect-[4/5] sm:aspect-[3/2] md:aspect-[3/4] overflow-hidden bg-neutral-50 shadow-sm border border-neutral-100">
-            <SanityImage
-              image={image}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
-              priority
-              noBlur
-            />
-          </div>
+          <SanityImage
+            image={image}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out"
+            priority
+            noBlur
+          />
         )}
+      </div>
 
-        {/* Right Column: Clean Monochromatic Content (Redefining Luxury style) */}
-        <div className={`md:col-span-6 flex flex-col justify-center items-start text-left space-y-6 ${!image ? "col-span-full max-w-4xl mx-auto" : ""}`}>
-          <div>
-            {/* Tag / Badge */}
-            <span className="font-bold text-xs tracking-[0.25em] uppercase text-neutral-500 block mb-3">
-              {displayTag}
-            </span>
-            
-            {/* Main Title (Playfair Display, Medium) */}
-            <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-medium font-serif uppercase tracking-wide leading-tight text-neutral-900 select-text">
-              {displayTitle}
-            </h2>
-          </div>
-
-          {/* Description Text */}
+      {/* Right Column: Centered Content Block */}
+      <div className="flex flex-col justify-center items-center text-center py-16 px-6 sm:px-12 md:px-16 lg:px-24 bg-white">
+        <div className="w-full max-w-md flex flex-col items-center">
+          
+          {/* Subtitle / Tag (e.g. FASHION AVENUE style) */}
+          <span className="font-sans font-semibold text-[10px] sm:text-xs tracking-[0.3em] uppercase text-neutral-500 block mb-6 sm:mb-8 select-none">
+            {displayTag}
+          </span>
+          
+          {/* Main Title (Playfair Display, Medium Serif) */}
+          <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-normal font-serif uppercase tracking-wider leading-tight text-neutral-900 mb-6 select-text">
+            {displayTitle}
+          </h2>
+          
+          {/* Short description or Rich Text */}
           {text && text.length > 0 && (
-            <div className="text-neutral-600 font-sans font-light text-sm sm:text-base leading-relaxed select-text pr-0 lg:pr-8">
+            <div className="text-neutral-500 font-sans font-light text-xs sm:text-sm leading-relaxed max-w-sm select-text mb-8 sm:mb-12">
               <RichText value={text} />
             </div>
           )}
 
-          {/* CTA Button */}
-          <div className="pt-2">
+          {/* Wide Outline Button */}
+          <div className="w-full">
             <Link
               href={getPublicPath("hakkimizda", locale)}
-              className="inline-block border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3.5 px-8 rounded-none cursor-pointer"
+              className="inline-block w-full border border-neutral-950 text-neutral-950 hover:bg-neutral-950 hover:text-white transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3.5 rounded-none cursor-pointer text-center"
             >
               {displayCtaLabel}
             </Link>
           </div>
-        </div>
 
+        </div>
       </div>
+
     </section>
   );
 }
