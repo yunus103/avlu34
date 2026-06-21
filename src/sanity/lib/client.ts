@@ -7,7 +7,7 @@ const config = {
   apiVersion: "2024-01-01",
 };
 
-export const client = createClient({ ...config, useCdn: true });
+export const client = createClient({ ...config, useCdn: false });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cachedFetch = cache(
