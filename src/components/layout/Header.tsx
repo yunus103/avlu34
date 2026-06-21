@@ -138,7 +138,7 @@ export function Header({
 
           {/* Orta: Logo (Esnek, kesilmeyen düzen) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center h-full">
-            <Link href={getPublicPath("/", locale)} className="flex items-center group h-full py-2">
+            <Link href={getPublicPath("/", locale)} className="flex items-center group h-full py-1">
               {settings?.logo ? (
                 <SanityImage
                   image={settings.logo}
