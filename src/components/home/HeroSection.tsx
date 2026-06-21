@@ -182,8 +182,8 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                   </h1>
                 </div>
 
-                {/* Horizontal dividing line - right under title (slightly more distinct) */}
-                <div className="w-full h-[1px] bg-white/25 my-5" />
+                {/* Horizontal dividing line - right under title (highly distinct) */}
+                <div className="w-full h-[1.5px] bg-white/45 my-5" />
 
                 {/* Bottom Section: Split Columns (Description + Button on Left, Info Block on Right) */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start text-white">
@@ -207,34 +207,34 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
                     )}
                   </div>
 
-                  {/* Right Column: Working Hours & Plan Visit Quick Links (Responsive layout: side-by-side on mobile) */}
-                  <div className="md:col-span-5 lg:col-span-4 flex flex-row items-center justify-between md:justify-end gap-6 md:gap-8 text-[11px] sm:text-xs md:text-sm pt-2 md:pt-0 w-full">
+                  {/* Right Column: Working Hours & Plan Visit Quick Links (Responsive layout: side-by-side on mobile, larger icons/text) */}
+                  <div className="md:col-span-5 lg:col-span-4 flex flex-row items-center justify-between md:justify-end gap-4 sm:gap-6 md:gap-8 pt-3 md:pt-0 w-full">
                     {/* Working Hours Block */}
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
+                    <div className="flex items-center gap-3">
+                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-white/60 leading-none mb-1">
+                        <span className="font-semibold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/60 leading-none mb-1">
                           {strings.openToday}
                         </span>
-                        <span className="font-normal text-white whitespace-nowrap">
+                        <span className="font-medium text-white text-xs sm:text-sm md:text-base whitespace-nowrap">
                           {settings?.workingHours || (locale === "en" ? "10:00 AM - 10:00 PM" : "10:00 - 22:00")}
                         </span>
                       </div>
                     </div>
 
                     {/* Separator for tablet/desktop */}
-                    <div className="hidden md:block lg:block w-[1px] h-6 bg-white/10" />
+                    <div className="hidden md:block lg:block w-[1px] h-8 bg-white/10" />
 
                     {/* Plan Visit Link Block */}
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-white/75 stroke-[1.5] flex-shrink-0" />
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white/90 stroke-[1.5] flex-shrink-0" />
                       <div>
-                        <span className="font-semibold block uppercase tracking-wider text-[9px] text-white/60 leading-none mb-1">
+                        <span className="font-semibold block uppercase tracking-wider text-[9px] sm:text-[10px] md:text-xs text-white/60 leading-none mb-1">
                           {strings.planVisit}
                         </span>
                         <Link
                           href={getPublicPath("ziyaret-plani", locale)}
-                          className="font-normal text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap"
+                          className="font-medium text-white hover:text-neutral-300 underline transition-colors whitespace-nowrap text-xs sm:text-sm md:text-base"
                         >
                           {locale === "en" ? "View Details" : "Detaylı Bilgi"}
                         </Link>
