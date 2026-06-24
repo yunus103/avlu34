@@ -9,6 +9,7 @@ import { AboutSection } from "@/components/home/AboutSection";
 import { ShopDineSection } from "@/components/home/ShopDineSection";
 import { CinemaSection } from "@/components/home/CinemaSection";
 import { CampaignsEventsSection } from "@/components/home/CampaignsEventsSection";
+import { VisitSection } from "@/components/home/VisitSection";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -92,6 +93,17 @@ export default async function HomePage({ params }: Props) {
         eventsSubtitle={data?.eventsSubtitle}
         eventsImage={data?.eventsImage}
         eventsCtaLabel={data?.eventsCtaLabel}
+        locale={locale as Locale}
+      />
+
+      {/* 6. Ziyaret Planı (Visit Plan) Section */}
+      <VisitSection
+        visitTitle={data?.visitTitle}
+        visitSubtitle={data?.visitSubtitle}
+        visitImage={data?.visitImage}
+        visitCtaLabel={data?.visitCtaLabel}
+        workingHours={layoutData?.settings?.workingHours}
+        address={layoutData?.settings?.contactInfo?.address}
         locale={locale as Locale}
       />
     </div>

@@ -52,7 +52,7 @@ export const homePageType = defineType({
       type: "image",
       group: "about",
       options: { hotspot: true },
-      description: "Bölümün sol tarafında, ekranı tam kaplayan (full-bleed) biçimde gösterilecek ana tanıtım görselidir. Yüksek kaliteli yatay/kare görseller önerilir.",
+      description: "Bölümün sol tarafında, ekranı tam kaplayan (full-bleed) biçimde gösterilecek ana tanıtım görselidir. [İdeal Oran: 4:5 veya 3:4 Dikey Portre - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
       fields: [
         {
           name: "alt",
@@ -94,7 +94,7 @@ export const homePageType = defineType({
       type: "image",
       group: "campaigns",
       options: { hotspot: true },
-      description: "Bölümün en altında yer alan tam genişlikteki (teaser/Whats New) afiş görselidir. Yatay panoramik formatta (sinematik 21:9 veya 16:7) olması önerilir.",
+      description: "Bölümün en altında yer alan tam genişlikteki (teaser/Whats New) afiş görselidir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran / Sinematik - Önerilen Boyut: 1920x840px veya 1920x640px]",
       fields: [
         {
           name: "alt",
@@ -136,7 +136,7 @@ export const homePageType = defineType({
       type: "image",
       group: "events",
       options: { hotspot: true },
-      description: "Kampanya afiş görseli girilmemişse, onun yerine alttaki büyük teaser afiş alanında kullanılacak olan yedek afiş görselidir.",
+      description: "Kampanya afiş görseli girilmemişse, onun yerine alttaki büyük teaser afiş alanında kullanılacak olan yedek afiş görselidir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran - Önerilen Boyut: 1920x840px]",
       fields: [
         {
           name: "alt",
@@ -186,7 +186,7 @@ export const homePageType = defineType({
       type: "image",
       group: "stores",
       options: { hotspot: true },
-      description: "Mağazalar (Alışveriş) bloğunun arka planında gösterilecek olan görseldir. Dikey veya yüksek çözünürlüklü görseller önerilir.",
+      description: "Mağazalar (Alışveriş) bloğunun arka planında gösterilecek olan görseldir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
       fields: [
         {
           name: "alt",
@@ -236,7 +236,7 @@ export const homePageType = defineType({
       type: "image",
       group: "dining",
       options: { hotspot: true },
-      description: "Yeme-içme bloğunun arka planında gösterilecek olan görseldir. Restoran, cafe veya lezzet sunumu içeren görseller önerilir.",
+      description: "Yeme-içme bloğunun arka planında gösterilecek olan görseldir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
       fields: [
         {
           name: "alt",
@@ -286,7 +286,7 @@ export const homePageType = defineType({
       type: "image",
       group: "cinema",
       options: { hotspot: true },
-      description: "Sinema bölümünün arka planında tam genişlikte (banner) gösterilecek görseldir. Yatay, yüksek kaliteli ve sinematik karanlık görseller tercih edilmelidir.",
+      description: "Sinema bölümünün arka planında tam genişlikte (banner) gösterilecek görseldir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran - Önerilen Boyut: 1920x800px veya 1920x600px]",
       fields: [
         {
           name: "alt",
@@ -329,7 +329,7 @@ export const homePageType = defineType({
       title: "Ziyaret Başlık",
       type: "localizedString",
       group: "visit",
-      description: "Ulaşım ve ziyaret bilgilerinin yer aldığı bölümün başlık yazısıdır.",
+      description: "Ulaşım ve ziyaret bilgilerinin yer aldığı bölümün başlık yazısıdır. (Örn: ULAŞIM & ÇALIŞMA SAATLERİ)",
       initialValue: { tr: "Ziyaretinizi Planlayın", en: "Plan Your Visit" },
     }),
     defineField({
@@ -337,7 +337,32 @@ export const homePageType = defineType({
       title: "Ziyaret Alt Başlık",
       type: "localizedText",
       group: "visit",
-      description: "Ziyaret planı başlığının hemen altında gösterilecek olan açıklama yazısıdır.",
+      description: "Ziyaret planı başlığının hemen altında gösterilecek olan ek açıklama veya karşılama yazısıdır.",
+    }),
+    defineField({
+      name: "visitImage",
+      title: "Ziyaret Bölümü Görseli",
+      type: "image",
+      group: "visit",
+      options: { hotspot: true },
+      description: "Ziyaret planı bölümünün sol tarafında tam kaplama (full-bleed) gösterilecek görseldir. AVM dış cephe veya prestijli iç mekan fotoğrafı olması önerilir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          description: "Görselin SEO alt açıklamasıdır. (Örn: AVLU34 AVM Dış Cephe)",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
+      name: "visitCtaLabel",
+      title: "Ziyaret Buton Metni",
+      type: "localizedString",
+      group: "visit",
+      description: "Kullanıcıyı detaylı Ziyaret Planı sayfasına yönlendiren butonun üzerindeki yazıdır. (Örn: ULAŞIM VE BİLGİLER)",
+      initialValue: { tr: "ULAŞIM VE BİLGİLER", en: "EXPLORE ACCESS" },
     }),
 
     // SEO

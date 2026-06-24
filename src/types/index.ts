@@ -283,6 +283,8 @@ export interface HomePage {
   
   visitTitle?: string;
   visitSubtitle?: string;
+  visitImage?: SanityImage;
+  visitCtaLabel?: string;
   seo?: SeoSettings;
 }
 
