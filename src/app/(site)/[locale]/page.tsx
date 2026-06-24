@@ -58,7 +58,17 @@ export default async function HomePage({ params }: Props) {
         locale={locale as Locale}
       />
 
-      {/* 3. Mağazalar & Yeme-İçme (Shop & Dine) Section */}
+      {/* 3. Sinema (Cinema) Section */}
+      <CinemaSection
+        cinemaTag={data?.cinemaTag}
+        cinemaTitle={data?.cinemaTitle}
+        cinemaSubtitle={data?.cinemaSubtitle}
+        cinemaImage={data?.cinemaImage}
+        cinemaCtaLabel={data?.cinemaCtaLabel}
+        locale={locale as Locale}
+      />
+
+      {/* 4. Mağazalar & Yeme-İçme (Shop & Dine) Section */}
       <ShopDineSection
         storesTag={data?.storesTag}
         storesTitle={data?.storesTitle}
@@ -71,15 +81,6 @@ export default async function HomePage({ params }: Props) {
         locale={locale as Locale}
       />
 
-      {/* 4. Sinema (Cinema) Section */}
-      <CinemaSection
-        cinemaTag={data?.cinemaTag}
-        cinemaTitle={data?.cinemaTitle}
-        cinemaSubtitle={data?.cinemaSubtitle}
-        cinemaImage={data?.cinemaImage}
-        cinemaCtaLabel={data?.cinemaCtaLabel}
-        locale={locale as Locale}
-      />
 
       {/* 5. Kampanyalar & Etkinlikler (Campaigns & Events) Section */}
       <CampaignsEventsSection
