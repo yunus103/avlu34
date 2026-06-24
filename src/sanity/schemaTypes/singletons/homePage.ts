@@ -52,7 +52,7 @@ export const homePageType = defineType({
       type: "image",
       group: "about",
       options: { hotspot: true },
-      description: "Bölümün sol tarafında, ekranı tam kaplayan (full-bleed) biçimde gösterilecek ana tanıtım görselidir. [İdeal Oran: 4:5 veya 3:4 Dikey Portre - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
+      description: "Bölümün sol tarafında tam ekran yüksekliğinde gösterilecek ana tanıtım görselidir. [İdeal Oran: 4:3 veya 16:10 (Yatay / Geniş Açı) - Önerilen Boyut: En az 1600x1000px veya 1200x900px]. Dikey (portre) görseller üst ve alttan yoğun şekilde kırpılacaktır.",
       fields: [
         {
           name: "alt",
@@ -94,7 +94,7 @@ export const homePageType = defineType({
       type: "image",
       group: "campaigns",
       options: { hotspot: true },
-      description: "Bölümün en altında yer alan tam genişlikteki (teaser/Whats New) afiş görselidir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran / Sinematik - Önerilen Boyut: 1920x840px veya 1920x640px]",
+      description: "(Opsiyonel) Bölümün en altında yer alan geniş tanıtım afişidir. Boş bırakılırsa bu görsel alanı ana sayfada gizlenir. [İdeal Oran: 21:9 veya 16:7 (Çok Geniş Sinematik) - Önerilen Boyut: 1920x820px veya 1600x680px]. Görselin merkez odağının ortalanmış olmasına dikkat ediniz.",
       fields: [
         {
           name: "alt",
@@ -136,7 +136,7 @@ export const homePageType = defineType({
       type: "image",
       group: "events",
       options: { hotspot: true },
-      description: "Kampanya afiş görseli girilmemişse, onun yerine alttaki büyük teaser afiş alanında kullanılacak olan yedek afiş görselidir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran - Önerilen Boyut: 1920x840px]",
+      description: "(Opsiyonel) Kampanya afiş görseli girilmemişse, onun yerine alttaki büyük teaser afiş alanında kullanılacak olan yedek afiş görselidir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran - Önerilen Boyut: 1920x840px veya 1600x680px].",
       fields: [
         {
           name: "alt",
@@ -186,7 +186,7 @@ export const homePageType = defineType({
       type: "image",
       group: "stores",
       options: { hotspot: true },
-      description: "Mağazalar (Alışveriş) bloğunun arka planında gösterilecek olan görseldir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
+      description: "Masaüstünde ekranın sol yarısını kaplayan arka plan görselidir. [İdeal Oran: 16:10 veya 4:3 (Yatay / Geniş Açı) - Önerilen Boyut: En az 1600x1000px veya 1200x800px]. Dikey görseller kadraj kaybına yol açacaktır.",
       fields: [
         {
           name: "alt",
@@ -236,7 +236,7 @@ export const homePageType = defineType({
       type: "image",
       group: "dining",
       options: { hotspot: true },
-      description: "Yeme-içme bloğunun arka planında gösterilecek olan görseldir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
+      description: "Masaüstünde ekranın sağ yarısını kaplayan arka plan görselidir. [İdeal Oran: 16:10 veya 4:3 (Yatay / Geniş Açı) - Önerilen Boyut: En az 1600x1000px veya 1200x800px]. Dikey görseller kadraj kaybına yol açacaktır.",
       fields: [
         {
           name: "alt",
@@ -286,7 +286,7 @@ export const homePageType = defineType({
       type: "image",
       group: "cinema",
       options: { hotspot: true },
-      description: "Sinema bölümünün arka planında tam genişlikte (banner) gösterilecek görseldir. [İdeal Oran: 21:9 veya 16:7 Geniş Ekran - Önerilen Boyut: 1920x800px veya 1920x600px]",
+      description: "Sinema bölümünün arka planında tam genişlikte (banner) gösterilecek görseldir. [İdeal Oran: 21:9 veya 16:6 (Panoramik Yatay) - Önerilen Boyut: 1920x600px veya 1920x800px]. Karanlık ve yüksek kontrastlı görseller tercih edilmelidir.",
       fields: [
         {
           name: "alt",
@@ -345,7 +345,7 @@ export const homePageType = defineType({
       type: "image",
       group: "visit",
       options: { hotspot: true },
-      description: "Ziyaret planı bölümünün sol tarafında tam kaplama (full-bleed) gösterilecek görseldir. AVM dış cephe veya prestijli iç mekan fotoğrafı olması önerilir. [İdeal Oran: 4:5 veya 3:4 Dikey - Önerilen Boyut: 1000x1200px veya 1200x1500px]",
+      description: "Ziyaret planı bölümünün sol tarafında tam ekran yüksekliğinde gösterilecek dış cephe veya prestij görselidir. [İdeal Oran: 4:3 veya 16:10 (Yatay / Geniş Açı) - Önerilen Boyut: En az 1600x1000px veya 1200x900px]. AVM dışından çekilmiş fotoğraflar için idealdir.",
       fields: [
         {
           name: "alt",
