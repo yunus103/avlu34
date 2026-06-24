@@ -6,6 +6,7 @@ import { Locale } from "@/lib/i18n/config";
 import { Clock, MapPin } from "lucide-react";
 
 interface VisitSectionProps {
+  visitTag?: string;
   visitTitle?: string;
   visitSubtitle?: string;
   visitImage?: SanityImageType;
@@ -16,6 +17,7 @@ interface VisitSectionProps {
 }
 
 export function VisitSection({
+  visitTag,
   visitTitle,
   visitSubtitle,
   visitImage,
@@ -25,7 +27,7 @@ export function VisitSection({
   locale,
 }: VisitSectionProps) {
   // Localization fallbacks
-  const displayTag = locale === "en" ? "PLAN YOUR VISIT" : "ZİYARETİNİZİ PLANLAYIN";
+  const displayTag = visitTag || (locale === "en" ? "PLAN YOUR VISIT" : "ZİYARETİNİZİ PLANLAYIN");
   const displayTitle = visitTitle || (locale === "en" ? "PLAN YOUR VISIT" : "ZİYARETİNİZİ PLANLAYIN");
   const displaySubtitle = visitSubtitle || 
     (locale === "en" ? "AVLU34 is located in the heart of Arnavutkoy, providing convenient access and services." : "Arnavutköy'ün merkezinde yer alan AVLU34 AVM, konforlu ulaşım yolları ve otopark hizmetleriyle sizleri bekliyor.");

@@ -245,7 +245,6 @@ export interface KvkkPage extends BasePage {
 export interface HomePage {
   aboutTag?: string;
   aboutTitle?: string;
-  aboutSubtitle?: string;
   aboutText?: any[];
   aboutImage?: SanityImage;
   aboutCtaLabel?: string;
@@ -262,13 +261,11 @@ export interface HomePage {
   
   storesTag?: string;
   storesTitle?: string;
-  storesSubtitle?: string;
   storesImage?: SanityImage;
   storesCtaLabel?: string;
   
   diningTag?: string;
   diningTitle?: string;
-  diningSubtitle?: string;
   diningImage?: SanityImage;
   diningCtaLabel?: string;
   
@@ -281,6 +278,7 @@ export interface HomePage {
   mapTitle?: string;
   mapSubtitle?: string;
   
+  visitTag?: string;
   visitTitle?: string;
   visitSubtitle?: string;
   visitImage?: SanityImage;

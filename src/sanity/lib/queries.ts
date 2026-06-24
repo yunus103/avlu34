@@ -44,7 +44,6 @@ export const layoutQuery = groq`{
 export const homePageQuery = groq`*[_type == "homePage"][0] {
   "aboutTag": coalesce(aboutTag[$locale], aboutTag.tr),
   "aboutTitle": coalesce(aboutTitle[$locale], aboutTitle.tr),
-  "aboutSubtitle": coalesce(aboutSubtitle[$locale], aboutSubtitle.tr),
   "aboutText": coalesce(aboutText[$locale], aboutText.tr),
   aboutImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "aboutCtaLabel": coalesce(aboutCtaLabel[$locale], aboutCtaLabel.tr),
@@ -61,13 +60,11 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
 
   "storesTag": coalesce(storesTag[$locale], storesTag.tr),
   "storesTitle": coalesce(storesTitle[$locale], storesTitle.tr),
-  "storesSubtitle": coalesce(storesSubtitle[$locale], storesSubtitle.tr),
   storesImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "storesCtaLabel": coalesce(storesCtaLabel[$locale], storesCtaLabel.tr),
 
   "diningTag": coalesce(diningTag[$locale], diningTag.tr),
   "diningTitle": coalesce(diningTitle[$locale], diningTitle.tr),
-  "diningSubtitle": coalesce(diningSubtitle[$locale], diningSubtitle.tr),
   diningImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "diningCtaLabel": coalesce(diningCtaLabel[$locale], diningCtaLabel.tr),
 
@@ -80,6 +77,7 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   "mapTitle": coalesce(mapTitle[$locale], mapTitle.tr),
   "mapSubtitle": coalesce(mapSubtitle[$locale], mapSubtitle.tr),
 
+  "visitTag": coalesce(visitTag[$locale], visitTag.tr),
   "visitTitle": coalesce(visitTitle[$locale], visitTitle.tr),
   "visitSubtitle": coalesce(visitSubtitle[$locale], visitSubtitle.tr),
   visitImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },

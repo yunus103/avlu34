@@ -8,7 +8,6 @@ import { getPublicPath } from "@/lib/i18n/routes";
 interface AboutSectionProps {
   tag?: string;
   title?: string;
-  subtitle?: string;
   text?: any[];
   image?: SanityImageType;
   ctaLabel?: string;

@@ -52,7 +52,6 @@ export default async function HomePage({ params }: Props) {
       <AboutSection
         tag={data?.aboutTag}
         title={data?.aboutTitle}
-        subtitle={data?.aboutSubtitle}
         text={data?.aboutText}
         image={data?.aboutImage || data?.campaignsImage} // Fallback to campaignsImage if aboutImage is not set
         ctaLabel={data?.aboutCtaLabel}
@@ -98,6 +97,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* 6. Ziyaret Planı (Visit Plan) Section */}
       <VisitSection
+        visitTag={data?.visitTag}
         visitTitle={data?.visitTitle}
         visitSubtitle={data?.visitSubtitle}
         visitImage={data?.visitImage}

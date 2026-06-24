@@ -19,10 +19,11 @@ export const homePageType = defineType({
     // About Section
     defineField({
       name: "aboutTag",
-      title: "Hakkımızda Bölüm Etiketi (Opsiyonel)",
+      title: "Hakkımızda Bölüm Etiketi",
       type: "localizedString",
       group: "about",
       description: "Hakkımızda başlığının hemen üstünde küçük harflerle ve aralıklı görünen kategori veya etiket yazısıdır. (Örn: HAKKIMIZDA, AVLU34 AVM)",
+      initialValue: { tr: "HAKKIMIZDA", en: "ABOUT US" },
     }),
     defineField({
       name: "aboutTitle",
@@ -31,13 +32,6 @@ export const homePageType = defineType({
       group: "about",
       description: "Hakkımızda bölümünün ana başlığıdır. Büyük, şık ve zarif bir serif yazı tipiyle gösterilir. (Örn: AVLU34'E HOŞ GELDİNİZ)",
       initialValue: { tr: "AVLU34'e Hoş Geldiniz", en: "Welcome to AVLU34" },
-    }),
-    defineField({
-      name: "aboutSubtitle",
-      title: "Hakkımızda Alt Başlık",
-      type: "localizedText",
-      group: "about",
-      description: "Ana başlığın hemen altında yer alan, kısa açıklama veya slogan niteliğindeki alt başlıktır.",
     }),
     defineField({
       name: "aboutText",
@@ -174,13 +168,6 @@ export const homePageType = defineType({
       initialValue: { tr: "Mağazalarımız", en: "Our Stores" },
     }),
     defineField({
-      name: "storesSubtitle",
-      title: "Mağazalar Alt Başlık",
-      type: "localizedText",
-      group: "stores",
-      description: "Mağazalar başlığının hemen altında yer alan ek detay veya açıklama yazısıdır.",
-    }),
-    defineField({
       name: "storesImage",
       title: "Mağazalar Bölüm Görseli",
       type: "image",
@@ -222,13 +209,6 @@ export const homePageType = defineType({
       group: "dining",
       description: "Sağ blokta yer alan yeme-içme görselinin üzerindeki ana başlık yazısıdır. (Örn: LEZZET NOKTALARI)",
       initialValue: { tr: "Lezzet Noktaları", en: "Dining & Cafes" },
-    }),
-    defineField({
-      name: "diningSubtitle",
-      title: "Yeme-İçme Alt Başlık",
-      type: "localizedText",
-      group: "dining",
-      description: "Yeme-içme başlığının hemen altında yer alan ek detay veya açıklama yazısıdır.",
     }),
     defineField({
       name: "diningImage",
@@ -324,6 +304,14 @@ export const homePageType = defineType({
     }),
 
     // Visit Section
+    defineField({
+      name: "visitTag",
+      title: "Ziyaret Bölüm Etiketi (Eyebrow)",
+      type: "localizedString",
+      group: "visit",
+      description: "Ziyaret başlığının hemen üstünde küçük harflerle ve aralıklı görünen kategori veya etiket yazısıdır. (Örn: ZİYARETİNİZİ PLANLAYIN)",
+      initialValue: { tr: "ZİYARETİNİZİ PLANLAYIN", en: "PLAN YOUR VISIT" },
+    }),
     defineField({
       name: "visitTitle",
       title: "Ziyaret Başlık",
