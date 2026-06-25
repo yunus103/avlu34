@@ -44,7 +44,8 @@ export function CinemaSection({
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
             noBlur
           />
-          {/* Linear Gradient Overlay for perfect readability */}
+          {/* Black solid overlay + gradient overlay */}
+          <div className="absolute inset-0 bg-black/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         </div>
       )}

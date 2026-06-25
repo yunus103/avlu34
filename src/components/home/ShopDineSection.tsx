@@ -56,7 +56,8 @@ export function ShopDineSection({
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               noBlur
             />
-            {/* Subtle Gradient Overlay */}
+            {/* Black solid overlay + gradient overlay */}
+            <div className="absolute inset-0 bg-black/15" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </div>
         )}
@@ -99,7 +100,8 @@ export function ShopDineSection({
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               noBlur
             />
-            {/* Subtle Gradient Overlay */}
+            {/* Black solid overlay + gradient overlay */}
+            <div className="absolute inset-0 bg-black/15" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           </div>
         )}
