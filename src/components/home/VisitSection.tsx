@@ -63,18 +63,18 @@ export function VisitSection({
         <div className="w-full max-w-md flex flex-col items-center">
           
           {/* Subtitle / Tag */}
-          <span className="font-sans font-semibold text-[10px] sm:text-xs tracking-[0.3em] uppercase text-neutral-500 block mb-6 sm:mb-8 select-none">
+          <span className="font-sans font-semibold text-xs sm:text-sm tracking-[0.3em] uppercase text-neutral-500 block mb-6 sm:mb-8 select-none">
             {displayTag}
           </span>
           
           {/* Main Title (Playfair Display, Medium Serif) */}
-          <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-normal font-serif uppercase tracking-wider leading-tight text-neutral-900 mb-6 select-text">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-normal font-serif uppercase tracking-wider leading-tight text-neutral-900 mb-6 select-text">
             {displayTitle}
           </h2>
           
           {/* Description Text */}
           {displaySubtitle && (
-            <p className="text-neutral-500 font-sans font-light text-xs sm:text-sm leading-relaxed max-w-sm select-text mb-8 sm:mb-10">
+            <p className="text-neutral-500 font-sans font-light text-sm sm:text-base leading-relaxed max-w-sm select-text mb-8 sm:mb-10">
               {displaySubtitle}
             </p>
           )}
@@ -85,10 +85,10 @@ export function VisitSection({
             {/* 1. Working Hours */}
             <div className="flex flex-col items-center justify-center space-y-2 border-r border-neutral-100 px-2">
               <Clock className="w-5 h-5 text-neutral-600 stroke-[1.25]" />
-              <span className="font-sans font-semibold text-[10px] tracking-[0.15em] uppercase text-neutral-400">
+              <span className="font-sans font-semibold text-[11px] sm:text-xs tracking-[0.15em] uppercase text-neutral-400">
                 {locale === "en" ? "WORKING HOURS" : "ÇALIŞMA SAATLERİ"}
               </span>
-              <span className="font-sans font-medium text-[11px] sm:text-xs text-neutral-700 leading-tight">
+              <span className="font-sans font-medium text-xs sm:text-sm text-neutral-700 leading-tight">
                 {displayWorkingHours}
               </span>
             </div>
@@ -96,10 +96,10 @@ export function VisitSection({
             {/* 2. Parking Information */}
             <div className="flex flex-col items-center justify-center space-y-2 px-2">
               <Car className="w-5 h-5 text-neutral-600 stroke-[1.25]" />
-              <span className="font-sans font-semibold text-[10px] tracking-[0.15em] uppercase text-neutral-400">
+              <span className="font-sans font-semibold text-[11px] sm:text-xs tracking-[0.15em] uppercase text-neutral-400">
                 {locale === "en" ? "PARKING" : "OTOPARK"}
               </span>
-              <span className="font-sans font-medium text-[11px] sm:text-xs text-neutral-700 leading-tight line-clamp-2 max-w-[140px]">
+              <span className="font-sans font-medium text-xs sm:text-sm text-neutral-700 leading-tight line-clamp-2 max-w-[160px]">
                 {displayParking}
               </span>
             </div>
