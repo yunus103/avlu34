@@ -348,6 +348,23 @@ export const eventSlugsQuery = groq`*[_type == "event" && defined(slug.current)]
 export const storeCategorySlugsQuery = groq`*[_type == "storeCategory"] { "slugs": [slug.tr.current, slug.en.current] }`;
 export const foodCategorySlugsQuery = groq`*[_type == "foodCategory"] { "slugs": [slug.tr.current, slug.en.current] }`;
 
+// ─── Slug Check Queries (for dynamic routes checking) ────────────────────────
+export const storeCategoryBySlugQuery = groq`*[_type == "storeCategory" && (slug.tr.current == $slug || slug.en.current == $slug)][0] {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  "slug": {
+    "current": coalesce(slug[$locale].current, slug.tr.current)
+  }
+}`;
+
+export const foodCategoryBySlugQuery = groq`*[_type == "foodCategory" && (slug.tr.current == $slug || slug.en.current == $slug)][0] {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  "slug": {
+    "current": coalesce(slug[$locale].current, slug.tr.current)
+  }
+}`;
+
 // ─── Global Search Query ──────────────────────────────────────────────────────
 export const globalSearchQuery = groq`{
   "stores": *[_type == "store" && shopType in ["store", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
