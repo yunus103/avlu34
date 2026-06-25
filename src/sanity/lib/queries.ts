@@ -80,6 +80,7 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   "visitTag": coalesce(visitTag[$locale], visitTag.tr),
   "visitTitle": coalesce(visitTitle[$locale], visitTitle.tr),
   "visitSubtitle": coalesce(visitSubtitle[$locale], visitSubtitle.tr),
+  "visitParking": coalesce(visitParking[$locale], visitParking.tr),
   visitImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "visitCtaLabel": coalesce(visitCtaLabel[$locale], visitCtaLabel.tr),
 

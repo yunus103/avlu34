@@ -281,6 +281,7 @@ export interface HomePage {
   visitTag?: string;
   visitTitle?: string;
   visitSubtitle?: string;
+  visitParking?: string;
   visitImage?: SanityImage;
   visitCtaLabel?: string;
   seo?: SeoSettings;

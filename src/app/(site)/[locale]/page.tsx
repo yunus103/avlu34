@@ -103,7 +103,7 @@ export default async function HomePage({ params }: Props) {
         visitImage={data?.visitImage}
         visitCtaLabel={data?.visitCtaLabel}
         workingHours={layoutData?.settings?.workingHours}
-        address={layoutData?.settings?.contactInfo?.address}
+        visitParking={data?.visitParking}
         locale={locale as Locale}
       />
     </div>

@@ -3,7 +3,7 @@ import { SanityImage as SanityImageType } from "@/types";
 import Link from "next/link";
 import { getPublicPath } from "@/lib/i18n/routes";
 import { Locale } from "@/lib/i18n/config";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, Car } from "lucide-react";
 
 interface VisitSectionProps {
   visitTag?: string;
@@ -12,7 +12,7 @@ interface VisitSectionProps {
   visitImage?: SanityImageType;
   visitCtaLabel?: string;
   workingHours?: string;
-  address?: string;
+  visitParking?: string;
   locale: Locale;
 }
 
@@ -23,7 +23,7 @@ export function VisitSection({
   visitImage,
   visitCtaLabel,
   workingHours,
-  address,
+  visitParking,
   locale,
 }: VisitSectionProps) {
   // Localization fallbacks
@@ -34,7 +34,7 @@ export function VisitSection({
   const displayCta = visitCtaLabel || (locale === "en" ? "ACCESS & DIRECTIONS" : "ULAŞIM VE BİLGİLER");
 
   const displayWorkingHours = workingHours || (locale === "en" ? "Every Day: 10:00 - 22:00" : "Her Gün: 10:00 - 22:00");
-  const displayAddress = address || (locale === "en" ? "Arnavutkoy, Istanbul" : "Arnavutköy, İstanbul");
+  const displayParking = visitParking || (locale === "en" ? "Free / 1000+ Capacity" : "Ücretsiz / 1000+ Araç");
 
   return (
     <section className="w-full bg-white grid grid-cols-1 md:grid-cols-2 border-b border-neutral-100 min-h-[450px] sm:min-h-[550px] md:min-h-[650px] lg:min-h-[750px]">
@@ -93,14 +93,14 @@ export function VisitSection({
               </span>
             </div>
 
-            {/* 2. Address & Location */}
+            {/* 2. Parking Information */}
             <div className="flex flex-col items-center justify-center space-y-2 px-2">
-              <MapPin className="w-5 h-5 text-neutral-600 stroke-[1.25]" />
+              <Car className="w-5 h-5 text-neutral-600 stroke-[1.25]" />
               <span className="font-sans font-semibold text-[10px] tracking-[0.15em] uppercase text-neutral-400">
-                {locale === "en" ? "LOCATION" : "KONUM"}
+                {locale === "en" ? "PARKING" : "OTOPARK"}
               </span>
               <span className="font-sans font-medium text-[11px] sm:text-xs text-neutral-700 leading-tight line-clamp-2 max-w-[140px]">
-                {displayAddress}
+                {displayParking}
               </span>
             </div>
 

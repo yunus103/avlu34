@@ -328,6 +328,14 @@ export const homePageType = defineType({
       description: "Ziyaret planı başlığının hemen altında gösterilecek olan ek açıklama veya karşılama yazısıdır.",
     }),
     defineField({
+      name: "visitParking",
+      title: "Ziyaret Bölümü Otopark Bilgisi",
+      type: "localizedString",
+      group: "visit",
+      description: "Ziyaret planı bölümündeki otopark kartında gösterilecek olan kısa bilgidir. (Örn: Ücretsiz / 1000+ Araç)",
+      initialValue: { tr: "Ücretsiz / 1000+ Araç", en: "Free / 1000+ Capacity" },
+    }),
+    defineField({
       name: "visitImage",
       title: "Ziyaret Bölümü Görseli",
       type: "image",
