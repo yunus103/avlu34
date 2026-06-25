@@ -173,17 +173,37 @@ export const kvkkPageQuery = groq`*[_type == "kvkkPage"][0] {
   seo
 }`;
 
+// ─── Stores Page Query ────────────────────────────────────────────────────────
+export const storesPageQuery = groq`*[_type == "storesPage"][0] {
+  "title": coalesce(title[$locale], title.tr),
+  "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  seo
+}`;
+
+// ─── Dining Page Query ────────────────────────────────────────────────────────
+export const diningPageQuery = groq`*[_type == "diningPage"][0] {
+  "title": coalesce(title[$locale], title.tr),
+  "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  seo
+}`;
+
 // ─── Store / Dining Categories Query ──────────────────────────────────────────
 export const storeCategoriesQuery = groq`*[_type == "storeCategory"] | order(title.tr asc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
-  "slug": coalesce(slug[$locale].current, slug.tr.current)
+  "slug": {
+    "current": coalesce(slug[$locale].current, slug.tr.current)
+  }
 }`;
 
 export const foodCategoriesQuery = groq`*[_type == "foodCategory"] | order(title.tr asc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
-  "slug": coalesce(slug[$locale].current, slug.tr.current)
+  "slug": {
+    "current": coalesce(slug[$locale].current, slug.tr.current)
+  }
 }`;
 
 // ─── Store Queries ────────────────────────────────────────────────────────────
@@ -196,7 +216,9 @@ export const storeListQuery = groq`*[_type == "store" && shopType in ["store", "
   storeCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    "slug": coalesce(slug[$locale].current, slug.tr.current)
+    "slug": {
+      "current": coalesce(slug[$locale].current, slug.tr.current)
+    }
   }
 }`;
 
@@ -214,7 +236,9 @@ export const storeBySlugQuery = groq`*[_type == "store" && slug.current == $slug
   storeCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    "slug": coalesce(slug[$locale].current, slug.tr.current)
+    "slug": {
+      "current": coalesce(slug[$locale].current, slug.tr.current)
+    }
   },
   seo
 }`;
@@ -229,7 +253,9 @@ export const diningListQuery = groq`*[_type == "store" && shopType in ["dining",
   foodCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    "slug": coalesce(slug[$locale].current, slug.tr.current)
+    "slug": {
+      "current": coalesce(slug[$locale].current, slug.tr.current)
+    }
   }
 }`;
 
@@ -247,7 +273,9 @@ export const diningBySlugQuery = groq`*[_type == "store" && slug.current == $slu
   foodCategory-> {
     _id,
     "title": coalesce(title[$locale], title.tr),
-    "slug": coalesce(slug[$locale].current, slug.tr.current)
+    "slug": {
+      "current": coalesce(slug[$locale].current, slug.tr.current)
+    }
   },
   seo
 }`;

@@ -5,8 +5,9 @@ import { buildMetadata } from "@/lib/seo";
 import { getPublicPath } from "@/lib/i18n/routes";
 import { Locale } from "@/lib/i18n/config";
 import { cachedFetch } from "@/sanity/lib/client";
-import { diningBySlugQuery, foodCategoryBySlugQuery } from "@/sanity/lib/queries";
+import { diningBySlugQuery, foodCategoryBySlugQuery, diningPageQuery, foodCategoriesQuery, diningListQuery } from "@/sanity/lib/queries";
 import { Store, FoodCategory } from "@/types";
+import { DirectoryTemplate } from "@/components/layout/DirectoryTemplate";
 
 type Props = {
   params: Promise<{ locale: string; kategori: string }>;
@@ -78,21 +79,51 @@ export default async function DiningCategoryPage({ params }: Props) {
     notFound();
   }
 
+  const parentPath = getPublicPath("yeme-icme", locale as Locale);
+  const parentLabel = isEn ? "Dining" : "Yeme-İçme";
+
+  const breadcrumbs = [
+    { label: parentLabel, href: parentPath },
+    { label: result.data.title, href: `${parentPath}/${kategori}`, active: true }
+  ];
+
   if (result.type === "category") {
+    // Run parallel fetches for category listing
+    const [pageData, categories, items] = await Promise.all([
+      cachedFetch<any>(
+        diningPageQuery, 
+        { locale }, 
+        { next: { tags: ["diningPage"] } }
+      ),
+      cachedFetch<FoodCategory[]>(
+        foodCategoriesQuery, 
+        { locale }, 
+        { next: { tags: ["foodCategory"] } }
+      ),
+      cachedFetch<Store[]>(
+        diningListQuery, 
+        { locale }, 
+        { next: { tags: ["store"] } }
+      ),
+    ]);
+
+    const title = result.data.title;
+    const subtitle = isEn 
+      ? `Taste our best ${result.data.title.toLowerCase()} options` 
+      : `AVLU34 bünyesindeki en leziz ${result.data.title.toLowerCase()} seçenekleri`;
+    const backgroundImage = pageData?.heroImage;
+
     return (
-      <div className="flex flex-col gap-12 pb-16">
-        <PageHero 
-          title={result.data.title.toUpperCase()} 
-          subtitle={isEn ? `Category: ${result.data.title}` : `Kategori: ${result.data.title}`} 
-        />
-        <div className="container mx-auto px-4">
-          <p className="text-muted-foreground">
-            {isEn 
-              ? `Places in category: ${result.data.title}` 
-              : `${result.data.title} kategorisindeki lezzet durakları burada listelenecek.`}
-          </p>
-        </div>
-      </div>
+      <DirectoryTemplate
+        title={title}
+        subtitle={subtitle}
+        backgroundImage={backgroundImage}
+        categories={categories}
+        items={items}
+        type="dining"
+        activeCategorySlug={kategori}
+        locale={locale as Locale}
+      />
     );
   }
 
@@ -101,6 +132,7 @@ export default async function DiningCategoryPage({ params }: Props) {
       <PageHero 
         title={result.data.title} 
         subtitle={isEn ? "Dining Details" : "Yeme-İçme Detayları"} 
+        breadcrumbs={breadcrumbs}
       />
       <div className="container mx-auto px-4">
         <p className="text-muted-foreground">

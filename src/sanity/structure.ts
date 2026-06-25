@@ -69,6 +69,16 @@ export const structure: StructureResolver = (S) =>
                 .id("kvkkPage")
                 .schemaType("kvkkPage")
                 .child(S.document().schemaType("kvkkPage").documentId("kvkkPage")),
+              S.listItem()
+                .title("🛍️ Mağazalar Sayfası")
+                .id("storesPage")
+                .schemaType("storesPage")
+                .child(S.document().schemaType("storesPage").documentId("storesPage")),
+              S.listItem()
+                .title("🍽️ Yeme-İçme Sayfası")
+                .id("diningPage")
+                .schemaType("diningPage")
+                .child(S.document().schemaType("diningPage").documentId("diningPage")),
             ])
         ),
       S.divider(),

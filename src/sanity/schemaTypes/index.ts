@@ -15,6 +15,8 @@ import { cinemaPageType } from "./singletons/cinemaPage";
 import { mallMapPageType } from "./singletons/mallMapPage";
 import { visitPlanPageType } from "./singletons/visitPlanPage";
 import { kvkkPageType } from "./singletons/kvkkPage";
+import { storesPageType } from "./singletons/storesPage";
+import { diningPageType } from "./singletons/diningPage";
 
 import { storeCategoryType } from "./documents/storeCategory";
 import { foodCategoryType } from "./documents/foodCategory";
@@ -43,6 +45,8 @@ export const schemaTypes = [
   mallMapPageType,
   visitPlanPageType,
   kvkkPageType,
+  storesPageType,
+  diningPageType,
   
   // Collections
   storeCategoryType,

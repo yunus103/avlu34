@@ -5,8 +5,9 @@ import { buildMetadata } from "@/lib/seo";
 import { getPublicPath } from "@/lib/i18n/routes";
 import { Locale } from "@/lib/i18n/config";
 import { cachedFetch } from "@/sanity/lib/client";
-import { storeBySlugQuery, storeCategoryBySlugQuery } from "@/sanity/lib/queries";
+import { storeBySlugQuery, storeCategoryBySlugQuery, storesPageQuery, storeCategoriesQuery, storeListQuery } from "@/sanity/lib/queries";
 import { Store, StoreCategory } from "@/types";
+import { DirectoryTemplate } from "@/components/layout/DirectoryTemplate";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -78,21 +79,51 @@ export default async function StoreDetailPage({ params }: Props) {
     notFound();
   }
 
+  const parentPath = getPublicPath("magazalar", locale as Locale);
+  const parentLabel = isEn ? "Stores" : "Mağazalar";
+
+  const breadcrumbs = [
+    { label: parentLabel, href: parentPath },
+    { label: result.data.title, href: `${parentPath}/${slug}`, active: true }
+  ];
+
   if (result.type === "category") {
+    // Run parallel fetches for category listing
+    const [pageData, categories, items] = await Promise.all([
+      cachedFetch<any>(
+        storesPageQuery, 
+        { locale }, 
+        { next: { tags: ["storesPage"] } }
+      ),
+      cachedFetch<StoreCategory[]>(
+        storeCategoriesQuery, 
+        { locale }, 
+        { next: { tags: ["storeCategory"] } }
+      ),
+      cachedFetch<Store[]>(
+        storeListQuery, 
+        { locale }, 
+        { next: { tags: ["store"] } }
+      ),
+    ]);
+
+    const title = result.data.title;
+    const subtitle = isEn 
+      ? `Discover our ${result.data.title.toLowerCase()} brands` 
+      : `AVLU34 bünyesindeki ${result.data.title.toLowerCase()} markaları`;
+    const backgroundImage = pageData?.heroImage;
+
     return (
-      <div className="flex flex-col gap-12 pb-16">
-        <PageHero 
-          title={result.data.title.toUpperCase()} 
-          subtitle={isEn ? `Category: ${result.data.title}` : `Kategori: ${result.data.title}`} 
-        />
-        <div className="container mx-auto px-4">
-          <p className="text-muted-foreground">
-            {isEn 
-              ? `Stores in category: ${result.data.title}` 
-              : `${result.data.title} kategorisindeki mağazalar burada listelenecek.`}
-          </p>
-        </div>
-      </div>
+      <DirectoryTemplate
+        title={title}
+        subtitle={subtitle}
+        backgroundImage={backgroundImage}
+        categories={categories}
+        items={items}
+        type="store"
+        activeCategorySlug={slug}
+        locale={locale as Locale}
+      />
     );
   }
 
@@ -101,6 +132,7 @@ export default async function StoreDetailPage({ params }: Props) {
       <PageHero 
         title={result.data.title} 
         subtitle={isEn ? "Store Details" : "Mağaza Detayları"} 
+        breadcrumbs={breadcrumbs}
       />
       <div className="container mx-auto px-4">
         <p className="text-muted-foreground">
