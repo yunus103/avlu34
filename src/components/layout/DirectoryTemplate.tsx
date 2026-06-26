@@ -22,6 +22,7 @@ interface DirectoryTemplateProps {
 }
 
 const floorLabels: Record<string, { tr: string; en: string }> = {
+  otopark: { tr: "Kapalı Otopark Katı", en: "Closed Parking Floor" },
   zemin: { tr: "Zemin Kat", en: "Ground Floor" },
   kat1: { tr: "1. Kat", en: "1st Floor" },
   kat2: { tr: "2. Kat", en: "2nd Floor" },
@@ -137,7 +138,7 @@ export function DirectoryTemplate({
                 value={activeCategorySlug || "all"}
                 onChange={(e) => {
                   const val = e.target.value;
-                  router.push(val === "all" ? allPath : `${allPath}/${val}`);
+                  router.push(val === "all" ? allPath : `${allPath}/${val}`, { scroll: false });
                 }}
                 className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
               >
@@ -155,6 +156,7 @@ export function DirectoryTemplate({
             <div className="hidden lg:flex items-center gap-2 overflow-x-auto scrollbar-none">
               <Link
                 href={allPath}
+                scroll={false}
                 className={`text-xs font-sans font-semibold tracking-wider uppercase px-4 py-2 border transition-all duration-300 shrink-0 ${
                   !activeCategorySlug
                     ? "bg-black border-black text-white"
@@ -169,6 +171,7 @@ export function DirectoryTemplate({
                   <Link
                     key={cat._id}
                     href={`${allPath}/${cat.slug?.current}`}
+                    scroll={false}
                     className={`text-xs font-sans font-semibold tracking-wider uppercase px-4 py-2 border transition-all duration-300 shrink-0 ${
                       isActive
                         ? "bg-black border-black text-white"
@@ -213,10 +216,11 @@ export function DirectoryTemplate({
                   className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
                 >
                   <option value="all">{isEn ? "All Floors" : "Tüm Katlar"}</option>
-                  <option value="zemin">{isEn ? "Ground Floor" : "Zemin Kat"}</option>
-                  <option value="kat1">{isEn ? "1st Floor" : "1. Kat"}</option>
-                  <option value="kat2">{isEn ? "2nd Floor" : "2. Kat"}</option>
-                  <option value="kat3">{isEn ? "3rd Floor" : "3. Kat"}</option>
+                  {Object.entries(floorLabels).map(([val, labels]) => (
+                    <option key={val} value={val}>
+                      {isEn ? labels.en : labels.tr}
+                    </option>
+                  ))}
                 </select>
                 <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
               </div>

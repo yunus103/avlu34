@@ -132,7 +132,9 @@ export interface Store {
   shopType: "store" | "dining" | "both";
   storeCategory?: StoreCategory;
   foodCategory?: FoodCategory;
-  floor: "zemin" | "kat1" | "kat2" | "kat3";
+  floor: "otopark" | "zemin" | "kat1" | "kat2" | "kat3";
+  heroImage?: SanityImage;
+  gallery?: SanityImage[];
   description: string; // Projected dynamically
   workingHours: string; // Projected dynamically
   phone?: string;

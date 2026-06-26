@@ -81,6 +81,7 @@ export const storeType = defineType({
       description: "Mağazanın AVM içerisinde bulunduğu kat konumu.",
       options: {
         list: [
+          { title: "Kapalı Otopark Katı", value: "otopark" },
           { title: "Zemin Kat", value: "zemin" },
           { title: "1. Kat", value: "kat1" },
           { title: "2. Kat", value: "kat2" },
@@ -88,6 +89,43 @@ export const storeType = defineType({
         ],
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Detay Sayfası Hero Görseli",
+      type: "image",
+      description: "Detay sayfasının üst kısmında gösterilecek büyük yatay görsel.",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Açıklama",
+          description: "Görselin ne olduğunu açıklayan kısa metin (SEO için zorunludur).",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+    }),
+    defineField({
+      name: "gallery",
+      title: "Fotoğraf Galerisi",
+      type: "array",
+      description: "Mağaza içine veya ürünlerine ait görseller.",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alt Açıklama",
+              description: "Görselin ne olduğunu açıklayan kısa metin (SEO için zorunludur).",
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+        },
+      ],
     }),
     defineField({
       name: "description",

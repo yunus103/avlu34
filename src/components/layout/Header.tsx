@@ -76,6 +76,18 @@ export function Header({
     setSearchQuery("");
   }, [pathname]);
 
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   // Focus input when search is opened
   useEffect(() => {
     if (searchOpen) {
@@ -449,10 +461,10 @@ export function Header({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 z-50 h-screen w-screen bg-white flex flex-col px-6 py-6 overflow-y-auto"
+            className="fixed inset-0 z-50 h-screen w-screen bg-white flex flex-col overflow-hidden"
           >
             {/* Mobil Header: Kapat Butonu & Dil */}
-            <div className="flex items-center justify-between pb-6 border-b border-neutral-100">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100 shrink-0 bg-white">
               <Link 
                 href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
                 onClick={() => setMenuOpen(false)}
@@ -471,92 +483,94 @@ export function Header({
               </Button>
             </div>
 
-            {/* Mobil Linkler */}
-            <nav className="flex flex-col mt-8 divide-y divide-neutral-100">
-              {links.map((item, i) => {
-                const active = isActive(item);
-                const hasSub = item.subLinks && item.subLinks.length > 0;
-                const isExpanded = expandedMobileMenu === item.label;
+            {/* Mobil Linkler (Scrollable Area) */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 pb-32 scrollbar-none">
+              <nav className="flex flex-col mt-4 divide-y divide-neutral-100">
+                {links.map((item, i) => {
+                  const active = isActive(item);
+                  const hasSub = item.subLinks && item.subLinks.length > 0;
+                  const isExpanded = expandedMobileMenu === item.label;
 
-                return (
-                  <div key={i} className="py-4 flex flex-col">
-                    <div className="flex items-center justify-between">
-                      <Link
-                        href={getPublicPath(item.href, locale)}
-                        target={item.openInNewTab ? "_blank" : undefined}
-                        rel={item.openInNewTab ? "noopener noreferrer" : undefined}
-                        onClick={() => setMenuOpen(false)}
-                        className={cn(
-                          "text-lg font-serif tracking-widest uppercase font-bold py-1",
-                          active ? "text-black" : "text-neutral-700"
-                        )}
-                      >
-                        {localize(item.label, locale)}
-                      </Link>
-
-                      {hasSub && (
-                        <button
-                          onClick={() => {
-                            setExpandedMobileMenu(isExpanded ? null : (item.label as string));
-                          }}
-                          className="p-2 -mr-2 text-neutral-500 hover:text-black transition-colors cursor-pointer"
-                          aria-label={isExpanded ? "Collapse section" : "Expand section"}
+                  return (
+                    <div key={i} className="py-3.5 flex flex-col">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={getPublicPath(item.href, locale)}
+                          target={item.openInNewTab ? "_blank" : undefined}
+                          rel={item.openInNewTab ? "noopener noreferrer" : undefined}
+                          onClick={() => setMenuOpen(false)}
+                          className={cn(
+                            "text-base font-serif tracking-widest uppercase font-bold py-1",
+                            active ? "text-black" : "text-neutral-700"
+                          )}
                         >
-                          <RiArrowDownSLine 
-                            size={24} 
-                            className={cn(
-                              "transition-transform duration-300",
-                              isExpanded ? "rotate-180 text-black" : ""
-                            )}
-                          />
-                        </button>
+                          {localize(item.label, locale)}
+                        </Link>
+
+                        {hasSub && (
+                          <button
+                            onClick={() => {
+                              setExpandedMobileMenu(isExpanded ? null : (item.label as string));
+                            }}
+                            className="p-2 -mr-2 text-neutral-500 hover:text-black transition-colors cursor-pointer"
+                            aria-label={isExpanded ? "Collapse section" : "Expand section"}
+                          >
+                            <RiArrowDownSLine 
+                              size={20} 
+                              className={cn(
+                                "transition-transform duration-300",
+                                isExpanded ? "rotate-180 text-black" : ""
+                              )}
+                            />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Sub Links under Mobile Accordion style */}
+                      {hasSub && (
+                        <motion.div
+                          initial={false}
+                          animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                          className="overflow-hidden"
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
+                        >
+                          <div className="flex flex-col gap-3 pl-4 mt-2.5 mb-1 border-l border-neutral-200">
+                            {/* View All Option */}
+                            <Link
+                              href={getPublicPath(item.href, locale)}
+                              onClick={() => setMenuOpen(false)}
+                              className="text-[10px] font-sans font-bold uppercase tracking-wider text-black hover:underline"
+                            >
+                              {locale === "en" ? "View All" : "Tümünü Gör"}
+                            </Link>
+
+                            {item.subLinks!.map((sub, j) => (
+                              <Link
+                                key={j}
+                                href={getPublicPath(sub.href, locale)}
+                                target={sub.openInNewTab ? "_blank" : undefined}
+                                rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
+                                onClick={() => setMenuOpen(false)}
+                                className="text-[10px] font-sans font-semibold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
+                              >
+                                {localize(sub.label, locale)}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
                       )}
                     </div>
+                  );
+                })}
+              </nav>
+            </div>
 
-                    {/* Sub Links under Mobile Accordion style */}
-                    {hasSub && (
-                      <motion.div
-                        initial={false}
-                        animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
-                        className="overflow-hidden"
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                      >
-                        <div className="flex flex-col gap-3.5 pl-4 mt-3 mb-1 border-l border-neutral-200">
-                          {/* View All Option */}
-                          <Link
-                            href={getPublicPath(item.href, locale)}
-                            onClick={() => setMenuOpen(false)}
-                            className="text-xs font-sans font-bold uppercase tracking-wider text-black hover:underline"
-                          >
-                            {locale === "en" ? "View All" : "Tümünü Gör"}
-                          </Link>
-
-                          {item.subLinks!.map((sub, j) => (
-                            <Link
-                              key={j}
-                              href={getPublicPath(sub.href, locale)}
-                              target={sub.openInNewTab ? "_blank" : undefined}
-                              rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
-                              onClick={() => setMenuOpen(false)}
-                              className="text-xs font-sans font-semibold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
-                            >
-                              {localize(sub.label, locale)}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
-            </nav>
-
-            {/* Mobil Hızlı Bilgiler / Footer */}
-            <div className="mt-auto pt-8 border-t border-neutral-100 flex flex-col gap-4">
+            {/* Mobil Hızlı Bilgiler / Footer (Fixed at the bottom) */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-md border-t border-neutral-100 z-10 shrink-0">
               <Link 
                 href={getPublicPath("/ziyaret-plani", locale)} 
                 onClick={() => setMenuOpen(false)}
-                className="w-full text-center border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300"
+                className="block w-full text-center border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300"
               >
                 {locale === "en" ? "Visit Plan" : "Ziyaret Planı"}
               </Link>
