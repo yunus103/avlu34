@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
 import { SanityImage } from "@/components/ui/SanityImage";
 import { getPublicPath } from "@/lib/i18n/routes";
@@ -37,6 +38,7 @@ export function DirectoryTemplate({
   activeCategorySlug,
   locale,
 }: DirectoryTemplateProps) {
+  const router = useRouter();
   const isEn = locale === "en";
   const basePath = type === "store" ? "magazalar" : "yeme-icme";
   const allPath = getPublicPath(basePath, locale);
@@ -129,8 +131,28 @@ export function DirectoryTemplate({
           {/* Top Level: Categories & Search */}
           <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-6">
             
-            {/* Horizontal Scroll Categories */}
-            <div className="overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0 scrollbar-none flex items-center gap-2">
+            {/* Mobile Category Dropdown */}
+            <div className="relative block lg:hidden w-full">
+              <select
+                value={activeCategorySlug || "all"}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  router.push(val === "all" ? allPath : `${allPath}/${val}`);
+                }}
+                className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
+              >
+                <option value="all">{isEn ? "All Categories" : "Tüm Kategoriler"}</option>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat.slug?.current}>
+                    {cat.title}
+                  </option>
+                ))}
+              </select>
+              <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+            </div>
+
+            {/* Desktop Horizontal Scroll Categories */}
+            <div className="hidden lg:flex items-center gap-2 overflow-x-auto scrollbar-none">
               <Link
                 href={allPath}
                 className={`text-xs font-sans font-semibold tracking-wider uppercase px-4 py-2 border transition-all duration-300 shrink-0 ${
