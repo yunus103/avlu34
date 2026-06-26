@@ -53,15 +53,15 @@ export function PageHero({
       <div 
         className={`relative z-10 container mx-auto px-4 ${
           hasBg 
-            ? "py-24 md:py-32 lg:py-36" 
-            : "py-16 md:py-20 lg:py-24"
+            ? "py-16 md:py-20 lg:py-24" 
+            : "py-12 md:py-16 lg:py-20"
         }`}
       >
         <div 
           className={`flex flex-col justify-between ${
             hasBg 
-              ? "min-h-[260px] md:min-h-[340px] lg:min-h-[380px]" 
-              : "min-h-[180px] md:min-h-[220px] lg:min-h-[240px]"
+              ? "min-h-[180px] md:min-h-[220px] lg:min-h-[250px]" 
+              : "min-h-[150px] md:min-h-[180px] lg:min-h-[200px]"
           }`}
         >
           {/* Top Row: Breadcrumbs */}
