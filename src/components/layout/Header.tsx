@@ -40,6 +40,7 @@ export function Header({
   const [searchResults, setSearchResults] = useState<any>(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const [expandedMobileMenu, setExpandedMobileMenu] = useState<string | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -71,6 +72,7 @@ export function Header({
     setMenuOpen(false);
     setSearchOpen(false);
     setActiveMegaMenu(null);
+    setExpandedMobileMenu(null);
     setSearchQuery("");
   }, [pathname]);
 
@@ -473,37 +475,76 @@ export function Header({
             <nav className="flex flex-col mt-8 divide-y divide-neutral-100">
               {links.map((item, i) => {
                 const active = isActive(item);
-                return (
-                  <div key={i} className="py-4 flex flex-col gap-2">
-                    <Link
-                      href={getPublicPath(item.href, locale)}
-                      target={item.openInNewTab ? "_blank" : undefined}
-                      rel={item.openInNewTab ? "noopener noreferrer" : undefined}
-                      onClick={() => setMenuOpen(false)}
-                      className={cn(
-                        "text-lg font-serif tracking-widest uppercase font-bold",
-                        active ? "text-black" : "text-neutral-700"
-                      )}
-                    >
-                      {localize(item.label, locale)}
-                    </Link>
+                const hasSub = item.subLinks && item.subLinks.length > 0;
+                const isExpanded = expandedMobileMenu === item.label;
 
-                    {/* Sub Links under Mobile Accordion style (always expanded for simplicity but in smaller font) */}
-                    {item.subLinks && item.subLinks.length > 0 && (
-                      <div className="flex flex-col gap-3 pl-4 mt-2 border-l border-neutral-200">
-                        {item.subLinks.map((sub, j) => (
+                return (
+                  <div key={i} className="py-4 flex flex-col">
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href={getPublicPath(item.href, locale)}
+                        target={item.openInNewTab ? "_blank" : undefined}
+                        rel={item.openInNewTab ? "noopener noreferrer" : undefined}
+                        onClick={() => setMenuOpen(false)}
+                        className={cn(
+                          "text-lg font-serif tracking-widest uppercase font-bold py-1",
+                          active ? "text-black" : "text-neutral-700"
+                        )}
+                      >
+                        {localize(item.label, locale)}
+                      </Link>
+
+                      {hasSub && (
+                        <button
+                          onClick={() => {
+                            setExpandedMobileMenu(isExpanded ? null : (item.label as string));
+                          }}
+                          className="p-2 -mr-2 text-neutral-500 hover:text-black transition-colors cursor-pointer"
+                          aria-label={isExpanded ? "Collapse section" : "Expand section"}
+                        >
+                          <RiArrowDownSLine 
+                            size={24} 
+                            className={cn(
+                              "transition-transform duration-300",
+                              isExpanded ? "rotate-180 text-black" : ""
+                            )}
+                          />
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Sub Links under Mobile Accordion style */}
+                    {hasSub && (
+                      <motion.div
+                        initial={false}
+                        animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                        className="overflow-hidden"
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                      >
+                        <div className="flex flex-col gap-3.5 pl-4 mt-3 mb-1 border-l border-neutral-200">
+                          {/* View All Option */}
                           <Link
-                            key={j}
-                            href={getPublicPath(sub.href, locale)}
-                            target={sub.openInNewTab ? "_blank" : undefined}
-                            rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
+                            href={getPublicPath(item.href, locale)}
                             onClick={() => setMenuOpen(false)}
-                            className="text-xs font-sans font-semibold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
+                            className="text-xs font-sans font-bold uppercase tracking-wider text-black hover:underline"
                           >
-                            {localize(sub.label, locale)}
+                            {locale === "en" ? "View All" : "Tümünü Gör"}
                           </Link>
-                        ))}
-                      </div>
+
+                          {item.subLinks!.map((sub, j) => (
+                            <Link
+                              key={j}
+                              href={getPublicPath(sub.href, locale)}
+                              target={sub.openInNewTab ? "_blank" : undefined}
+                              rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
+                              onClick={() => setMenuOpen(false)}
+                              className="text-xs font-sans font-semibold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
+                            >
+                              {localize(sub.label, locale)}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
                     )}
                   </div>
                 );
