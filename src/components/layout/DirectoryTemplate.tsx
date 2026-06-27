@@ -259,19 +259,22 @@ export function DirectoryTemplate({
                   className="group border border-neutral-200 bg-white p-4 md:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black hover:shadow-sm transition-all duration-300 rounded-none relative overflow-hidden"
                 >
                   {/* Brand Logo */}
-                  <div className="flex-1 w-full flex items-center justify-center min-h-[80px] select-none">
+                  <div className="flex-1 w-full relative min-h-[80px] my-3 select-none">
                     {item.logo ? (
                       <SanityImage
                         image={item.logo}
-                        width={200}
-                        height={100}
+                        fill
                         fit="max"
-                        className="max-h-[50px] md:max-h-[70px] w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        objectFit="contain"
+                        className="transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
-                      <span className="font-sans font-bold text-sm tracking-widest text-black uppercase">
-                        {item.title}
-                      </span>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-sans font-bold text-sm tracking-widest text-black uppercase">
+                          {item.title}
+                        </span>
+                      </div>
                     )}
                   </div>
 
