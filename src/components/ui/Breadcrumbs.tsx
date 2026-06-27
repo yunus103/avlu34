@@ -82,11 +82,50 @@ export function Breadcrumbs({ items, className = "" }: { items?: BreadcrumbItem[
 
   const breadcrumbs = items || generateBreadcrumbs();
 
+  // Filter out any home page items to prevent duplicate rendering with the static home icon
+  const visibleBreadcrumbs = breadcrumbs.filter(
+    (crumb) =>
+      crumb.href !== "/" &&
+      crumb.href !== "/en" &&
+      crumb.href !== "/tr" &&
+      crumb.label.toLowerCase() !== "home" &&
+      crumb.label.toLowerCase() !== "ana sayfa"
+  );
+
+  // Guarantee that the home page item is at Position 1 in the SEO JSON-LD schema
+  const jsonLdBreadcrumbs = (() => {
+    const hasHome = breadcrumbs.some(
+      (crumb) =>
+        crumb.href === "/" ||
+        crumb.href === "/en" ||
+        crumb.href === "/tr" ||
+        crumb.label.toLowerCase() === "home" ||
+        crumb.label.toLowerCase() === "ana sayfa"
+    );
+    if (hasHome) {
+      return breadcrumbs.map((crumb) => {
+        const isHomeCrumb =
+          crumb.href === "/" ||
+          crumb.href === "/en" ||
+          crumb.href === "/tr" ||
+          crumb.label.toLowerCase() === "home" ||
+          crumb.label.toLowerCase() === "ana sayfa";
+        return isHomeCrumb
+          ? { ...crumb, label: isEn ? "Home" : "Ana Sayfa", href: homeHref }
+          : crumb;
+      });
+    }
+    return [
+      { label: isEn ? "Home" : "Ana Sayfa", href: homeHref },
+      ...breadcrumbs,
+    ];
+  })();
+
   if (pathname === "/" || pathname === "/tr" || pathname === "/en") return null;
 
   return (
     <>
-      <JsonLd data={breadcrumbListJsonLd(breadcrumbs)} />
+      <JsonLd data={breadcrumbListJsonLd(jsonLdBreadcrumbs)} />
       <nav aria-label="Breadcrumb" className={`flex items-center text-xs tracking-wider uppercase text-muted-foreground ${className}`}>
         <ol className="flex items-center gap-1.5 flex-wrap">
           <li>
@@ -100,7 +139,7 @@ export function Breadcrumbs({ items, className = "" }: { items?: BreadcrumbItem[
             </Link>
           </li>
           
-          {breadcrumbs.map((crumb, i) => (
+          {visibleBreadcrumbs.map((crumb, i) => (
             <li key={i} className="flex items-center gap-1.5">
               <RiArrowRightSLine size={12} className="text-muted-foreground/30 shrink-0" />
               {crumb.active ? (

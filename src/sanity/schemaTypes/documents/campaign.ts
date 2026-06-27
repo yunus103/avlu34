@@ -26,6 +26,12 @@ export const campaignType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "shortDescription",
+      title: "Kısa Açıklama",
+      type: "localizedString",
+      description: "Kampanya kartında gösterilecek 1-2 cümlelik kısa tanıtım metni (Maksimum 120 karakter önerilir. Türkçe ve İngilizce alanları içerir).",
+    }),
+    defineField({
       name: "image",
       title: "Kampanya Görseli / Afişi",
       type: "image",

@@ -148,6 +148,7 @@ export interface Campaign {
   _createdAt?: string;
   _updatedAt?: string;
   title: string; // Projected
+  shortDescription?: string; // Projected
   slug: SanitySlug;
   image: SanityImage;
   startsAt: string;

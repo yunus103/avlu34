@@ -55,7 +55,7 @@ Ana sayfa tasarımı parçalara bölünerek tek tek tartışılacak ve onay alı
 
 ### Adım 5: Sabit ve Yardımcı Sayfalar
 
-1.  **Sinema Sayfası (`/sinema`):** AVM sinema salonu deneyimi, özellikleri ve dış seans sağlayıcıya yönlendiren bilet alma butonu.
+1.  **Sinema Sayfası (`/sinema`):** AVM sinema salonu deneyimi, özellikleri ve dış seans sağlayıcıya yönlendiren bilet alma butonu. Eglence ile birlestirilecek.
 2.  **Kat Planı Sayfası (`/kat-plani`):** Kat haritası görselleri ve PDF indirme butonları.
 3.  **Ziyaret Planı Sayfası (`/ziyaret-plani`):** Detaylı ulaşım tarifleri, otopark bilgisi ve bebek bakım, mescit gibi AVM hizmetleri listesi.
 4.  **İletişim Sayfası (`/iletisim`):** Çalışan `ContactForm` entegrasyonu, harita yerleşimi ve iletişim numaraları.

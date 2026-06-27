@@ -288,15 +288,30 @@ export const diningBySlugQuery = groq`*[_type == "store" && slug.current == $slu
 export const activeCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now()))] | order(priority desc, startsAt desc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
+  "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
   slug,
   image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   startsAt,
-  endsAt
+  endsAt,
+  relatedStores[]-> {
+    _id,
+    title,
+    slug,
+    logo { asset->{ _id, url } },
+    storeCategory-> {
+      _id,
+      "title": coalesce(title[$locale], title.tr),
+      "slug": {
+        "current": coalesce(slug[$locale].current, slug.tr.current)
+      }
+    }
+  }
 }`;
 
 export const activeCampaignsByStoreQuery = groq`*[_type == "campaign" && isPublished == true && references($storeId) && (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now()))] | order(priority desc, startsAt desc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
+  "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
   slug,
   image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
 }`;
@@ -304,23 +319,46 @@ export const activeCampaignsByStoreQuery = groq`*[_type == "campaign" && isPubli
 export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
-  slug,
-  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  startsAt,
-  endsAt
-}`;
-
-export const campaignBySlugQuery = groq`*[_type == "campaign" && slug.current == $slug][0] {
-  _id,
-  "title": coalesce(title[$locale], title.tr),
+  "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
   slug,
   image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   startsAt,
   endsAt,
   relatedStores[]-> {
+    _id,
     title,
     slug,
-    logo { asset->{ _id, url } }
+    logo { asset->{ _id, url } },
+    storeCategory-> {
+      _id,
+      "title": coalesce(title[$locale], title.tr),
+      "slug": {
+        "current": coalesce(slug[$locale].current, slug.tr.current)
+      }
+    }
+  }
+}`;
+
+export const campaignBySlugQuery = groq`*[_type == "campaign" && slug.current == $slug][0] {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  startsAt,
+  endsAt,
+  relatedStores[]-> {
+    _id,
+    title,
+    slug,
+    logo { asset->{ _id, url, metadata { lqip, dimensions } } },
+    storeCategory-> {
+      _id,
+      "title": coalesce(title[$locale], title.tr),
+      "slug": {
+        "current": coalesce(slug[$locale].current, slug.tr.current)
+      }
+    }
   },
   "body": coalesce(body[$locale], body.tr),
   "terms": coalesce(terms[$locale], terms.tr),
