@@ -227,6 +227,8 @@ export const storeBySlugQuery = groq`*[_type == "store" && slug.current == $slug
   title,
   slug,
   logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  gallery[] { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   floor,
   "description": coalesce(description[$locale], description.tr),
   "workingHours": coalesce(workingHours[$locale], workingHours.tr),
@@ -264,6 +266,8 @@ export const diningBySlugQuery = groq`*[_type == "store" && slug.current == $slu
   title,
   slug,
   logo { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  gallery[] { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   floor,
   "description": coalesce(description[$locale], description.tr),
   "workingHours": coalesce(workingHours[$locale], workingHours.tr),
@@ -288,6 +292,13 @@ export const activeCampaignsQuery = groq`*[_type == "campaign" && isPublished ==
   image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   startsAt,
   endsAt
+}`;
+
+export const activeCampaignsByStoreQuery = groq`*[_type == "campaign" && isPublished == true && references($storeId) && (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now()))] | order(priority desc, startsAt desc) {
+  _id,
+  "title": coalesce(title[$locale], title.tr),
+  slug,
+  image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
 }`;
 
 export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
