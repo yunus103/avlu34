@@ -160,7 +160,9 @@ export default async function OfferDetailPage({ params }: Props) {
                                 image={store.logo}
                                 fill
                                 fit="max"
-                                className="object-contain p-1"
+                                objectFit="contain"
+                                className="p-1"
+                                sizes="60px"
                               />
                             </div>
                           )}

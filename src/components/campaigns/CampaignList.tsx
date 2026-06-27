@@ -204,7 +204,9 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                             image={brand.logo}
                             fill
                             fit="max"
-                            className="object-contain p-0.5"
+                            objectFit="contain"
+                            className="p-0.5"
+                            sizes="32px"
                           />
                         </div>
                       )}
@@ -308,7 +310,9 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                             image={brand.logo}
                             fill
                             fit="max"
-                            className="object-contain p-0.5"
+                            objectFit="contain"
+                            className="p-0.5"
+                            sizes="32px"
                           />
                         </div>
                       )}
