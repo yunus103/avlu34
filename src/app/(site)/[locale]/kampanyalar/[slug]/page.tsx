@@ -153,9 +153,9 @@ export default async function OfferDetailPage({ params }: Props) {
                     const storeUrl = `${getPublicPath("magazalar", locale as Locale)}/${store.slug.current}`;
                     return (
                       <div key={store._id} className="flex items-center justify-between gap-4 border-b border-neutral-50 pb-4 last:border-b-0 last:pb-0">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
                           {store.logo && (
-                            <div className="relative w-20 h-12 flex items-center bg-neutral-50 shrink-0 border border-neutral-100">
+                            <div className="relative w-15 h-10 flex items-center bg-neutral-50 shrink-0 border border-neutral-100">
                               <SanityImage
                                 image={store.logo}
                                 fill
@@ -164,14 +164,14 @@ export default async function OfferDetailPage({ params }: Props) {
                               />
                             </div>
                           )}
-                          <span className="font-sans font-bold text-xs md:text-sm uppercase tracking-wider text-neutral-900">
+                          <span className="font-sans font-bold text-xs uppercase tracking-wider text-neutral-900 leading-tight">
                             {store.title}
                           </span>
                         </div>
 
                         <Link
                           href={storeUrl}
-                          className="flex items-center gap-1 text-xs md:text-sm font-sans font-bold uppercase tracking-wider text-neutral-700 hover:text-black border-b border-transparent hover:border-black pb-0.5 transition-all duration-300"
+                          className="flex items-center gap-1 text-[10px] md:text-xs font-sans font-bold uppercase tracking-wider text-neutral-700 hover:text-black border-b border-transparent hover:border-black pb-0.5 transition-all duration-300 shrink-0"
                         >
                           {isEn ? "Store Profile" : "Mağazayı Gör"}
                           <RiArrowRightLine size={12} />

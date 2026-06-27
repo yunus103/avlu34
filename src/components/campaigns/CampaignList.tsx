@@ -128,8 +128,8 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
               className="w-full h-11 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-bold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
             >
               <option value="all">{isEn ? "All Campaigns" : "Tüm Kampanyalar"}</option>
-              <option value="shopping">{isEn ? "Shopping Offers" : "Alışveriş Kampanyaları"}</option>
-              <option value="dining">{isEn ? "Dining Offers" : "Yeme-İçme Kampanyaları"}</option>
+              <option value="shopping">{isEn ? "Shopping Offers" : "Alışveriş"}</option>
+              <option value="dining">{isEn ? "Dining Offers" : "Yeme-İçme"}</option>
             </select>
             <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
           </div>
