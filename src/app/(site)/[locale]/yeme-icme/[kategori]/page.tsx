@@ -278,7 +278,7 @@ export default async function DiningCategoryPage({ params }: Props) {
                       image={dining.logo} 
                       fill 
                       fit="max"
-                      className="object-contain"
+                      objectFit="contain"
                     />
                   </div>
                 </div>

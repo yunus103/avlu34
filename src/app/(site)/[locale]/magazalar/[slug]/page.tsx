@@ -278,7 +278,7 @@ export default async function StoreDetailPage({ params }: Props) {
                       image={store.logo} 
                       fill 
                       fit="max"
-                      className="object-contain"
+                      objectFit="contain"
                     />
                   </div>
                 </div>
