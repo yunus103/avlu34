@@ -297,6 +297,7 @@ export const activeCampaignsQuery = groq`*[_type == "campaign" && isPublished ==
     _id,
     title,
     slug,
+    shopType,
     logo { asset->{ _id, url } },
     storeCategory-> {
       _id,
@@ -316,7 +317,7 @@ export const activeCampaignsByStoreQuery = groq`*[_type == "campaign" && isPubli
   image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop }
 }`;
 
-export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
+export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == true && dateTime(endsAt) < dateTime(now())][0...30] | order(endsAt desc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
   "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
@@ -328,6 +329,7 @@ export const pastCampaignsQuery = groq`*[_type == "campaign" && isPublished == t
     _id,
     title,
     slug,
+    shopType,
     logo { asset->{ _id, url } },
     storeCategory-> {
       _id,
@@ -351,6 +353,7 @@ export const campaignBySlugQuery = groq`*[_type == "campaign" && slug.current ==
     _id,
     title,
     slug,
+    shopType,
     logo { asset->{ _id, url, metadata { lqip, dimensions } } },
     storeCategory-> {
       _id,

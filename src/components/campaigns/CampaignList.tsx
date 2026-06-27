@@ -19,44 +19,25 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
 
   // State
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [activeLimit, setActiveLimit] = useState(9);
   const [pastLimit, setPastLimit] = useState(9);
 
-  // Dynamic category extraction from related stores
-  const categories = useMemo(() => {
-    const allCamps = [...activeCampaigns, ...pastCampaigns];
-    const catsMap = new Map<string, { id: string; title: string; slug: string }>();
-
-    allCamps.forEach((camp) => {
-      camp.relatedStores?.forEach((store) => {
-        const cat = store.storeCategory;
-        if (cat && cat.slug?.current) {
-          catsMap.set(cat.slug.current, {
-            id: cat._id,
-            title: cat.title,
-            slug: cat.slug.current,
-          });
-        }
-      });
-    });
-
-    return Array.from(catsMap.values()).sort((a, b) =>
-      a.title.localeCompare(b.title, isEn ? "en" : "tr")
-    );
-  }, [activeCampaigns, pastCampaigns, isEn]);
-
-  // Dynamic search, filter, and sort logic
+  // Filter and sort logic
   const filterAndSort = (camps: Campaign[]) => {
     let result = [...camps];
 
-    // 1. Filter by category
-    if (selectedCategory) {
+    // 1. Filter by shopType category (shopping vs dining vs all)
+    if (selectedFilter === "shopping") {
       result = result.filter((camp) =>
-        camp.relatedStores?.some(
-          (store) => store.storeCategory?.slug?.current === selectedCategory
-        )
+        !camp.relatedStores ||
+        camp.relatedStores.length === 0 ||
+        camp.relatedStores.some((store) => store.shopType === "store" || store.shopType === "both")
+      );
+    } else if (selectedFilter === "dining") {
+      result = result.filter((camp) =>
+        camp.relatedStores?.some((store) => store.shopType === "dining" || store.shopType === "both")
       );
     }
 
@@ -96,8 +77,8 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
     return result;
   };
 
-  const filteredActive = useMemo(() => filterAndSort(activeCampaigns), [activeCampaigns, selectedCategory, searchQuery, sortBy]);
-  const filteredPast = useMemo(() => filterAndSort(pastCampaigns), [pastCampaigns, selectedCategory, searchQuery, sortBy]);
+  const filteredActive = useMemo(() => filterAndSort(activeCampaigns), [activeCampaigns, selectedFilter, searchQuery, sortBy]);
+  const filteredPast = useMemo(() => filterAndSort(pastCampaigns), [pastCampaigns, selectedFilter, searchQuery, sortBy]);
 
   const visibleActive = useMemo(() => filteredActive.slice(0, activeLimit), [filteredActive, activeLimit]);
   const visiblePast = useMemo(() => filteredPast.slice(0, pastLimit), [filteredPast, pastLimit]);
@@ -114,7 +95,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-white select-text">
+    <div className="container mx-auto px-4 py-8 bg-white">
       {/* Filters Bar */}
       <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 pb-8 mb-8 border-b border-neutral-100">
         {/* Search */}
@@ -128,30 +109,27 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
               setActiveLimit(9);
               setPastLimit(9);
             }}
-            className="w-full h-10 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-xs font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
+            className="w-full h-11 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-sm font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
           />
-          <RiSearchLine size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+          <RiSearchLine size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
         </div>
 
         {/* Filters and Sorting Dropdowns */}
         <div className="flex items-center gap-3">
-          {/* Category Filter */}
-          <div className="relative w-44">
+          {/* Main Group Filter (All / Shopping / Dining) */}
+          <div className="relative w-48">
             <select
-              value={selectedCategory}
+              value={selectedFilter}
               onChange={(e) => {
-                setSelectedCategory(e.target.value);
+                setSelectedFilter(e.target.value);
                 setActiveLimit(9);
                 setPastLimit(9);
               }}
-              className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
+              className="w-full h-11 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-bold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
             >
-              <option value="">{isEn ? "All Categories" : "Tüm Kategoriler"}</option>
-              {categories.map((cat) => (
-                <option key={cat.slug} value={cat.slug}>
-                  {cat.title}
-                </option>
-              ))}
+              <option value="all">{isEn ? "All Campaigns" : "Tüm Kampanyalar"}</option>
+              <option value="shopping">{isEn ? "Shopping Offers" : "Alışveriş Kampanyaları"}</option>
+              <option value="dining">{isEn ? "Dining Offers" : "Yeme-İçme Kampanyaları"}</option>
             </select>
             <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
           </div>
@@ -165,7 +143,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                 setActiveLimit(9);
                 setPastLimit(9);
               }}
-              className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
+              className="w-full h-11 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-bold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
             >
               <option value="newest">{isEn ? "Newest First" : "En Yeni"}</option>
               <option value="ending-soon">{isEn ? "Ending Soon" : "Süresi Yaklaşanlar"}</option>
@@ -180,7 +158,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
       {/* Active Campaigns Section */}
       <div className="mb-16">
         <div className="border-b border-neutral-200 pb-3 mb-8">
-          <h2 className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-black">
+          <h2 className="text-sm font-sans font-bold tracking-[0.2em] uppercase text-black">
             {isEn ? "ALL OFFERS" : "AKTİF KAMPANYALAR"}
           </h2>
         </div>
@@ -190,12 +168,15 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
             {visibleActive.map((camp) => {
               const campUrl = `${getPublicPath("kampanyalar", locale)}/${camp.slug.current}`;
               const brand = camp.relatedStores?.[0];
+              const brandLabel = camp.relatedStores && camp.relatedStores.length > 1
+                ? `${brand?.title || ""} + ${camp.relatedStores.length - 1} ${isEn ? "Brands" : "Marka"}`
+                : (brand?.title || "AVLU34");
 
               return (
                 <Link
                   key={camp._id}
                   href={campUrl}
-                  className="group flex flex-col justify-between rounded-none overflow-hidden select-text"
+                  className="group flex flex-col justify-between rounded-none overflow-hidden"
                 >
                   <div className="flex flex-col">
                     {/* Cover Image */}
@@ -210,43 +191,43 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                       )}
                     </div>
 
-                    {/* Date */}
-                    <span className="text-neutral-500 font-sans text-xs tracking-wider mt-3.5 block">
+                    {/* Date - Font size increased */}
+                    <span className="text-neutral-500 font-sans text-xs md:text-sm tracking-wider mt-3.5 block">
                       {formatDateRange(camp.startsAt, camp.endsAt)}
                     </span>
 
-                    {/* Brand Name & Logo */}
-                    <div className="flex items-center gap-2 mt-2 select-none">
+                    {/* Brand Name & Logo - Font size increased & Non-circular Logo */}
+                    <div className="flex items-center gap-2 mt-2">
                       {brand?.logo && (
-                        <div className="relative w-7 h-5 flex items-center shrink-0">
+                        <div className="relative w-8 h-6 flex items-center shrink-0 border border-neutral-100 bg-neutral-50">
                           <SanityImage
                             image={brand.logo}
                             fill
                             fit="max"
-                            className="object-contain"
+                            className="object-contain p-0.5"
                           />
                         </div>
                       )}
-                      <span className="text-black font-sans font-bold text-xs tracking-widest uppercase">
-                        {brand?.title || "AVLU34"}
+                      <span className="text-black font-sans font-bold text-xs md:text-sm tracking-widest uppercase">
+                        {brandLabel}
                       </span>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-serif font-medium text-base text-neutral-900 mt-2 line-clamp-1 leading-snug">
+                    {/* Title - Font size increased */}
+                    <h3 className="font-serif font-semibold text-lg md:text-xl text-neutral-900 mt-2 line-clamp-1 leading-snug">
                       {camp.title}
                     </h3>
 
-                    {/* Short Description */}
+                    {/* Short Description - Font size increased */}
                     {camp.shortDescription && (
-                      <p className="font-sans text-neutral-600 text-xs line-clamp-2 mt-1 leading-relaxed">
+                      <p className="font-sans text-neutral-600 text-sm line-clamp-2 mt-1 leading-relaxed">
                         {camp.shortDescription}
                       </p>
                     )}
                   </div>
 
-                  {/* Find Out More Link */}
-                  <span className="text-xs uppercase tracking-wider font-semibold text-neutral-800 hover:text-black mt-3 block group-hover:underline underline-offset-4 select-none">
+                  {/* Find Out More Link - Font size increased */}
+                  <span className="text-xs md:text-sm uppercase tracking-wider font-bold text-neutral-800 hover:text-black mt-3 block group-hover:underline underline-offset-4">
                     {isEn ? "Find out more" : "Detayları Gör"}
                   </span>
                 </Link>
@@ -263,10 +244,10 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
 
         {/* Load More Button */}
         {hasMoreActive && (
-          <div className="flex justify-center mt-12 select-none">
+          <div className="flex justify-center mt-12">
             <button
               onClick={() => setActiveLimit((prev) => prev + 9)}
-              className="text-xs font-sans font-bold tracking-widest uppercase border border-black text-black bg-white px-8 py-3.5 hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer rounded-none"
+              className="text-xs md:text-sm font-sans font-bold tracking-widest uppercase border border-black text-black bg-white px-8 py-3.5 hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer rounded-none"
             >
               {isEn ? "Load More" : "Daha Fazla Göster"}
             </button>
@@ -278,7 +259,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
       {filteredPast.length > 0 && (
         <div className="mt-16 border-t border-neutral-100 pt-16">
           <div className="border-b border-neutral-200 pb-3 mb-8">
-            <h2 className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-neutral-400">
+            <h2 className="text-sm font-sans font-bold tracking-[0.2em] uppercase text-neutral-400">
               {isEn ? "PAST OFFERS" : "GEÇMİŞ KAMPANYALAR"}
             </h2>
           </div>
@@ -287,12 +268,15 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
             {visiblePast.map((camp) => {
               const campUrl = `${getPublicPath("kampanyalar", locale)}/${camp.slug.current}`;
               const brand = camp.relatedStores?.[0];
+              const brandLabel = camp.relatedStores && camp.relatedStores.length > 1
+                ? `${brand?.title || ""} + ${camp.relatedStores.length - 1} ${isEn ? "Brands" : "Marka"}`
+                : (brand?.title || "AVLU34");
 
               return (
                 <Link
                   key={camp._id}
                   href={campUrl}
-                  className="group flex flex-col justify-between rounded-none overflow-hidden grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 select-text"
+                  className="group flex flex-col justify-between rounded-none overflow-hidden grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                 >
                   <div className="flex flex-col">
                     {/* Cover Image */}
@@ -306,48 +290,48 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                         />
                       )}
                       {/* Expired Ribbon/Badge */}
-                      <div className="absolute top-3 right-3 bg-black text-white text-[9px] font-sans font-bold uppercase tracking-widest px-2.5 py-1 select-none">
+                      <div className="absolute top-3 right-3 bg-black text-white text-[9px] font-sans font-bold uppercase tracking-widest px-2.5 py-1">
                         {isEn ? "Expired" : "Süresi Doldu"}
                       </div>
                     </div>
 
-                    {/* Date */}
-                    <span className="text-neutral-500 font-sans text-xs tracking-wider mt-3.5 block">
+                    {/* Date - Font size increased */}
+                    <span className="text-neutral-500 font-sans text-xs md:text-sm tracking-wider mt-3.5 block">
                       {formatDateRange(camp.startsAt, camp.endsAt)}
                     </span>
 
-                    {/* Brand Name & Logo */}
-                    <div className="flex items-center gap-2 mt-2 select-none">
+                    {/* Brand Name & Logo - Font size increased & Non-circular Logo */}
+                    <div className="flex items-center gap-2 mt-2">
                       {brand?.logo && (
-                        <div className="relative w-7 h-5 flex items-center shrink-0">
+                        <div className="relative w-8 h-6 flex items-center shrink-0 border border-neutral-100 bg-neutral-50">
                           <SanityImage
                             image={brand.logo}
                             fill
                             fit="max"
-                            className="object-contain"
+                            className="object-contain p-0.5"
                           />
                         </div>
                       )}
-                      <span className="text-neutral-500 font-sans font-bold text-xs tracking-widest uppercase">
-                        {brand?.title || "AVLU34"}
+                      <span className="text-neutral-550 font-sans font-bold text-xs md:text-sm tracking-widest uppercase">
+                        {brandLabel}
                       </span>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-serif font-medium text-base text-neutral-400 mt-2 line-clamp-1 leading-snug">
+                    {/* Title - Font size increased */}
+                    <h3 className="font-serif font-semibold text-lg md:text-xl text-neutral-400 mt-2 line-clamp-1 leading-snug">
                       {camp.title}
                     </h3>
 
-                    {/* Short Description */}
+                    {/* Short Description - Font size increased */}
                     {camp.shortDescription && (
-                      <p className="font-sans text-neutral-400 text-xs line-clamp-2 mt-1 leading-relaxed">
+                      <p className="font-sans text-neutral-400 text-sm line-clamp-2 mt-1 leading-relaxed">
                         {camp.shortDescription}
                       </p>
                     )}
                   </div>
 
-                  {/* Find Out More Link */}
-                  <span className="text-xs uppercase tracking-wider font-semibold text-neutral-500 group-hover:text-black mt-3 block group-hover:underline underline-offset-4 select-none">
+                  {/* Find Out More Link - Font size increased */}
+                  <span className="text-xs md:text-sm uppercase tracking-wider font-bold text-neutral-500 group-hover:text-black mt-3 block group-hover:underline underline-offset-4">
                     {isEn ? "Find out more" : "Detayları Gör"}
                   </span>
                 </Link>
@@ -357,10 +341,10 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
 
           {/* Load More Button */}
           {hasMorePast && (
-            <div className="flex justify-center mt-12 select-none">
+            <div className="flex justify-center mt-12">
               <button
                 onClick={() => setPastLimit((prev) => prev + 9)}
-                className="text-xs font-sans font-bold tracking-widest uppercase border border-neutral-300 text-neutral-500 bg-white px-8 py-3.5 hover:border-black hover:text-black transition-colors duration-300 cursor-pointer rounded-none"
+                className="text-xs md:text-sm font-sans font-bold tracking-widest uppercase border border-neutral-300 text-neutral-500 bg-white px-8 py-3.5 hover:border-black hover:text-black transition-colors duration-300 cursor-pointer rounded-none"
               >
                 {isEn ? "Load More" : "Daha Fazla Göster"}
               </button>

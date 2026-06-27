@@ -89,12 +89,12 @@ export default async function OfferDetailPage({ params }: Props) {
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="container mx-auto px-4 mt-12 md:mt-16 select-text">
+      <div className="container mx-auto px-4 mt-12 md:mt-16">
         {/* Expired warning */}
         {isExpired && (
-          <div className="mb-10 p-4 border border-neutral-200 bg-neutral-50 flex items-center gap-3 text-neutral-600 rounded-none max-w-4xl select-none">
+          <div className="mb-10 p-4 border border-neutral-200 bg-neutral-50 flex items-center gap-3 text-neutral-600 rounded-none max-w-4xl">
             <RiAlertLine className="shrink-0 text-neutral-500" size={20} />
-            <span className="text-xs font-sans font-medium tracking-wide">
+            <span className="text-xs md:text-sm font-sans font-medium tracking-wide">
               {isEn
                 ? "This campaign has ended. Please check our active offers for current deals."
                 : "Bu kampanyanın süresi dolmuştur. Güncel fırsatlar için lütfen aktif kampanyalarımızı inceleyin."}
@@ -107,7 +107,7 @@ export default async function OfferDetailPage({ params }: Props) {
           <div className="lg:col-span-2 flex flex-col gap-10">
             {/* Main Image displayed inside layout as well for emphasis */}
             {campaign.image && (
-              <div className="relative aspect-[16/9] w-full border border-neutral-100 overflow-hidden select-none">
+              <div className="relative aspect-[16/9] w-full border border-neutral-100 overflow-hidden">
                 <SanityImage
                   image={campaign.image}
                   fill
@@ -120,7 +120,7 @@ export default async function OfferDetailPage({ params }: Props) {
 
             {/* Campaign Body Content */}
             <div className="prose max-w-none">
-              <h2 className="text-xl md:text-2xl font-serif tracking-wide text-neutral-900 border-b pb-3 mb-6 select-none">
+              <h2 className="text-xl md:text-2xl font-serif tracking-wide text-neutral-900 border-b pb-3 mb-6">
                 {isEn ? "Campaign Details" : "Kampanya Detayları"}
               </h2>
               <RichText value={campaign.body} />
@@ -128,11 +128,11 @@ export default async function OfferDetailPage({ params }: Props) {
 
             {/* Terms and Conditions (Katılım Koşulları) */}
             {campaign.terms && campaign.terms.length > 0 && (
-              <div className="border-t border-neutral-200 pt-8 mt-4 select-text">
-                <h3 className="text-xs font-sans font-bold tracking-widest text-neutral-400 uppercase mb-4 select-none">
+              <div className="border-t border-neutral-200 pt-8 mt-4">
+                <h3 className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-400 uppercase mb-4">
                   {isEn ? "Terms & Conditions" : "Kampanya Katılım Koşulları"}
                 </h3>
-                <div className="text-xs text-neutral-500 leading-relaxed max-w-3xl">
+                <div className="text-xs md:text-sm text-neutral-500 leading-relaxed max-w-3xl">
                   <RichText value={campaign.terms} />
                 </div>
               </div>
@@ -140,10 +140,10 @@ export default async function OfferDetailPage({ params }: Props) {
           </div>
 
           {/* Right Column: Related Brands (1/3 width) */}
-          <div className="lg:col-span-1 lg:sticky lg:top-24 select-none">
+          <div className="lg:col-span-1 lg:sticky lg:top-24">
             {campaign.relatedStores && campaign.relatedStores.length > 0 && (
               <div className="border border-neutral-200 bg-white p-6 md:p-8 flex flex-col gap-6">
-                <h3 className="text-xs font-sans font-bold tracking-widest text-neutral-400 uppercase border-b border-neutral-100 pb-3 flex items-center gap-2">
+                <h3 className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-400 uppercase border-b border-neutral-100 pb-3 flex items-center gap-2">
                   <RiStore2Line size={16} />
                   {isEn ? "Participating Brands" : "İlişkili Markalar"}
                 </h3>
@@ -155,7 +155,7 @@ export default async function OfferDetailPage({ params }: Props) {
                       <div key={store._id} className="flex items-center justify-between gap-4 border-b border-neutral-50 pb-4 last:border-b-0 last:pb-0">
                         <div className="flex items-center gap-3">
                           {store.logo && (
-                            <div className="relative w-12 h-8 flex items-center bg-neutral-50 shrink-0 border border-neutral-100">
+                            <div className="relative w-20 h-12 flex items-center bg-neutral-50 shrink-0 border border-neutral-100">
                               <SanityImage
                                 image={store.logo}
                                 fill
@@ -164,14 +164,14 @@ export default async function OfferDetailPage({ params }: Props) {
                               />
                             </div>
                           )}
-                          <span className="font-sans font-bold text-xs uppercase tracking-wider text-neutral-900">
+                          <span className="font-sans font-bold text-xs md:text-sm uppercase tracking-wider text-neutral-900">
                             {store.title}
                           </span>
                         </div>
 
                         <Link
                           href={storeUrl}
-                          className="flex items-center gap-1 text-[10px] font-sans font-bold uppercase tracking-wider text-neutral-700 hover:text-black border-b border-transparent hover:border-black pb-0.5 transition-all duration-300"
+                          className="flex items-center gap-1 text-xs md:text-sm font-sans font-bold uppercase tracking-wider text-neutral-700 hover:text-black border-b border-transparent hover:border-black pb-0.5 transition-all duration-300"
                         >
                           {isEn ? "Store Profile" : "Mağazayı Gör"}
                           <RiArrowRightLine size={12} />
@@ -185,12 +185,12 @@ export default async function OfferDetailPage({ params }: Props) {
 
             {/* Campaign Period Card */}
             <div className="border border-neutral-200 bg-neutral-50 p-6 md:p-8 mt-6 flex flex-col gap-3">
-              <h4 className="text-[10px] font-sans font-bold tracking-widest text-neutral-400 uppercase">
+              <h4 className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-400 uppercase">
                 {isEn ? "Campaign Period" : "Kampanya Dönemi"}
               </h4>
               <div className="flex items-start gap-2.5 text-neutral-700">
                 <RiCalendarEventLine size={16} className="mt-0.5 shrink-0 text-neutral-400" />
-                <span className="text-xs font-sans font-semibold tracking-wide leading-relaxed">
+                <span className="text-xs md:text-sm font-sans font-semibold tracking-wide leading-relaxed">
                   {campaignDuration}
                 </span>
               </div>
