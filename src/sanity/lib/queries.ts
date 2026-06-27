@@ -189,6 +189,22 @@ export const diningPageQuery = groq`*[_type == "diningPage"][0] {
   seo
 }`;
 
+// ─── Campaigns Page Query ─────────────────────────────────────────────────────
+export const campaignsPageQuery = groq`*[_type == "campaignsPage"][0] {
+  "title": coalesce(title[$locale], title.tr),
+  "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  seo
+}`;
+
+// ─── Events Page Query ────────────────────────────────────────────────────────
+export const eventsPageQuery = groq`*[_type == "eventsPage"][0] {
+  "title": coalesce(title[$locale], title.tr),
+  "subtitle": coalesce(subtitle[$locale], subtitle.tr),
+  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  seo
+}`;
+
 // ─── Store / Dining Categories Query ──────────────────────────────────────────
 export const storeCategoriesQuery = groq`*[_type == "storeCategory"] | order(title.tr asc) {
   _id,

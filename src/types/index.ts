@@ -106,6 +106,13 @@ export interface BasePage {
   seo?: SeoSettings;
 }
 
+export interface StaticPageSettings {
+  title?: string;
+  subtitle?: string;
+  heroImage?: SanityImage;
+  seo?: SeoSettings;
+}
+
 /**
  * Dynamic AVM Document Types (Projected / Flat versions after query)
  */

@@ -6,11 +6,11 @@ import { cachedFetch } from "@/sanity/lib/client";
 import { PageHero } from "@/components/layout/PageHero";
 import { CampaignList } from "@/components/campaigns/CampaignList";
 import {
-  homePageQuery,
+  campaignsPageQuery,
   activeCampaignsQuery,
   pastCampaignsQuery,
 } from "@/sanity/lib/queries";
-import { Campaign, HomePage } from "@/types";
+import { Campaign, StaticPageSettings } from "@/types";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -22,15 +22,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const pageData = await cachedFetch<HomePage>(
-    homePageQuery,
+  const pageData = await cachedFetch<StaticPageSettings>(
+    campaignsPageQuery,
     { locale },
-    { next: { tags: ["home"] } }
+    { next: { tags: ["campaignsPage"] } }
   );
 
-  const title = pageData?.campaignsTitle || (locale === "en" ? "Offers" : "Kampanyalar");
-  const description = pageData?.campaignsSubtitle || "";
-  const ogImage = pageData?.campaignsImage;
+  const defaultTitle = locale === "en" ? "Offers" : "Kampanyalar";
+  const title = pageData?.title || defaultTitle;
+  const description = pageData?.subtitle || "";
+  const ogImage = pageData?.heroImage;
+  const pageSeo = pageData?.seo ? {
+    metaTitle: pageData.seo.metaTitle,
+    metaDescription: pageData.seo.metaDescription,
+    ogImage: pageData.seo.shareGraphic,
+  } : undefined;
 
   return buildMetadata({
     title,
@@ -38,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ogImage,
     canonicalPath: getPublicPath("kampanyalar", locale as Locale),
     locale,
+    pageSeo,
   });
 }
 
@@ -46,10 +53,10 @@ export default async function OffersPage({ params }: Props) {
 
   // Run fetches in parallel for optimal performance
   const [pageData, activeCampaigns, pastCampaigns] = await Promise.all([
-    cachedFetch<HomePage>(
-      homePageQuery,
+    cachedFetch<StaticPageSettings>(
+      campaignsPageQuery,
       { locale },
-      { next: { tags: ["home"] } }
+      { next: { tags: ["campaignsPage"] } }
     ),
     cachedFetch<Campaign[]>(
       activeCampaignsQuery,
@@ -66,9 +73,9 @@ export default async function OffersPage({ params }: Props) {
   const defaultTitle = locale === "en" ? "Offers" : "Kampanyalar";
   const defaultSubtitle = locale === "en" ? "Discover special campaigns at AVLU34" : "AVLU34'teki özel kampanya ve fırsatları keşfedin";
 
-  const title = pageData?.campaignsTitle || defaultTitle;
-  const subtitle = pageData?.campaignsSubtitle || defaultSubtitle;
-  const backgroundImage = pageData?.campaignsImage;
+  const title = pageData?.title || defaultTitle;
+  const subtitle = pageData?.subtitle || defaultSubtitle;
+  const backgroundImage = pageData?.heroImage;
 
   // Breadcrumbs items for PageHero
   const breadcrumbs = [

@@ -56,6 +56,8 @@ export async function POST(req: Request) {
       kvkkPage: ["kvkk"],
       storesPage: ["storesPage"],
       diningPage: ["diningPage"],
+      campaignsPage: ["campaignsPage"],
+      eventsPage: ["eventsPage"],
       store: ["store", "sitemap"],
       storeCategory: ["storeCategory", "sitemap"],
       foodCategory: ["foodCategory", "sitemap"],

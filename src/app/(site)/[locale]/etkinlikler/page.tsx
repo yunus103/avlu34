@@ -6,11 +6,11 @@ import { cachedFetch } from "@/sanity/lib/client";
 import { PageHero } from "@/components/layout/PageHero";
 import { EventList } from "@/components/events/EventList";
 import {
-  homePageQuery,
+  eventsPageQuery,
   activeEventsQuery,
   pastEventsQuery,
 } from "@/sanity/lib/queries";
-import { Event, HomePage } from "@/types";
+import { Event, StaticPageSettings } from "@/types";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -22,15 +22,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const pageData = await cachedFetch<HomePage>(
-    homePageQuery,
+  const pageData = await cachedFetch<StaticPageSettings>(
+    eventsPageQuery,
     { locale },
-    { next: { tags: ["home"] } }
+    { next: { tags: ["eventsPage"] } }
   );
 
-  const title = pageData?.eventsTitle || (locale === "en" ? "Events" : "Etkinlikler");
-  const description = pageData?.eventsSubtitle || "";
-  const ogImage = pageData?.eventsImage;
+  const defaultTitle = locale === "en" ? "Events" : "Etkinlikler";
+  const title = pageData?.title || defaultTitle;
+  const description = pageData?.subtitle || "";
+  const ogImage = pageData?.heroImage;
+  const pageSeo = pageData?.seo ? {
+    metaTitle: pageData.seo.metaTitle,
+    metaDescription: pageData.seo.metaDescription,
+    ogImage: pageData.seo.shareGraphic,
+  } : undefined;
 
   return buildMetadata({
     title,
@@ -38,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ogImage,
     canonicalPath: getPublicPath("etkinlikler", locale as Locale),
     locale,
+    pageSeo,
   });
 }
 
@@ -46,10 +53,10 @@ export default async function EventsPage({ params }: Props) {
 
   // Run fetches in parallel for optimal performance
   const [pageData, activeEvents, pastEvents] = await Promise.all([
-    cachedFetch<HomePage>(
-      homePageQuery,
+    cachedFetch<StaticPageSettings>(
+      eventsPageQuery,
       { locale },
-      { next: { tags: ["home"] } }
+      { next: { tags: ["eventsPage"] } }
     ),
     cachedFetch<Event[]>(
       activeEventsQuery,
@@ -66,9 +73,9 @@ export default async function EventsPage({ params }: Props) {
   const defaultTitle = locale === "en" ? "Events" : "Etkinlikler";
   const defaultSubtitle = locale === "en" ? "Discover culture and entertainment at AVLU34" : "AVLU34'teki kültür, sanat ve eğlence dolu etkinlikleri keşfedin";
 
-  const title = pageData?.eventsTitle || defaultTitle;
-  const subtitle = pageData?.eventsSubtitle || defaultSubtitle;
-  const backgroundImage = pageData?.eventsImage;
+  const title = pageData?.title || defaultTitle;
+  const subtitle = pageData?.subtitle || defaultSubtitle;
+  const backgroundImage = pageData?.heroImage;
 
   // Breadcrumbs items for PageHero
   const breadcrumbs = [
