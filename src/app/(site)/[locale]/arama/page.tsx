@@ -117,19 +117,22 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                       href={getPublicPath(`/magazalar/${item.slug}`, locale as Locale)}
                       className="group border border-neutral-200 bg-white p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative"
                     >
-                      <div className="h-16 w-full flex items-center justify-center mb-4">
+                      <div className="h-16 w-full relative mb-4">
                         {item.logo ? (
                           <SanityImage
                             image={item.logo}
-                            width={160}
-                            height={60}
+                            fill
                             fit="max"
-                            className="max-h-full w-auto object-contain transition-all duration-300 group-hover:scale-105"
+                            objectFit="contain"
+                            className="transition-all duration-300 group-hover:scale-105"
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 160px"
                           />
                         ) : (
-                          <span className="font-sans font-bold text-sm tracking-wide text-black uppercase">
-                            {item.title}
-                          </span>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-sans font-bold text-sm tracking-wide text-black uppercase">
+                              {item.title}
+                            </span>
+                          </div>
                         )}
                       </div>
                       <div className="text-center border-t border-neutral-100 pt-3">
@@ -165,19 +168,22 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                       href={getPublicPath(`/yeme-icme/${item.slug}`, locale as Locale)}
                       className="group border border-neutral-200 bg-white p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative"
                     >
-                      <div className="h-16 w-full flex items-center justify-center mb-4">
+                      <div className="h-16 w-full relative mb-4">
                         {item.logo ? (
                           <SanityImage
                             image={item.logo}
-                            width={160}
-                            height={60}
+                            fill
                             fit="max"
-                            className="max-h-full w-auto object-contain transition-all duration-300 group-hover:scale-105"
+                            objectFit="contain"
+                            className="transition-all duration-300 group-hover:scale-105"
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 160px"
                           />
                         ) : (
-                          <span className="font-sans font-bold text-sm tracking-wide text-black uppercase">
-                            {item.title}
-                          </span>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-sans font-bold text-sm tracking-wide text-black uppercase">
+                              {item.title}
+                            </span>
+                          </div>
                         )}
                       </div>
                       <div className="text-center border-t border-neutral-100 pt-3">
