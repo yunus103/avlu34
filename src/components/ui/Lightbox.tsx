@@ -33,7 +33,7 @@ function prefetchLightboxImage(image: SanityImageType) {
 }
 
 interface LightboxGalleryProps {
-  images: SanityImageType[];
+  images: (SanityImageType & { caption?: string })[];
 }
 
 export function LightboxGallery({ images }: LightboxGalleryProps) {
@@ -208,6 +208,16 @@ export function LightboxGallery({ images }: LightboxGalleryProps) {
                 />
               </motion.div>
             </div>
+
+            {/* Caption */}
+            {images[selectedImage]?.caption && (
+              <div 
+                className="mt-6 text-center text-white/90 text-sm tracking-wider font-sans bg-black/60 py-3 px-6 max-w-xl mx-auto border border-white/10 select-text"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {images[selectedImage].caption}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

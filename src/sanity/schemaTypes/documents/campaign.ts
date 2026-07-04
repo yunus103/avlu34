@@ -94,6 +94,14 @@ export const campaignType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "isCinemaCampaign",
+      title: "Sinema Kampanyası mı?",
+      type: "boolean",
+      description: "Eğer bu kampanya sinemaya aitse işaretleyin. İşaretlenirse Sinemalar sayfasındaki güncel fırsatlar alanında otomatik olarak listelenir.",
+      initialValue: false,
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "relatedStores",
       title: "İlişkili Mağazalar",
       type: "array",

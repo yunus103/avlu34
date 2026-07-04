@@ -131,8 +131,32 @@ export const cinemaPageQuery = groq`*[_type == "cinemaPage"][0] {
   heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
   "body": coalesce(body[$locale], body.tr),
-  mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+
+  salonCount,
+  seatCount,
+  phone,
   ticketUrl,
+  privilegedHalls[] {
+    "title": coalesce(title[$locale], title.tr),
+    asset->{ _id, url, metadata { lqip, dimensions } },
+    alt
+  },
+  gallery[] {
+    asset->{ _id, url, metadata { lqip, dimensions } },
+    alt,
+    hotspot,
+    crop,
+    "caption": coalesce(caption[$locale], caption.tr)
+  },
+  "activeCampaigns": *[_type == "campaign" && isPublished == true && isCinemaCampaign == true && (dateTime(startsAt) <= dateTime(now()) && dateTime(endsAt) >= dateTime(now()))] | order(priority desc, startsAt desc) {
+    _id,
+    "title": coalesce(title[$locale], title.tr),
+    "shortDescription": coalesce(shortDescription[$locale], shortDescription.tr),
+    slug,
+    image { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+    startsAt,
+    endsAt
+  },
   seo
 }`;
 

@@ -162,6 +162,7 @@ export interface Campaign {
   endsAt: string;
   isPublished: boolean;
   showOnHome: boolean;
+  isCinemaCampaign?: boolean;
   priority: number;
   relatedStores?: Store[];
   body: any[]; // Projected or handled client-side
@@ -221,11 +222,25 @@ export interface ContactPage extends BasePage {
   successMessage?: string;
 }
 
+export interface PrivilegedHall extends SanityImage {
+  title: string;
+}
+
+export interface CinemaImage extends SanityImage {
+  caption?: string;
+}
+
 export interface CinemaPage extends BasePage {
   pageTitle: string;
   body?: any[];
-  mainImage?: SanityImage;
+
+  salonCount?: string;
+  seatCount?: string;
+  phone?: string;
   ticketUrl?: string;
+  privilegedHalls?: PrivilegedHall[];
+  gallery?: CinemaImage[];
+  activeCampaigns?: Campaign[];
 }
 
 export interface MallMapPage extends BasePage {
