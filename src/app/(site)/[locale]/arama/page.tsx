@@ -7,6 +7,7 @@ import { getPublicPath } from "@/lib/i18n/routes";
 import { Locale } from "@/lib/i18n/config";
 import { SanityImage } from "@/components/ui/SanityImage";
 import Link from "next/link";
+import { getTurkishSearchVariations } from "@/lib/search";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -41,8 +42,9 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
   };
 
   if (queryTerm) {
-    // Format query term for GROQ match operator
-    const searchQuery = `*${queryTerm}*`;
+    // Format query term for GROQ match operator with Turkish variations
+    const searchVariations = getTurkishSearchVariations(queryTerm);
+    const searchQuery = searchVariations.map((term) => `*${term}*`);
     try {
       results = await client.fetch(
         globalSearchQuery,

@@ -463,7 +463,7 @@ export const foodCategoryBySlugQuery = groq`*[_type == "foodCategory" && (slug.t
 
 // ─── Global Search Query ──────────────────────────────────────────────────────
 export const globalSearchQuery = groq`{
-  "stores": *[_type == "store" && shopType in ["store", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
+  "stores": *[_type == "store" && shopType in ["store", "both"] && (count($searchQuery[^.title match @ || coalesce(^.description[$locale], ^.description.tr) match @]) > 0)] | order(title asc) {
     _id,
     _type,
     title,
@@ -475,7 +475,7 @@ export const globalSearchQuery = groq`{
     },
     "description": coalesce(description[$locale], description.tr)
   },
-  "dining": *[_type == "store" && shopType in ["dining", "both"] && (title match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)] | order(title asc) {
+  "dining": *[_type == "store" && shopType in ["dining", "both"] && (count($searchQuery[^.title match @ || coalesce(^.description[$locale], ^.description.tr) match @]) > 0)] | order(title asc) {
     _id,
     _type,
     title,
@@ -487,7 +487,7 @@ export const globalSearchQuery = groq`{
     },
     "description": coalesce(description[$locale], description.tr)
   },
-  "campaigns": *[_type == "campaign" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
+  "campaigns": *[_type == "campaign" && isPublished == true && (count($searchQuery[coalesce(^.title[$locale], ^.title.tr) match @ || coalesce(^.body[$locale], ^.body.tr) match @]) > 0)] | order(startsAt desc) {
     _id,
     _type,
     "title": coalesce(title[$locale], title.tr),
@@ -497,7 +497,7 @@ export const globalSearchQuery = groq`{
     endsAt,
     "description": coalesce(body[$locale], body.tr)
   },
-  "events": *[_type == "event" && isPublished == true && (coalesce(title[$locale], title.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)] | order(startsAt desc) {
+  "events": *[_type == "event" && isPublished == true && (count($searchQuery[coalesce(^.title[$locale], ^.title.tr) match @ || coalesce(^.body[$locale], ^.body.tr) match @]) > 0)] | order(startsAt desc) {
     _id,
     _type,
     "title": coalesce(title[$locale], title.tr),
@@ -509,30 +509,30 @@ export const globalSearchQuery = groq`{
     "location": coalesce(location[$locale], location.tr),
     "description": coalesce(body[$locale], body.tr)
   },
-  "storeCategories": *[_type == "storeCategory" && (coalesce(title[$locale], title.tr) match $searchQuery)] | order(coalesce(title[$locale], title.tr) asc) {
+  "storeCategories": *[_type == "storeCategory" && (count($searchQuery[coalesce(^.title[$locale], ^.title.tr) match @]) > 0)] | order(coalesce(title[$locale], title.tr) asc) {
     _id,
     _type,
     "title": coalesce(title[$locale], title.tr),
     "slug": slug.tr.current
   },
-  "foodCategories": *[_type == "foodCategory" && (coalesce(title[$locale], title.tr) match $searchQuery)] | order(coalesce(title[$locale], title.tr) asc) {
+  "foodCategories": *[_type == "foodCategory" && (count($searchQuery[coalesce(^.title[$locale], ^.title.tr) match @]) > 0)] | order(coalesce(title[$locale], title.tr) asc) {
     _id,
     _type,
     "title": coalesce(title[$locale], title.tr),
     "slug": slug.tr.current
   },
   "pages": {
-    "about": *[_type == "aboutPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)][0] {
+    "about": *[_type == "aboutPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.body[$locale], ^.body.tr) match @]) > 0)][0] {
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(body[$locale], body.tr)
     },
-    "visitPlan": *[_type == "visitPlanPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(body[$locale], body.tr) match $searchQuery)][0] {
+    "visitPlan": *[_type == "visitPlanPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.body[$locale], ^.body.tr) match @]) > 0)][0] {
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(body[$locale], body.tr)
     },
-    "mallMap": *[_type == "mallMapPage" && (coalesce(pageTitle[$locale], pageTitle.tr) match $searchQuery || coalesce(description[$locale], description.tr) match $searchQuery)][0] {
+    "mallMap": *[_type == "mallMapPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.description[$locale], ^.description.tr) match @]) > 0)][0] {
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(description[$locale], description.tr)

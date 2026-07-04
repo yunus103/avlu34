@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { client } from "@/sanity/lib/client";
 import { globalSearchQuery } from "@/sanity/lib/queries";
 import { getValidLocale } from "@/lib/i18n/config";
+import { getTurkishSearchVariations } from "@/lib/search";
 
 export async function GET(req: Request) {
   try {
@@ -22,8 +23,9 @@ export async function GET(req: Request) {
       });
     }
 
-    // Format query term for GROQ match operator
-    const searchQuery = `*${queryTerm}*`;
+    // Format query term for GROQ match operator with Turkish variations
+    const searchVariations = getTurkishSearchVariations(queryTerm);
+    const searchQuery = searchVariations.map((term) => `*${term}*`);
 
     const results = await client.fetch(
       globalSearchQuery,

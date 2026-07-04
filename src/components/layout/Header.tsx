@@ -99,7 +99,7 @@ export function Header({
 
   // Debounced search fetching
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    if (searchQuery.trim().length < 2) {
       setSearchResults(null);
       return;
     }
