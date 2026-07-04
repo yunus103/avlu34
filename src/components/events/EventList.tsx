@@ -20,8 +20,8 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
   // State
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [activeLimit, setActiveLimit] = useState(9);
-  const [pastLimit, setPastLimit] = useState(9);
+  const [activeLimit, setActiveLimit] = useState(12);
+  const [pastLimit, setPastLimit] = useState(12);
 
   // Filter and sort logic
   const filterAndSort = (events: Event[]) => {
@@ -88,8 +88,8 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
-              setActiveLimit(9);
-              setPastLimit(9);
+              setActiveLimit(12);
+              setPastLimit(12);
             }}
             className="w-full h-11 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-sm font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
           />
@@ -102,8 +102,8 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
             value={sortBy}
             onChange={(e) => {
               setSortBy(e.target.value);
-              setActiveLimit(9);
-              setPastLimit(9);
+              setActiveLimit(12);
+              setPastLimit(12);
             }}
             className="w-full h-11 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-bold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
           >
@@ -125,7 +125,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
         </div>
 
         {visibleActive.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
             {visibleActive.map((event) => {
               const eventUrl = `${getPublicPath("etkinlikler", locale)}/${event.slug.current}`;
 
@@ -142,39 +142,39 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
                         <SanityImage
                           image={event.image}
                           fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
                       )}
                     </div>
 
-                    {/* Date - Font size increased */}
-                    <span className="text-neutral-500 font-sans text-xs md:text-sm tracking-wider mt-4 block">
+                    {/* Date */}
+                    <span className="text-neutral-500 font-sans text-xs tracking-wider mt-3 block">
                       {formatDateRange(event.startsAt, event.endsAt)}
                     </span>
 
-                    {/* Title - Font size increased */}
-                    <h3 className="font-serif font-semibold text-lg md:text-xl text-neutral-900 mt-2 line-clamp-1 leading-snug">
+                    {/* Title */}
+                    <h3 className="font-serif font-semibold text-base lg:text-lg text-neutral-900 mt-1.5 line-clamp-1 leading-snug">
                       {event.title}
                     </h3>
 
-                    {/* Venue Details - Font size increased */}
-                    <div className="flex flex-col gap-1.5 mt-2.5 text-sm text-neutral-600 font-sans tracking-wide">
+                    {/* Venue Details */}
+                    <div className="flex flex-col gap-1 mt-2 text-xs text-neutral-600 font-sans tracking-wide">
                       <div className="flex items-center gap-2">
-                        <RiMapPinLine size={15} className="text-neutral-400 shrink-0" />
+                        <RiMapPinLine size={14} className="text-neutral-400 shrink-0" />
                         <span>{event.location}</span>
                       </div>
                       {event.time && (
                         <div className="flex items-center gap-2">
-                          <RiTimeLine size={15} className="text-neutral-400 shrink-0" />
+                          <RiTimeLine size={14} className="text-neutral-400 shrink-0" />
                           <span>{event.time}</span>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Find Out More Link - Font size increased */}
-                  <span className="text-xs md:text-sm uppercase tracking-wider font-bold text-neutral-800 hover:text-black mt-4 block group-hover:underline underline-offset-4">
+                  {/* Find Out More Link */}
+                  <span className="text-xs uppercase tracking-wider font-bold text-neutral-800 hover:text-black mt-3 block group-hover:underline underline-offset-4">
                     {isEn ? "Find out more" : "Detayları Gör"}
                   </span>
                 </Link>
@@ -193,7 +193,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
         {hasMoreActive && (
           <div className="flex justify-center mt-12">
             <button
-              onClick={() => setActiveLimit((prev) => prev + 9)}
+              onClick={() => setActiveLimit((prev) => prev + 12)}
               className="text-xs md:text-sm font-sans font-bold tracking-widest uppercase border border-black text-black bg-white px-8 py-3.5 hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer rounded-none"
             >
               {isEn ? "Load More" : "Daha Fazla Göster"}
@@ -211,7 +211,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
             {visiblePast.map((event) => {
               const eventUrl = `${getPublicPath("etkinlikler", locale)}/${event.slug.current}`;
 
@@ -228,7 +228,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
                         <SanityImage
                           image={event.image}
                           fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                           className="object-cover"
                         />
                       )}
@@ -238,33 +238,33 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
                       </div>
                     </div>
 
-                    {/* Date - Font size increased */}
-                    <span className="text-neutral-500 font-sans text-xs md:text-sm tracking-wider mt-4 block">
+                    {/* Date */}
+                    <span className="text-neutral-500 font-sans text-xs tracking-wider mt-3 block">
                       {formatDateRange(event.startsAt, event.endsAt)}
                     </span>
 
-                    {/* Title - Font size increased */}
-                    <h3 className="font-serif font-semibold text-lg md:text-xl text-neutral-450 mt-2 line-clamp-1 leading-snug">
+                    {/* Title */}
+                    <h3 className="font-serif font-semibold text-base lg:text-lg text-neutral-400 mt-1.5 line-clamp-1 leading-snug">
                       {event.title}
                     </h3>
 
-                    {/* Venue Details - Font size increased */}
-                    <div className="flex flex-col gap-1.5 mt-2.5 text-sm text-neutral-500 font-sans tracking-wide">
+                    {/* Venue Details */}
+                    <div className="flex flex-col gap-1 mt-2 text-xs text-neutral-550 font-sans tracking-wide">
                       <div className="flex items-center gap-2">
-                        <RiMapPinLine size={15} className="text-neutral-450 shrink-0" />
+                        <RiMapPinLine size={14} className="text-neutral-450 shrink-0" />
                         <span>{event.location}</span>
                       </div>
                       {event.time && (
                         <div className="flex items-center gap-2">
-                          <RiTimeLine size={15} className="text-neutral-450 shrink-0" />
+                          <RiTimeLine size={14} className="text-neutral-450 shrink-0" />
                           <span>{event.time}</span>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Find Out More Link - Font size increased */}
-                  <span className="text-xs md:text-sm uppercase tracking-wider font-bold text-neutral-500 group-hover:text-black mt-4 block group-hover:underline underline-offset-4">
+                  {/* Find Out More Link */}
+                  <span className="text-xs uppercase tracking-wider font-bold text-neutral-500 group-hover:text-black mt-3 block group-hover:underline underline-offset-4">
                     {isEn ? "Find out more" : "Detayları Gör"}
                   </span>
                 </Link>
@@ -276,7 +276,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
           {hasMorePast && (
             <div className="flex justify-center mt-12">
               <button
-                onClick={() => setPastLimit((prev) => prev + 9)}
+                onClick={() => setPastLimit((prev) => prev + 12)}
                 className="text-xs md:text-sm font-sans font-bold tracking-widest uppercase border border-neutral-300 text-neutral-500 bg-white px-8 py-3.5 hover:border-black hover:text-black transition-colors duration-300 cursor-pointer rounded-none"
               >
                 {isEn ? "Load More" : "Daha Fazla Göster"}
