@@ -68,9 +68,10 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
   const hasMorePast = filteredPast.length > pastLimit;
 
   // Format date range helper
-  const formatDateRange = (startStr: string, endStr: string) => {
+  const formatDateRange = (startStr: string, endStr?: string) => {
     const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "short", year: "numeric" };
     const start = new Date(startStr).toLocaleDateString(isEn ? "en-US" : "tr-TR", options);
+    if (!endStr) return start;
     const end = new Date(endStr).toLocaleDateString(isEn ? "en-US" : "tr-TR", options);
     if (start === end) return start;
     return `${start} - ${end}`;

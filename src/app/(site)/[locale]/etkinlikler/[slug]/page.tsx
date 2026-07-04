@@ -70,7 +70,7 @@ export default async function EventDetailPage({ params }: Props) {
     { label: event.title, href: `${parentPath}/${slug}`, active: true },
   ];
 
-  const isExpired = new Date(event.endsAt) < new Date();
+  const isExpired = new Date(event.endsAt || event.startsAt) < new Date();
 
   // Date range formatting
   const formatDate = (dateStr: string) => {
@@ -78,7 +78,7 @@ export default async function EventDetailPage({ params }: Props) {
     return new Date(dateStr).toLocaleDateString(isEn ? "en-US" : "tr-TR", options);
   };
 
-  const eventDuration = formatDate(event.startsAt) === formatDate(event.endsAt)
+  const eventDuration = !event.endsAt || formatDate(event.startsAt) === formatDate(event.endsAt)
     ? formatDate(event.startsAt)
     : `${formatDate(event.startsAt)} - ${formatDate(event.endsAt)}`;
 
@@ -107,16 +107,18 @@ export default async function EventDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 items-start">
           {/* Left Column: Event details & Gallery (2/3 width) */}
           <div className="lg:col-span-2 flex flex-col gap-10">
-            {/* Main Poster Image displayed inside layout for visual emphasis */}
+            {/* Mobile Poster Image (Hidden on desktop) */}
             {event.image && (
-              <div className="relative aspect-[16/9] w-full border border-neutral-100 overflow-hidden">
-                <SanityImage
-                  image={event.image}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover"
-                  priority
-                />
+              <div className="block lg:hidden w-full max-w-sm mx-auto">
+                <div className="relative aspect-[3/4] w-full border border-neutral-200 overflow-hidden bg-neutral-50 shadow-sm">
+                  <SanityImage
+                    image={event.image}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 384px"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
               </div>
             )}
 
@@ -141,7 +143,20 @@ export default async function EventDetailPage({ params }: Props) {
           </div>
 
           {/* Right Column: Info details (1/3 width) */}
-          <div className="lg:col-span-1 lg:sticky lg:top-24">
+          <div className="lg:col-span-1 lg:sticky lg:top-24 flex flex-col gap-6">
+            {/* Desktop Poster Image (Hidden on mobile) */}
+            {event.image && (
+              <div className="hidden lg:block relative aspect-[3/4] w-full border border-neutral-200 overflow-hidden bg-neutral-50 shadow-sm">
+                <SanityImage
+                  image={event.image}
+                  fill
+                  sizes="33vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
+
             <div className="border border-neutral-200 bg-white p-6 md:p-8 flex flex-col gap-6">
               <h3 className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-400 uppercase border-b border-neutral-100 pb-3">
                 {isEn ? "Event Information" : "Etkinlik Bilgileri"}

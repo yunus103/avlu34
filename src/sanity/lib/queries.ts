@@ -385,7 +385,7 @@ export const campaignBySlugQuery = groq`*[_type == "campaign" && slug.current ==
 }`;
 
 // ─── Event Queries ────────────────────────────────────────────────────────────
-export const activeEventsQuery = groq`*[_type == "event" && isPublished == true && dateTime(endsAt) >= dateTime(now())] | order(priority desc, startsAt asc) {
+export const activeEventsQuery = groq`*[_type == "event" && isPublished == true && ((defined(endsAt) && dateTime(endsAt) >= dateTime(now())) || (!defined(endsAt) && dateTime(startsAt) >= dateTime(now()) - 86400))] | order(priority desc, startsAt asc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
   slug,
@@ -396,7 +396,7 @@ export const activeEventsQuery = groq`*[_type == "event" && isPublished == true 
   "location": coalesce(location[$locale], location.tr)
 }`;
 
-export const pastEventsQuery = groq`*[_type == "event" && isPublished == true && dateTime(endsAt) < dateTime(now())] | order(endsAt desc) {
+export const pastEventsQuery = groq`*[_type == "event" && isPublished == true && ((defined(endsAt) && dateTime(endsAt) < dateTime(now())) || (!defined(endsAt) && dateTime(startsAt) < dateTime(now()) - 86400))] | order(coalesce(endsAt, startsAt) desc) {
   _id,
   "title": coalesce(title[$locale], title.tr),
   slug,

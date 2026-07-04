@@ -46,16 +46,16 @@ export const eventType = defineType({
       name: "startsAt",
       title: "Başlangıç Tarihi",
       type: "datetime",
-      description: "Etkinliğin başlayacağı ve sitede gösterileceği tarih-saat.",
+      description: "Etkinliğin başlayacağı tarih ve saat. Tek günlük etkinliklerde sadece bu alanı doldurmanız yeterlidir.",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "endsAt",
       title: "Bitiş Tarihi",
       type: "datetime",
-      description: "Etkinliğin biteceği ve sitedeki aktif listelerden otomatik kalkacağı tarih-saat.",
+      description: "Etkinliğin sona ereceği tarih ve saat. Boş bırakılırsa etkinlik tek günlük kabul edilir ve başlangıç gününün sonunda (23:59) otomatik olarak geçmişe arşivlenir.",
       validation: (Rule) =>
-        Rule.required().custom((endsAt, context) => {
+        Rule.custom((endsAt, context) => {
           const parent = context.parent as { startsAt?: string };
           if (endsAt && parent?.startsAt && new Date(endsAt) < new Date(parent.startsAt)) {
             return "Bitiş tarihi, başlangıç tarihinden önce olamaz";

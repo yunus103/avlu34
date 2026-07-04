@@ -177,7 +177,7 @@ export interface Event {
   slug: SanitySlug;
   image: SanityImage;
   startsAt: string;
-  endsAt: string;
+  endsAt?: string;
   time: string; // Projected
   location: string; // Projected
   isPublished: boolean;

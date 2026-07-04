@@ -88,14 +88,14 @@ export function LightboxGallery({ images }: LightboxGalleryProps) {
         {images.map((image, i) => (
           <div
             key={i}
-            className="group relative cursor-pointer overflow-hidden rounded-sm aspect-[4/3] bg-backgroundLight"
+            className="group relative cursor-pointer overflow-hidden rounded-sm aspect-[4/5] bg-backgroundLight border border-neutral-100"
             onClick={() => setSelectedImage(i)}
             onMouseEnter={() => prefetchLightboxImage(image)}
           >
             <SanityImage
               image={image}
-              width={800}
-              height={600}
+              width={640}
+              height={800}
               sizes="(max-width: 768px) 50vw, 33vw"
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
             />
