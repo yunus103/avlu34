@@ -573,15 +573,68 @@ export const globalSearchQuery = groq`{
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(body[$locale], body.tr)
     },
-    "visitPlan": *[_type == "visitPlanPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.body[$locale], ^.body.tr) match @]) > 0)][0] {
+    "visitPlan": *[_type == "visitPlanPage" && (
+      count($searchQuery[
+        coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ ||
+        coalesce(^.heroTitle[$locale], ^.heroTitle.tr) match @ ||
+        coalesce(^.heroSubtitle[$locale], ^.heroSubtitle.tr) match @ ||
+        coalesce(^.workingHoursTitle[$locale], ^.workingHoursTitle.tr) match @ ||
+        coalesce(^.workingHoursNote[$locale], ^.workingHoursNote.tr) match @ ||
+        coalesce(^.cultureCenterTitle[$locale], ^.cultureCenterTitle.tr) match @ ||
+        coalesce(^.cultureCenterContent[$locale], ^.cultureCenterContent.tr) match @ ||
+        coalesce(^.servicesTabTitle[$locale], ^.servicesTabTitle.tr) match @ ||
+        coalesce(^.servicesTabSubtitle[$locale], ^.servicesTabSubtitle.tr) match @ ||
+        coalesce(^.transportTabTitle[$locale], ^.transportTabTitle.tr) match @ ||
+        coalesce(^.airportTitle[$locale], ^.airportTitle.tr) match @ ||
+        coalesce(^.airportContent[$locale], ^.airportContent.tr) match @ ||
+        coalesce(^.parkingTitle[$locale], ^.parkingTitle.tr) match @ ||
+        coalesce(^.parkingContent[$locale], ^.parkingContent.tr) match @ ||
+        coalesce(^.evChargingTitle[$locale], ^.evChargingTitle.tr) match @ ||
+        coalesce(^.evChargingContent[$locale], ^.evChargingContent.tr) match @ ||
+        coalesce(^.shuttleTitle[$locale], ^.shuttleTitle.tr) match @ ||
+        coalesce(^.shuttleContent[$locale], ^.shuttleContent.tr) match @ ||
+        coalesce(^.iettTitle[$locale], ^.iettTitle.tr) match @ ||
+        coalesce(^.iettContent[$locale], ^.iettContent.tr) match @ ||
+        coalesce(^.transportContent[$locale], ^.transportContent.tr) match @ ||
+        // Hardcoded services names matching
+        "hava ist" match @ || "müsteri servisi" match @ || "güvenlik" match @ || "bebek bakim odasi" match @ || "asansör" match @ || "atm noktalari" match @ || "engelli wc" match @ || "aile wc" match @ || "mescid" match @ || "kafe" match @ || "restoran" match @ || "danisma" match @ || "kapali otopark" match @ || "ücretsiz wifi" match @ || "sarj istasyonu" match @ ||
+        "airport shuttle" match @ || "shuttle bus" match @ || "security" match @ || "baby care" match @ || "elevator" match @ || "atm" match @ || "accessible wc" match @ || "family wc" match @ || "prayer room" match @ || "dining" match @ || "info desk" match @ || "indoor parking" match @ || "free wifi" match @ || "ev charging" match @ ||
+        // Lists matching
+        count(^.dailyWorkingHours[coalesce(day[$locale], day.tr) match @ || hours match @]) > 0 ||
+        count(^.shuttleSchedule[fromBolluca match @ || fromAvlu34 match @]) > 0 ||
+        count(^.iettLines[lineNo match @ || routeName match @]) > 0
+      ]) > 0
+    )][0] {
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
-      "description": coalesce(body[$locale], body.tr)
+      "description": coalesce(heroSubtitle[$locale], heroSubtitle.tr)
     },
     "mallMap": *[_type == "mallMapPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.description[$locale], ^.description.tr) match @]) > 0)][0] {
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(description[$locale], description.tr)
+    },
+    "cinema": *[_type == "cinemaPage" && (
+      count($searchQuery[
+        coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ ||
+        coalesce(^.heroTitle[$locale], ^.heroTitle.tr) match @ ||
+        coalesce(^.body[$locale], ^.body.tr) match @
+      ]) > 0
+    )][0] {
+      _type,
+      "title": coalesce(pageTitle[$locale], pageTitle.tr),
+      "description": coalesce(heroSubtitle[$locale], heroSubtitle.tr)
+    },
+    "contact": *[_type == "contactPage" && (
+      count($searchQuery[
+        coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ ||
+        coalesce(^.heroTitle[$locale], ^.heroTitle.tr) match @ ||
+        coalesce(^.pageSubtitle[$locale], ^.pageSubtitle.tr) match @
+      ]) > 0
+    )][0] {
+      _type,
+      "title": coalesce(pageTitle[$locale], pageTitle.tr),
+      "description": coalesce(pageSubtitle[$locale], pageSubtitle.tr)
     }
   }
 }`;

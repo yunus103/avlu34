@@ -354,6 +354,8 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                       about: "/hakkimizda",
                       visitPlan: "/ziyaret-plani",
                       mallMap: "/kat-plani",
+                      cinema: "/sinema",
+                      contact: "/iletisim",
                     };
                     const path = pagePathMap[key] || "/";
                     return (

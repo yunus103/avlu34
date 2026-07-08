@@ -421,6 +421,8 @@ export function Header({
                                     about: "/hakkimizda",
                                     visitPlan: "/ziyaret-plani",
                                     mallMap: "/kat-plani",
+                                    cinema: "/sinema",
+                                    contact: "/iletisim",
                                   };
                                   return (
                                     <Link 
