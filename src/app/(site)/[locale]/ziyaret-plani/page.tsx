@@ -1,8 +1,12 @@
 import { Metadata } from "next";
+import { cachedFetch } from "@/sanity/lib/client";
+import { visitPlanPageQuery } from "@/sanity/lib/queries";
+import { getLayoutData, buildMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
-import { locales, Locale } from "@/lib/i18n/config";
-import { buildMetadata } from "@/lib/seo";
+import { VisitPlanTabs } from "@/components/visit-plan/VisitPlanTabs";
 import { getPublicPath } from "@/lib/i18n/routes";
+import { locales, Locale } from "@/lib/i18n/config";
+import { VisitPlanPage as VisitPlanPageType } from "@/types";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -14,29 +18,54 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const isEn = locale === "en";
+  const data = await cachedFetch<VisitPlanPageType>(
+    visitPlanPageQuery,
+    { locale },
+    { next: { tags: ["visitPlan"] } }
+  );
+
   return buildMetadata({
-    title: isEn ? "Visit Plan" : "Ziyaret Planı",
+    title: data?.heroTitle || data?.pageTitle || (locale === "en" ? "Visit Plan" : "Ziyaret Planı"),
     canonicalPath: getPublicPath("ziyaret-plani", locale as Locale),
+    pageSeo: data?.seo,
+    locale,
   });
 }
 
 export default async function VisitPlanPage({ params }: Props) {
   const { locale } = await params;
-  const isEn = locale === "en";
-  const title = isEn ? "Visit Plan" : "Ziyaret Planı";
-  const subtitle = isEn ? "How to get to AVLU34, hours, services" : "AVLU34'e nasıl ulaşacağınızı, çalışma saatlerini ve hizmetlerimizi inceleyin";
+  
+  // Fetch page content
+  const data = await cachedFetch<VisitPlanPageType>(
+    visitPlanPageQuery,
+    { locale },
+    { next: { tags: ["visitPlan"] } }
+  );
+
+  // Fetch siteSettings from layout data for googleMapsUrl and mapIframe
+  const layoutData = await getLayoutData(locale);
+  const settings = layoutData?.settings;
+  const contactInfo = settings?.contactInfo;
+
+  const title = data?.heroTitle || data?.pageTitle || (locale === "en" ? "Visit Plan" : "Ziyaret Planı");
+  const subtitle = data?.heroSubtitle || (locale === "en" ? "How to get to AVLU34, hours, services" : "AVLU34'e nasıl ulaşacağınızı, çalışma saatlerini ve hizmetlerimizi inceleyin");
 
   return (
-    <div className="flex flex-col gap-12 pb-16">
-      <PageHero title={title} subtitle={subtitle} />
-      <div className="container mx-auto px-4">
-        <p className="text-muted-foreground">
-          {isEn 
-            ? "Transportation info, address, parking, working hours, and services details will be here." 
-            : "Ulaşım bilgileri, adres, otopark, çalışma saatleri ve AVM hizmetleri burada yer alacak."}
-        </p>
-      </div>
+    <div className="flex flex-col gap-8 md:gap-12 pb-16">
+      <PageHero
+        title={title}
+        subtitle={subtitle}
+        backgroundImage={data?.heroImage}
+      />
+      
+      {data && (
+        <VisitPlanTabs
+          data={data}
+          locale={locale}
+          googleMapsUrl={contactInfo?.googleMapsUrl}
+          mapIframe={contactInfo?.mapIframe}
+        />
+      )}
     </div>
   );
 }

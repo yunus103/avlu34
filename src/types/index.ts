@@ -47,6 +47,7 @@ export interface ContactInfo {
   address?: string;
   whatsappNumber?: string;
   mapIframe?: string;
+  googleMapsUrl?: string;
 }
 
 export interface SiteSettings {
@@ -256,10 +257,47 @@ export interface VisitService {
   icon?: SanityImage;
 }
 
+export interface DailyWorkingHour {
+  day: string;
+  hours: string;
+}
+
+export interface ShuttleTime {
+  fromBolluca: string;
+  fromAvlu34: string;
+}
+
+export interface IettLine {
+  lineNo: string;
+  routeName: string;
+}
+
 export interface VisitPlanPage extends BasePage {
   pageTitle: string;
-  body?: any[];
-  services?: VisitService[];
+  workingHoursTitle?: string;
+  dailyWorkingHours?: DailyWorkingHour[];
+  workingHoursNote?: string;
+  cultureCenterTitle?: string;
+  cultureCenterContent?: any[];
+  cultureCenterImage?: SanityImage;
+  cultureCenterCtaLabel?: string;
+  servicesTabTitle?: string;
+  servicesTabSubtitle?: string;
+  transportTabTitle?: string;
+  airportTitle?: string;
+  airportContent?: string;
+  parkingTitle?: string;
+  parkingContent?: string;
+  evChargingTitle?: string;
+  evChargingContent?: string;
+  shuttleTitle?: string;
+  shuttleContent?: string;
+  shuttleSchedule?: ShuttleTime[];
+  iettTitle?: string;
+  iettContent?: string;
+  iettLines?: IettLine[];
+  havaistUrl?: string;
+  transportContent?: any[];
 }
 
 export interface KvkkPage extends BasePage {

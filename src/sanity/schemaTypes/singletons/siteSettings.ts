@@ -60,6 +60,12 @@ export const siteSettingsType = defineType({
           rows: 4,
           description: "Google Maps > Paylaş > Haritayı göm > HTML kodunu buraya yapıştır.",
         }),
+        defineField({
+          name: "googleMapsUrl",
+          title: "Google Haritalar Yol Tarifi Bağlantısı",
+          type: "string",
+          description: "Yol tarifi al butonu için yönlendirme bağlantısı (Örn: https://maps.app.goo.gl/...)",
+        }),
       ],
     }),
     defineField({ name: "socialLinks", title: "Sosyal Medya Hesapları", type: "array", of: [{ type: "socialLink" }] }),

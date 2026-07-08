@@ -9,7 +9,7 @@ export const layoutQuery = groq`{
     logo { asset->{ _id, url, metadata { lqip, dimensions } }, hotspot, crop },
     logoHeight,
     favicon { asset->{ _id, url } },
-    contactInfo { phone, email, address, whatsappNumber, mapIframe },
+    contactInfo { phone, email, address, whatsappNumber, mapIframe, googleMapsUrl },
     socialLinks[] { platform, url },
     gaId, gtmId, googleSearchConsoleId,
     defaultSeo { metaTitle, metaDescription },
@@ -178,12 +178,34 @@ export const visitPlanPageQuery = groq`*[_type == "visitPlanPage"][0] {
   "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
   heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
   "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
-  "body": coalesce(body[$locale], body.tr),
-  services[] {
-    "title": coalesce(title[$locale], title.tr),
-    "description": coalesce(description[$locale], description.tr),
-    icon { asset->{ _id, url, metadata { lqip, dimensions } }, alt }
+  "workingHoursTitle": coalesce(workingHoursTitle[$locale], workingHoursTitle.tr),
+  "workingHoursContent": coalesce(workingHoursContent[$locale], workingHoursContent.tr),
+  "cultureCenterTitle": coalesce(cultureCenterTitle[$locale], cultureCenterTitle.tr),
+  "cultureCenterContent": coalesce(cultureCenterContent[$locale], cultureCenterContent.tr),
+  cultureCenterImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  "cultureCenterCtaLabel": coalesce(cultureCenterCtaLabel[$locale], cultureCenterCtaLabel.tr),
+  "servicesTabTitle": coalesce(servicesTabTitle[$locale], servicesTabTitle.tr),
+  "servicesTabSubtitle": coalesce(servicesTabSubtitle[$locale], servicesTabSubtitle.tr),
+  "transportTabTitle": coalesce(transportTabTitle[$locale], transportTabTitle.tr),
+  "airportTitle": coalesce(airportTitle[$locale], airportTitle.tr),
+  "airportContent": coalesce(airportContent[$locale], airportContent.tr),
+  "parkingTitle": coalesce(parkingTitle[$locale], parkingTitle.tr),
+  "parkingContent": coalesce(parkingContent[$locale], parkingContent.tr),
+  "evChargingTitle": coalesce(evChargingTitle[$locale], evChargingTitle.tr),
+  "evChargingContent": coalesce(evChargingContent[$locale], evChargingContent.tr),
+  "shuttleTitle": coalesce(shuttleTitle[$locale], shuttleTitle.tr),
+  "shuttleContent": coalesce(shuttleContent[$locale], shuttleContent.tr),
+  shuttleSchedule[] { fromBolluca, fromAvlu34 },
+  "iettTitle": coalesce(iettTitle[$locale], iettTitle.tr),
+  "iettContent": coalesce(iettContent[$locale], iettContent.tr),
+  iettLines[] { lineNo, routeName },
+  havaistUrl,
+  "dailyWorkingHours": dailyWorkingHours[] {
+    "day": coalesce(day[$locale], day.tr),
+    hours
   },
+  "workingHoursNote": coalesce(workingHoursNote[$locale], workingHoursNote.tr),
+  "transportContent": coalesce(transportContent[$locale], transportContent.tr),
   seo
 }`;
 
