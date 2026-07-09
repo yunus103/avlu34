@@ -218,7 +218,7 @@ export function Header({
             {links.map((item, i) => {
               const active = isActive(item);
               const hasSub = item.subLinks && item.subLinks.length > 0;
-              const isMega = item.isMegaMenu || hasSub;
+              const isMega = item.isMegaMenu && hasSub;
 
               return (
                 <div 

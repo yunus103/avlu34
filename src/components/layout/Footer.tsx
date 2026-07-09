@@ -50,21 +50,23 @@ export function Footer({
           
           {/* Kolon 1: Logo & Slogan */}
           <div className="flex flex-col items-start gap-4 lg:col-span-3">
-            {settings?.logo ? (
-              <div className="h-20 w-auto flex items-center mb-1">
-                <SanityImage
-                  image={settings.logo}
-                  width={1200}
-                  height={551}
-                  fit="max"
-                  className="h-full w-auto object-contain"
-                />
-              </div>
-            ) : (
-              <h3 className="font-serif font-bold text-xl tracking-widest uppercase text-black">
-                {settings?.siteName}
-              </h3>
-            )}
+            <Link href={getPublicPath("/", locale)} className="inline-block hover:opacity-90 transition-opacity">
+              {settings?.logo ? (
+                <div className="h-20 w-auto flex items-center mb-1">
+                  <SanityImage
+                    image={settings.logo}
+                    width={1200}
+                    height={551}
+                    fit="max"
+                    className="h-full w-auto object-contain"
+                  />
+                </div>
+              ) : (
+                <h3 className="font-serif font-bold text-xl tracking-widest uppercase text-black">
+                  {settings?.siteName}
+                </h3>
+              )}
+            </Link>
             {settings?.siteTagline && (
               <p className="text-xs font-sans text-neutral-500 font-light leading-relaxed max-w-xs select-text">
                 {settings.siteTagline}
@@ -73,38 +75,38 @@ export function Footer({
           </div>
 
           {/* Kolon 2: Hızlı Menü (Navigation) */}
-          <div className="flex flex-col gap-6 lg:col-span-3">
-            <h4 className="text-xs font-sans font-bold tracking-widest uppercase text-black">
+          <div className="flex flex-col gap-4 lg:col-span-3">
+            <h4 className="text-[11px] font-sans font-bold tracking-[0.2em] uppercase text-black">
               {locale === "en" ? "NAVIGATION" : "NAVİGASYON"}
             </h4>
             {footerLinks.length > 0 && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2.5 mt-1">
                 {footerLinks.map((item, i) => (
-                  <div key={i} className="flex flex-col gap-3">
+                  <div key={i} className="flex flex-col gap-1.5">
                     {item.href && item.href !== "#" && item.href !== "" ? (
                       <Link 
                         href={getPublicPath(item.href, locale)}
                         target={item.openInNewTab ? "_blank" : undefined}
                         rel={item.openInNewTab ? "noopener noreferrer" : undefined}
-                        className="text-[11px] font-sans font-bold tracking-widest uppercase text-black hover:text-neutral-500 transition-colors"
+                        className="text-[13px] sm:text-[14px] font-sans font-medium text-neutral-800 hover:text-black transition-colors uppercase"
                       >
                         {localize(item.label, locale)}
                       </Link>
                     ) : (
-                      <span className="text-[11px] font-sans font-bold tracking-widest uppercase text-neutral-400">
+                      <span className="text-[13px] sm:text-[14px] font-sans font-semibold text-neutral-800 uppercase tracking-wider">
                         {localize(item.label, locale)}
                       </span>
                     )}
                     
                     {item.subLinks && item.subLinks.length > 0 && (
-                      <div className="flex flex-col gap-2 mt-1">
+                      <div className="flex flex-col gap-1.5 pl-3 border-l border-neutral-100 mt-1">
                         {item.subLinks.map((sub, j) => (
                           <Link
                             key={j}
                             href={getPublicPath(sub.href, locale)}
                             target={sub.openInNewTab ? "_blank" : undefined}
                             rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
-                            className="text-xs font-sans text-neutral-500 hover:text-black transition-colors"
+                            className="text-xs font-sans font-light text-neutral-500 hover:text-black transition-colors"
                           >
                             {localize(sub.label, locale)}
                           </Link>
