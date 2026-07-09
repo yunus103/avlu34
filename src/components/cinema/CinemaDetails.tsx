@@ -66,7 +66,7 @@ export function CinemaDetails({ data, locale }: CinemaDetailsProps) {
         </div>
 
         {/* RIGHT COLUMN: Sticky Info Card (40% Width) */}
-        <div className="lg:col-span-5 lg:sticky lg:top-24">
+        <div className="lg:col-span-5 lg:sticky lg:top-36">
           <FadeIn direction="up" delay={0.2}>
             <div className="border border-neutral-200 p-8 bg-neutral-50/50 rounded-none flex flex-col gap-8">
               

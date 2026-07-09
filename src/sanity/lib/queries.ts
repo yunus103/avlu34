@@ -109,6 +109,17 @@ export const aboutPageQuery = groq`*[_type == "aboutPage"][0] {
   "pageSubtitle": coalesce(pageSubtitle[$locale], pageSubtitle.tr),
   "body": coalesce(body[$locale], body.tr),
   mainImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
+  stats[] {
+    value,
+    "label": coalesce(label[$locale], label.tr),
+    icon
+  },
+  "ctaTitle": coalesce(ctaTitle[$locale], ctaTitle.tr),
+  "ctaDescription": coalesce(ctaDescription[$locale], ctaDescription.tr),
+  "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.tr),
+  ctaButtonLink,
+  "ctaButton2Text": coalesce(ctaButton2Text[$locale], ctaButton2Text.tr),
+  ctaButton2Link,
   seo
 }`;
 

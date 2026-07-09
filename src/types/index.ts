@@ -209,11 +209,24 @@ export interface HeroSlide {
 /**
  * Singleton Page Types
  */
+export interface AboutStatItem {
+  value: string;
+  label: string;
+  icon?: string;
+}
+
 export interface AboutPage extends BasePage {
   pageTitle: string;
   pageSubtitle?: string;
   body?: any[];
   mainImage?: SanityImage;
+  stats?: AboutStatItem[];
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
+  ctaButton2Text?: string;
+  ctaButton2Link?: string;
 }
 
 export interface ContactPage extends BasePage {
