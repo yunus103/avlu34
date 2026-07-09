@@ -606,6 +606,7 @@ export const globalSearchQuery = groq`{
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(heroSubtitle[$locale], heroSubtitle.tr)
+    },
     "cinema": *[_type == "cinemaPage" && (
       count($searchQuery[
         coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ ||
