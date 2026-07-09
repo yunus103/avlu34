@@ -223,7 +223,7 @@ export function Header({
               return (
                 <div 
                   key={i} 
-                  className="h-full flex items-center"
+                  className="h-full flex items-center relative"
                   onMouseEnter={() => isMega && setActiveMegaMenu(item.label as string)}
                   onMouseLeave={() => isMega && setActiveMegaMenu(null)}
                 >
@@ -241,36 +241,29 @@ export function Header({
                     {localize(item.label, locale)}
                   </Link>
 
-                  {/* ─── Mega Menü Paneli ─── */}
+                  {/* ─── Floating Card Dropdown Menü Paneli ─── */}
                   {isMega && item.subLinks && (
                     <AnimatePresence>
                       {activeMegaMenu === item.label && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: 0, y: 10, x: "-50%" }}
+                          animate={{ opacity: 1, y: 0, x: "-50%" }}
+                          exit={{ opacity: 0, y: 10, x: "-50%" }}
                           transition={{ duration: 0.15, ease: "easeOut" }}
-                          className="absolute left-0 top-full w-full bg-white border-b border-neutral-200 py-10 shadow-lg z-30"
+                          className="absolute left-1/2 top-full z-30 pt-1 w-64"
                         >
-                          <div className="container mx-auto px-4 max-w-5xl">
-                            {/* SubLinks chunked into columns */}
-                            <div className="grid grid-cols-4 gap-8">
-                              {chunkArray(item.subLinks, Math.ceil(item.subLinks.length / 4)).map((chunk, colIdx) => (
-                                <div key={colIdx} className="flex flex-col gap-4">
-                                  {chunk.map((sub, subIdx) => (
-                                    <Link
-                                      key={subIdx}
-                                      href={getPublicPath(sub.href, locale)}
-                                      target={sub.openInNewTab ? "_blank" : undefined}
-                                      rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
-                                      className="text-[11px] font-sans font-semibold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
-                                    >
-                                      {localize(sub.label, locale)}
-                                    </Link>
-                                  ))}
-                                </div>
-                              ))}
-                            </div>
+                          <div className="bg-white border border-neutral-200 py-6 px-6 shadow-xl flex flex-col gap-4 group/menu">
+                            {item.subLinks.map((sub, subIdx) => (
+                              <Link
+                                key={subIdx}
+                                href={getPublicPath(sub.href, locale)}
+                                target={sub.openInNewTab ? "_blank" : undefined}
+                                rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
+                                className="w-fit text-[13px] md:text-[14px] font-sans font-semibold uppercase tracking-[0.12em] text-neutral-500 hover:text-black transition-all duration-300 group-hover/menu:opacity-50 hover:!opacity-100 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform after:duration-300"
+                              >
+                                {localize(sub.label, locale)}
+                              </Link>
+                            ))}
                           </div>
                         </motion.div>
                       )}
