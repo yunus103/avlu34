@@ -171,18 +171,6 @@ export const cinemaPageQuery = groq`*[_type == "cinemaPage"][0] {
   seo
 }`;
 
-// ─── Mall Map Page Query ──────────────────────────────────────────────────────
-export const mallMapPageQuery = groq`*[_type == "mallMapPage"][0] {
-  "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
-  "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.tr),
-  heroImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  "pageTitle": coalesce(pageTitle[$locale], pageTitle.tr),
-  "description": coalesce(description[$locale], description.tr),
-  pdfFile { asset->{ url } },
-  mapImage { asset->{ _id, url, metadata { lqip, dimensions } }, alt, hotspot, crop },
-  seo
-}`;
-
 // ─── Visit Plan Page Query ────────────────────────────────────────────────────
 export const visitPlanPageQuery = groq`*[_type == "visitPlanPage"][0] {
   "heroTitle": coalesce(heroTitle[$locale], heroTitle.tr),
@@ -485,7 +473,6 @@ export const allSlugsForSitemapQuery = groq`{
     "about": *[_type == "aboutPage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "contact": *[_type == "contactPage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "cinema": *[_type == "cinemaPage"][0] { _updatedAt, "noIndex": seo.noIndex },
-    "mallMap": *[_type == "mallMapPage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "visitPlan": *[_type == "visitPlanPage"][0] { _updatedAt, "noIndex": seo.noIndex },
     "kvkk": *[_type == "kvkkPage"][0] { _updatedAt, "noIndex": seo.noIndex }
   },
@@ -619,12 +606,6 @@ export const globalSearchQuery = groq`{
       _type,
       "title": coalesce(pageTitle[$locale], pageTitle.tr),
       "description": coalesce(heroSubtitle[$locale], heroSubtitle.tr)
-    },
-    "mallMap": *[_type == "mallMapPage" && (count($searchQuery[coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ || coalesce(^.description[$locale], ^.description.tr) match @]) > 0)][0] {
-      _type,
-      "title": coalesce(pageTitle[$locale], pageTitle.tr),
-      "description": coalesce(description[$locale], description.tr)
-    },
     "cinema": *[_type == "cinemaPage" && (
       count($searchQuery[
         coalesce(^.pageTitle[$locale], ^.pageTitle.tr) match @ ||

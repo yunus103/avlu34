@@ -125,15 +125,69 @@ export function DirectoryTemplate({
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="container mx-auto px-4">
+      <div className="w-full mx-auto px-4 sm:max-w-[640px] md:max-w-[768px] lg:max-w-none xl:max-w-[1280px] 2xl:max-w-[1536px]">
         {/* Filter and Utility Bar */}
         <div className="flex flex-col gap-6 border-b border-neutral-100 pb-8 mb-10">
           
-          {/* Top Level: Categories & Search */}
-          <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-6">
+          {/* Top Level: Filters, Sorters & Search Bar */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             
+            {/* Filter Summary */}
+            <div className="text-xs font-sans text-neutral-500">
+              {isEn ? "Showing" : "Toplam"} <span className="font-semibold text-black">{filteredAndSorted.length}</span> {isEn ? "results" : "sonuç bulunuyor"}
+            </div>
+
+            {/* Controls Row */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+              {/* Floor Filter */}
+              <div className="relative w-full sm:w-40 md:w-44">
+                <select
+                  value={selectedFloor}
+                  onChange={(e) => setSelectedFloor(e.target.value)}
+                  className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
+                >
+                  <option value="all">{isEn ? "All Floors" : "Tüm Katlar"}</option>
+                  {Object.entries(floorLabels).map(([val, labels]) => (
+                    <option key={val} value={val}>
+                      {isEn ? labels.en : labels.tr}
+                    </option>
+                  ))}
+                </select>
+                <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+              </div>
+
+              {/* Sort Order */}
+              <div className="relative w-full sm:w-40 md:w-44">
+                <select
+                  value={selectedSort}
+                  onChange={(e) => setSelectedSort(e.target.value)}
+                  className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
+                >
+                  <option value="a-z">{isEn ? "Sort A-Z" : "Sırala A-Z"}</option>
+                  <option value="z-a">{isEn ? "Sort Z-A" : "Sırala Z-A"}</option>
+                </select>
+                <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+              </div>
+
+              {/* Search input */}
+              <div className="relative w-full sm:w-56 md:w-64 lg:w-72">
+                <input
+                  type="text"
+                  placeholder={isEn ? "Search brands..." : "Marka ara..."}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-10 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-xs font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
+                />
+                <RiSearchLine size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Level: Categories Row */}
+          <div className="w-full pt-4 border-t border-neutral-100">
             {/* Mobile Category Dropdown */}
-            <div className="relative block lg:hidden w-full">
+            <div className="relative block min-[1165px]:hidden w-full">
               <select
                 value={activeCategorySlug || "all"}
                 onChange={(e) => {
@@ -153,7 +207,7 @@ export function DirectoryTemplate({
             </div>
 
             {/* Desktop Horizontal Scroll Categories */}
-            <div className="hidden lg:flex items-center gap-2 overflow-x-auto scrollbar-none">
+            <div className="hidden min-[1165px]:flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
               <Link
                 href={allPath}
                 scroll={false}
@@ -183,62 +237,6 @@ export function DirectoryTemplate({
                 );
               })}
             </div>
-
-            {/* Inline search input */}
-            <div className="relative flex-1 lg:max-w-xs min-h-[40px]">
-              <input
-                type="text"
-                placeholder={isEn ? "Search brands..." : "Marka ara..."}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-10 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-xs font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
-              />
-              <RiSearchLine size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
-            </div>
-
-          </div>
-
-          {/* Bottom Level: Filters & Sorters */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-100">
-            
-            {/* Filter Summary */}
-            <div className="text-xs font-sans text-neutral-500">
-              {isEn ? "Showing" : "Toplam"} <span className="font-semibold text-black">{filteredAndSorted.length}</span> {isEn ? "results" : "sonuç bulunuyor"}
-            </div>
-
-            {/* Select Dropdowns */}
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              {/* Floor Filter */}
-              <div className="relative flex-1 sm:flex-none sm:w-44">
-                <select
-                  value={selectedFloor}
-                  onChange={(e) => setSelectedFloor(e.target.value)}
-                  className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
-                >
-                  <option value="all">{isEn ? "All Floors" : "Tüm Katlar"}</option>
-                  {Object.entries(floorLabels).map(([val, labels]) => (
-                    <option key={val} value={val}>
-                      {isEn ? labels.en : labels.tr}
-                    </option>
-                  ))}
-                </select>
-                <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
-              </div>
-
-              {/* Sort Order */}
-              <div className="relative flex-1 sm:flex-none sm:w-44">
-                <select
-                  value={selectedSort}
-                  onChange={(e) => setSelectedSort(e.target.value)}
-                  className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
-                >
-                  <option value="a-z">{isEn ? "Sort A-Z" : "Sırala A-Z"}</option>
-                  <option value="z-a">{isEn ? "Sort Z-A" : "Sırala Z-A"}</option>
-                </select>
-                <RiArrowDownSLine size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
-              </div>
-            </div>
-
           </div>
 
         </div>

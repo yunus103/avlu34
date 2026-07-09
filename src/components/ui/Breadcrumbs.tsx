@@ -22,8 +22,6 @@ const routeLabels: Record<string, { tr: string; en: string }> = {
   offers: { tr: "Kampanyalar", en: "Offers" },
   etkinlikler: { tr: "Etkinlikler", en: "Events" },
   events: { tr: "Etkinlikler", en: "Events" },
-  "kat-plani": { tr: "Kat Planı", en: "Floor Plan" },
-  "floor-plan": { tr: "Kat Planı", en: "Floor Plan" },
   "ziyaret-plani": { tr: "Ziyaret Planı", en: "Visit Plan" },
   "visit-plan": { tr: "Ziyaret Planı", en: "Visit Plan" },
   hakkimizda: { tr: "Hakkımızda", en: "About Us" },

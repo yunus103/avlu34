@@ -379,15 +379,7 @@ export default async function DiningCategoryPage({ params }: Props) {
                 </div>
               )}
 
-              {/* Map Routing Button */}
-              <div className="pt-4 border-t border-neutral-100 select-none">
-                <Link 
-                  href={getPublicPath("/kat-plani", locale as Locale)}
-                  className="block w-full text-center bg-black border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-white hover:bg-neutral-900 transition-colors duration-300"
-                >
-                  {isEn ? "View on Map" : "Kat Planında Gör"}
-                </Link>
-              </div>
+
 
             </div>
           </div>

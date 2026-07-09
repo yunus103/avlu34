@@ -183,13 +183,13 @@ export function Header({
               aria-label="Aramayı aç/kapat"
             >
               <RiSearchLine size={16} />
-              <span className="hidden sm:inline">{locale === "en" ? "Search" : "Arama"}</span>
+              <span className="hidden md:inline">{locale === "en" ? "Search" : "Arama"}</span>
             </button>
 
             {/* Yol Tarifi / WhatsApp Butonu */}
             <Link 
               href={getPublicPath("/ziyaret-plani", locale)} 
-              className="hidden sm:inline-block border border-black px-4 py-2 text-[10px] md:text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300 rounded-none"
+              className="hidden md:inline-block border border-black px-4 py-2 text-[10px] md:text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300 rounded-none"
             >
               {locale === "en" ? "Visit Plan" : "Ziyaret Planı"}
             </Link>
@@ -420,7 +420,6 @@ export function Header({
                                   const pagePathMap: Record<string, string> = {
                                     about: "/hakkimizda",
                                     visitPlan: "/ziyaret-plani",
-                                    mallMap: "/kat-plani",
                                     cinema: "/sinema",
                                     contact: "/iletisim",
                                   };

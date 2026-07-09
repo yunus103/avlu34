@@ -353,7 +353,6 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                     const pagePathMap: Record<string, string> = {
                       about: "/hakkimizda",
                       visitPlan: "/ziyaret-plani",
-                      mallMap: "/kat-plani",
                       cinema: "/sinema",
                       contact: "/iletisim",
                     };

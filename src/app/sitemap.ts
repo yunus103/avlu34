@@ -42,7 +42,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/hakkimizda`, lastModified: lastModified(pages?.about?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${base}/iletisim`, lastModified: lastModified(pages?.contact?._updatedAt), changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `${base}/sinema`, lastModified: lastModified(pages?.cinema?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
-    { url: `${base}/kat-plani`, lastModified: lastModified(pages?.mallMap?._updatedAt), changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `${base}/ziyaret-plani`, lastModified: lastModified(pages?.visitPlan?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${base}/kvkk`, lastModified: lastModified(pages?.kvkk?._updatedAt), changeFrequency: "monthly" as const, priority: 0.5 },
     { url: `${base}/magazalar`, changeFrequency: "weekly" as const, priority: 0.9 },
@@ -55,7 +54,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (path === "/hakkimizda") return !pages?.about?.noIndex;
     if (path === "/iletisim") return !pages?.contact?.noIndex;
     if (path === "/sinema") return !pages?.cinema?.noIndex;
-    if (path === "/kat-plani") return !pages?.mallMap?.noIndex;
     if (path === "/ziyaret-plani") return !pages?.visitPlan?.noIndex;
     if (path === "/kvkk") return !pages?.kvkk?.noIndex;
     return true;
@@ -67,7 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/en/about-us`, lastModified: lastModified(pages?.about?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${base}/en/contact`, lastModified: lastModified(pages?.contact?._updatedAt), changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `${base}/en/cinema`, lastModified: lastModified(pages?.cinema?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
-    { url: `${base}/en/floor-plan`, lastModified: lastModified(pages?.mallMap?._updatedAt), changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `${base}/en/visit-plan`, lastModified: lastModified(pages?.visitPlan?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${base}/en/privacy`, lastModified: lastModified(pages?.kvkk?._updatedAt), changeFrequency: "monthly" as const, priority: 0.5 },
     { url: `${base}/en/stores`, changeFrequency: "weekly" as const, priority: 0.9 },

@@ -51,7 +51,6 @@ export async function POST(req: Request) {
       aboutPage: ["about"],
       contactPage: ["contact"],
       cinemaPage: ["cinema"],
-      mallMapPage: ["mallMap"],
       visitPlanPage: ["visitPlan"],
       kvkkPage: ["kvkk"],
       storesPage: ["storesPage"],

@@ -55,11 +55,6 @@ export const structure: StructureResolver = (S) =>
                 .schemaType("cinemaPage")
                 .child(S.document().schemaType("cinemaPage").documentId("cinemaPage")),
               S.listItem()
-                .title("🗺️ Kat Planı Sayfası")
-                .id("mallMapPage")
-                .schemaType("mallMapPage")
-                .child(S.document().schemaType("mallMapPage").documentId("mallMapPage")),
-              S.listItem()
                 .title("📍 Ziyaret Planı Sayfası")
                 .id("visitPlanPage")
                 .schemaType("visitPlanPage")
