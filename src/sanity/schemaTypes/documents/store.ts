@@ -81,11 +81,11 @@ export const storeType = defineType({
       description: "Mağazanın AVM içerisinde bulunduğu kat konumu.",
       options: {
         list: [
-          { title: "Kapalı Otopark Katı", value: "otopark" },
+          { title: "-2 (Otopark Katı)", value: "kat-2" },
+          { title: "-1 (Otopark - AVM Girişi)", value: "kat-1" },
           { title: "Zemin Kat", value: "zemin" },
           { title: "1. Kat", value: "kat1" },
           { title: "2. Kat", value: "kat2" },
-          { title: "3. Kat", value: "kat3" },
         ],
       },
       validation: (Rule) => Rule.required(),

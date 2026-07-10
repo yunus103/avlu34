@@ -140,7 +140,7 @@ export interface Store {
   shopType: "store" | "dining" | "both";
   storeCategory?: StoreCategory;
   foodCategory?: FoodCategory;
-  floor: "otopark" | "zemin" | "kat1" | "kat2" | "kat3";
+  floor: "kat-2" | "kat-1" | "zemin" | "kat1" | "kat2";
   heroImage?: SanityImage;
   gallery?: SanityImage[];
   description: string; // Projected dynamically

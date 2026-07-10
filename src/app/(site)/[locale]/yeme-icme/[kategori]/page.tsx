@@ -40,11 +40,11 @@ type Props = {
 };
 
 const floorLabels: Record<string, { tr: string; en: string }> = {
-  otopark: { tr: "Kapalı Otopark Katı", en: "Closed Parking Floor" },
+  "kat-2": { tr: "-2. Kat (Otopark)", en: "-2nd Floor (Parking)" },
+  "kat-1": { tr: "-1. Kat (Otopark - AVM Girişi)", en: "-1st Floor (Parking - Mall Entrance)" },
   zemin: { tr: "Zemin Kat", en: "Ground Floor" },
   kat1: { tr: "1. Kat", en: "1st Floor" },
   kat2: { tr: "2. Kat", en: "2nd Floor" },
-  kat3: { tr: "3. Kat", en: "3rd Floor" },
 };
 
 const socialIconMap: Record<string, React.ElementType> = {
