@@ -136,11 +136,11 @@ export interface Store {
   _updatedAt?: string;
   title: string; // Brand names are unlocalized
   slug: SanitySlug;
-  logo: SanityImage;
+  logo?: SanityImage;
   shopType: "store" | "dining" | "both";
   storeCategory?: StoreCategory;
   foodCategory?: FoodCategory;
-  floor: "kat-2" | "kat-1" | "zemin" | "kat1" | "kat2";
+  floor: "kat-3" | "kat-2" | "kat-1" | "zemin" | "kat1";
   heroImage?: SanityImage;
   gallery?: SanityImage[];
   description: string; // Projected dynamically

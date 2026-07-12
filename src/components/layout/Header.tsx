@@ -6,7 +6,24 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { SanityImage } from "@/components/ui/SanityImage";
 import { Button } from "@/components/ui/button";
-import { RiMenu3Line, RiCloseLine, RiArrowDownSLine, RiSearchLine } from "react-icons/ri";
+import { 
+  RiMenu3Line, 
+  RiCloseLine, 
+  RiArrowDownSLine, 
+  RiSearchLine,
+  RiPhoneLine,
+  RiMailLine
+} from "react-icons/ri";
+import {
+  FaInstagram,
+  FaFacebook,
+  FaLinkedin,
+  FaYoutube,
+  FaTiktok,
+  FaPinterest,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 
 import { SiteSettings, Navigation, NavItem } from "@/types";
@@ -22,6 +39,40 @@ function chunkArray<T>(arr: T[], size: number): T[][] {
   }
   return chunks;
 }
+
+const socialIconMap: Record<string, React.ElementType> = {
+  instagram: FaInstagram,
+  facebook: FaFacebook,
+  twitter: FaXTwitter,
+  linkedin: FaLinkedin,
+  youtube: FaYoutube,
+  pinterest: FaPinterest,
+  whatsapp: FaWhatsapp,
+  tiktok: FaTiktok,
+};
+
+const navContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.1,
+    },
+  },
+} as const;
+
+const navItemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+} as const;
 
 export function Header({ 
   settings, 
@@ -46,6 +97,8 @@ export function Header({
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const links: NavItem[] = navigation?.headerLinks || [];
+  const socialLinks = (settings?.socialLinks || []).filter((s: any) => s.url);
+  const contact = settings?.contactInfo;
 
   // Handle click outside to close search
   useEffect(() => {
@@ -454,8 +507,8 @@ export function Header({
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 z-50 h-screen w-screen bg-white flex flex-col overflow-hidden"
+            transition={{ type: "tween", duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-50 h-[100dvh] w-screen bg-white flex flex-col overflow-hidden"
           >
             {/* Mobil Header: Kapat Butonu & Dil */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100 shrink-0 bg-white">
@@ -478,15 +531,24 @@ export function Header({
             </div>
 
             {/* Mobil Linkler (Scrollable Area) */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 pb-32 scrollbar-none">
-              <nav className="flex flex-col mt-4 divide-y divide-neutral-100">
+            <div className="flex-1 overflow-y-auto px-6 py-4 pb-12 scrollbar-none">
+              <motion.nav 
+                variants={navContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col mt-4 divide-y divide-neutral-100"
+              >
                 {links.map((item, i) => {
                   const active = isActive(item);
                   const hasSub = item.subLinks && item.subLinks.length > 0;
                   const isExpanded = expandedMobileMenu === item.label;
 
                   return (
-                    <div key={i} className="py-3.5 flex flex-col">
+                    <motion.div 
+                      key={i} 
+                      variants={navItemVariants}
+                      className="py-3.5 flex flex-col"
+                    >
                       <div className="flex items-center justify-between">
                         <Link
                           href={getPublicPath(item.href, locale)}
@@ -494,10 +556,13 @@ export function Header({
                           rel={item.openInNewTab ? "noopener noreferrer" : undefined}
                           onClick={() => setMenuOpen(false)}
                           className={cn(
-                            "text-base font-serif tracking-widest uppercase font-bold py-1",
+                            "text-base font-serif tracking-widest uppercase font-bold py-1 flex items-center gap-2",
                             active ? "text-black" : "text-neutral-700"
                           )}
                         >
+                          {active && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-black shrink-0 animate-pulse" />
+                          )}
                           {localize(item.label, locale)}
                         </Link>
 
@@ -553,18 +618,66 @@ export function Header({
                           </div>
                         </motion.div>
                       )}
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </nav>
+              </motion.nav>
             </div>
 
-            {/* Mobil Hızlı Bilgiler / Footer (Fixed at the bottom) */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-md border-t border-neutral-100 z-10 shrink-0">
+            {/* Mobil Hızlı Bilgiler / Footer (Fixed at the bottom in flex flow) */}
+            <div className="p-6 bg-white border-t border-neutral-100 z-10 shrink-0 flex flex-col gap-4">
+              {/* Sosyal Medya ve İletişim İkonları */}
+              {(socialLinks.length > 0 || contact?.phone || contact?.email) && (
+                <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
+                  {/* Sol: Hızlı Arama/E-posta */}
+                  <div className="flex gap-2">
+                    {contact?.phone && (
+                      <a
+                        href={`tel:${contact.phone}`}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 hover:text-black hover:border-black transition-all"
+                        aria-label="Telefon"
+                      >
+                        <RiPhoneLine size={16} />
+                      </a>
+                    )}
+                    {contact?.email && (
+                      <a
+                        href={`mailto:${contact.email}`}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 hover:text-black hover:border-black transition-all"
+                        aria-label="E-posta"
+                      >
+                        <RiMailLine size={16} />
+                      </a>
+                    )}
+                  </div>
+                  
+                  {/* Sağ: Sosyal Medya */}
+                  <div className="flex gap-2">
+                    {socialLinks.slice(0, 4).map((social: any, idx: number) => {
+                      const Icon = socialIconMap[social.platform];
+                      if (!Icon) return null;
+                      return (
+                        <a
+                          key={idx}
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-white hover:bg-black transition-all"
+                          aria-label={social.platform}
+                        >
+                          <Icon size={14} />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Ziyaret Planı Butonu */}
               <Link 
                 href={getPublicPath("/ziyaret-plani", locale)} 
                 onClick={() => setMenuOpen(false)}
-                className="block w-full text-center border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300"
+                className="block w-full text-center border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300 rounded-none"
               >
                 {locale === "en" ? "Visit Plan" : "Ziyaret Planı"}
               </Link>

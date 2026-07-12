@@ -40,11 +40,11 @@ type Props = {
 };
 
 const floorLabels: Record<string, { tr: string; en: string }> = {
-  "kat-2": { tr: "-2. Kat (Otopark)", en: "-2nd Floor (Parking)" },
-  "kat-1": { tr: "-1. Kat (Otopark - AVM Girişi)", en: "-1st Floor (Parking - Mall Entrance)" },
-  zemin: { tr: "Zemin Kat", en: "Ground Floor" },
-  kat1: { tr: "1. Kat", en: "1st Floor" },
-  kat2: { tr: "2. Kat", en: "2nd Floor" },
+  "kat-3": { tr: "-3 Otopark", en: "-3 Parking" },
+  "kat-2": { tr: "-2 Otopark/Giriş", en: "-2 Parking/Entry" },
+  "kat-1": { tr: "-1", en: "-1" },
+  zemin: { tr: "0 Zemin", en: "0 Ground" },
+  kat1: { tr: "1", en: "1" },
 };
 
 const socialIconMap: Record<string, React.ElementType> = {
@@ -271,7 +271,7 @@ export default async function StoreDetailPage({ params }: Props) {
             <div className="border border-neutral-200 bg-white p-6 md:p-8 flex flex-col gap-6 select-text">
               
               {/* Brand Logo in the Info Area */}
-              {store.logo && (
+              {store.logo ? (
                 <div className="flex justify-center border-b border-neutral-100 pb-6 select-none">
                   <div className="relative w-40 h-20">
                     <SanityImage 
@@ -280,6 +280,14 @@ export default async function StoreDetailPage({ params }: Props) {
                       fit="max"
                       objectFit="contain"
                     />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex justify-center border-b border-neutral-100 pb-6 select-none">
+                  <div className="relative w-40 h-20 flex items-center justify-center bg-neutral-50 border border-neutral-150 p-4">
+                    <span className="font-sans font-bold text-sm tracking-widest text-black uppercase text-center line-clamp-2">
+                      {store.title}
+                    </span>
                   </div>
                 </div>
               )}

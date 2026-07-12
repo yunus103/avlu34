@@ -40,7 +40,6 @@ export const storeType = defineType({
           validation: (Rule) => Rule.required(),
         },
       ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "shopType",
@@ -81,11 +80,11 @@ export const storeType = defineType({
       description: "Mağazanın AVM içerisinde bulunduğu kat konumu.",
       options: {
         list: [
-          { title: "-2 (Otopark Katı)", value: "kat-2" },
-          { title: "-1 (Otopark - AVM Girişi)", value: "kat-1" },
-          { title: "Zemin Kat", value: "zemin" },
+          { title: "-3 (Otopark)", value: "kat-3" },
+          { title: "-2 (Otopark & Giriş)", value: "kat-2" },
+          { title: "-1", value: "kat-1" },
+          { title: "0 Zemin", value: "zemin" },
           { title: "1. Kat", value: "kat1" },
-          { title: "2. Kat", value: "kat2" },
         ],
       },
       validation: (Rule) => Rule.required(),

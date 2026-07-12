@@ -22,11 +22,11 @@ interface DirectoryTemplateProps {
 }
 
 const floorLabels: Record<string, { tr: string; en: string }> = {
-  "kat-2": { tr: "-2. Kat (Otopark)", en: "-2nd Floor (Parking)" },
-  "kat-1": { tr: "-1. Kat (Otopark - AVM Girişi)", en: "-1st Floor (Parking - Mall Entrance)" },
-  zemin: { tr: "Zemin Kat", en: "Ground Floor" },
-  kat1: { tr: "1. Kat", en: "1st Floor" },
-  kat2: { tr: "2. Kat", en: "2nd Floor" },
+  "kat-3": { tr: "-3 Otopark", en: "-3 Parking" },
+  "kat-2": { tr: "-2 Otopark/Giriş", en: "-2 Parking/Entry" },
+  "kat-1": { tr: "-1", en: "-1" },
+  zemin: { tr: "0 Zemin", en: "0 Ground" },
+  kat1: { tr: "1", en: "1" },
 };
 
 export function DirectoryTemplate({
@@ -187,7 +187,7 @@ export function DirectoryTemplate({
           {/* Bottom Level: Categories Row */}
           <div className="w-full pt-4 border-t border-neutral-100">
             {/* Mobile Category Dropdown */}
-            <div className="relative block min-[1165px]:hidden w-full">
+            <div className="relative block min-[1250px]:hidden w-full">
               <select
                 value={activeCategorySlug || "all"}
                 onChange={(e) => {
@@ -207,11 +207,11 @@ export function DirectoryTemplate({
             </div>
 
             {/* Desktop Horizontal Scroll Categories */}
-            <div className="hidden min-[1165px]:flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
+            <div className="hidden min-[1250px]:flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
               <Link
                 href={allPath}
                 scroll={false}
-                className={`text-xs font-sans font-semibold tracking-wider uppercase px-4 py-2 border transition-all duration-300 shrink-0 ${
+                className={`text-[11px] font-sans font-semibold tracking-wider uppercase px-3.5 py-1.5 border transition-all duration-300 shrink-0 ${
                   !activeCategorySlug
                     ? "bg-black border-black text-white"
                     : "bg-white border-neutral-200 text-neutral-600 hover:border-black hover:text-black"
@@ -226,7 +226,7 @@ export function DirectoryTemplate({
                     key={cat._id}
                     href={`${allPath}/${cat.slug?.current}`}
                     scroll={false}
-                    className={`text-xs font-sans font-semibold tracking-wider uppercase px-4 py-2 border transition-all duration-300 shrink-0 ${
+                    className={`text-[11px] font-sans font-semibold tracking-wider uppercase px-3.5 py-1.5 border transition-all duration-300 shrink-0 ${
                       isActive
                         ? "bg-black border-black text-white"
                         : "bg-white border-neutral-200 text-neutral-600 hover:border-black hover:text-black"
@@ -254,10 +254,10 @@ export function DirectoryTemplate({
                 <Link
                   key={item._id}
                   href={itemUrl}
-                  className="group border border-neutral-200 bg-white p-4 md:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black hover:shadow-sm transition-all duration-300 rounded-none relative overflow-hidden"
+                  className="group border border-neutral-200 bg-white p-4 xl:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black hover:shadow-sm transition-all duration-300 rounded-none relative overflow-hidden"
                 >
                   {/* Brand Logo */}
-                  <div className="flex-1 w-full relative min-h-[80px] my-3 select-none">
+                  <div className="flex-1 w-full relative min-h-[60px] xl:min-h-[80px] my-2 xl:my-3 select-none">
                     {item.logo ? (
                       <SanityImage
                         image={item.logo}
@@ -277,7 +277,7 @@ export function DirectoryTemplate({
                   </div>
 
                   {/* Card bottom meta */}
-                  <div className="border-t border-neutral-100 pt-3 flex items-center justify-between mt-4">
+                  <div className="border-t border-neutral-100 pt-2.5 xl:pt-3 flex items-center justify-between mt-2 xl:mt-4">
                     <span className="font-sans font-bold text-[10px] md:text-xs tracking-wider uppercase text-neutral-850 truncate max-w-[70%] group-hover:text-black transition-colors duration-300">
                       {item.title}
                     </span>

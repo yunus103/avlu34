@@ -117,9 +117,9 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                     <Link
                       key={item._id}
                       href={getPublicPath(`/magazalar/${item.slug}`, locale as Locale)}
-                      className="group border border-neutral-200 bg-white p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative"
+                      className="group border border-neutral-200 bg-white p-4 xl:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative overflow-hidden"
                     >
-                      <div className="h-16 w-full relative mb-4">
+                      <div className="h-12 xl:h-16 w-full relative mb-2 xl:mb-4">
                         {item.logo ? (
                           <SanityImage
                             image={item.logo}
@@ -137,7 +137,7 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                           </div>
                         )}
                       </div>
-                      <div className="text-center border-t border-neutral-100 pt-3">
+                      <div className="text-center border-t border-neutral-100 pt-2.5 xl:pt-3">
                         <h4 className="text-xs font-sans font-bold tracking-wide uppercase text-black group-hover:text-neutral-600 transition-colors">
                           {item.title}
                         </h4>
@@ -168,9 +168,9 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                     <Link
                       key={item._id}
                       href={getPublicPath(`/yeme-icme/${item.slug}`, locale as Locale)}
-                      className="group border border-neutral-200 bg-white p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative"
+                      className="group border border-neutral-200 bg-white p-4 xl:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black transition-colors duration-300 rounded-none relative overflow-hidden"
                     >
-                      <div className="h-16 w-full relative mb-4">
+                      <div className="h-12 xl:h-16 w-full relative mb-2 xl:mb-4">
                         {item.logo ? (
                           <SanityImage
                             image={item.logo}
@@ -188,7 +188,7 @@ export default async function SearchResultsPage({ params, searchParams }: Props)
                           </div>
                         )}
                       </div>
-                      <div className="text-center border-t border-neutral-100 pt-3">
+                      <div className="text-center border-t border-neutral-100 pt-2.5 xl:pt-3">
                         <h4 className="text-xs font-sans font-bold tracking-wide uppercase text-black group-hover:text-neutral-600 transition-colors">
                           {item.title}
                         </h4>
