@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { cachedFetch } from "@/sanity/lib/client";
 import { allSlugsForSitemapQuery } from "@/sanity/lib/queries";
 import { getSiteUrl } from "@/lib/utils";
+import { isEnglishEnabled } from "@/lib/i18n/config";
 
 export const revalidate = 86400; // Cache sitemap for 24 hours on CDN Edge
 
@@ -60,7 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // 2. Static Pages (English)
-  const enStaticPages: MetadataRoute.Sitemap = [
+  const enStaticPages: MetadataRoute.Sitemap = isEnglishEnabled ? [
     { url: `${base}/en`, lastModified: lastModified(pages?.home?._updatedAt), changeFrequency: "weekly" as const, priority: 1 },
     { url: `${base}/en/about-us`, lastModified: lastModified(pages?.about?._updatedAt), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${base}/en/contact`, lastModified: lastModified(pages?.contact?._updatedAt), changeFrequency: "monthly" as const, priority: 0.7 },
@@ -74,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].filter(route => {
     if (pages?.home?.noIndex) return false;
     return true;
-  });
+  }) : [];
 
   // 3. Dynamic Pages (Turkish & English)
   const dynamicEntries: MetadataRoute.Sitemap = [];
@@ -89,12 +90,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     });
     // English
-    dynamicEntries.push({
-      url: `${base}/en/stores/${store.slug}`,
-      lastModified: lastModified(store._updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    });
+    if (isEnglishEnabled) {
+      dynamicEntries.push({
+        url: `${base}/en/stores/${store.slug}`,
+        lastModified: lastModified(store._updatedAt),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      });
+    }
   });
 
   // Campaigns
@@ -107,12 +110,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     });
     // English
-    dynamicEntries.push({
-      url: `${base}/en/offers/${camp.slug}`,
-      lastModified: lastModified(camp._updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    });
+    if (isEnglishEnabled) {
+      dynamicEntries.push({
+        url: `${base}/en/offers/${camp.slug}`,
+        lastModified: lastModified(camp._updatedAt),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      });
+    }
   });
 
   // Events
@@ -125,12 +130,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     });
     // English
-    dynamicEntries.push({
-      url: `${base}/en/events/${evt.slug}`,
-      lastModified: lastModified(evt._updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    });
+    if (isEnglishEnabled) {
+      dynamicEntries.push({
+        url: `${base}/en/events/${evt.slug}`,
+        lastModified: lastModified(evt._updatedAt),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      });
+    }
   });
 
   return [...trStaticPages, ...enStaticPages, ...dynamicEntries];

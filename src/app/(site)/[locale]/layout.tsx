@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { isLocale, Locale } from "@/lib/i18n/config";
+import { isLocale, Locale, isEnglishEnabled } from "@/lib/i18n/config";
 import { getLayoutData } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -13,7 +13,7 @@ type Props = {
 export default async function SiteLayout({ children, params }: Props) {
   const { locale } = await params;
 
-  if (!isLocale(locale)) {
+  if (!isLocale(locale) || (locale === "en" && !isEnglishEnabled)) {
     notFound();
   }
 

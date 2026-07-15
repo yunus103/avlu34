@@ -27,7 +27,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 
 import { SiteSettings, Navigation, NavItem } from "@/types";
-import { Locale } from "@/lib/i18n/config";
+import { Locale, isEnglishEnabled } from "@/lib/i18n/config";
 import { localize } from "@/lib/i18n/localize";
 import { getPublicPath } from "@/lib/i18n/routes";
 
@@ -194,14 +194,18 @@ export function Header({
         <div className="container mx-auto flex h-20 items-center justify-between px-4 relative">
           
           {/* Sol: Dil Switcher */}
-          <div className="flex items-center">
-            <Link 
-              href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
-              className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
-            >
-              {locale === "tr" ? "EN" : "TR"}
-            </Link>
-          </div>
+          {isEnglishEnabled ? (
+            <div className="flex items-center">
+              <Link 
+                href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
+                className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
+              >
+                {locale === "tr" ? "EN" : "TR"}
+              </Link>
+            </div>
+          ) : (
+            <div className="flex items-center" aria-hidden="true" />
+          )}
 
           {/* Orta: Logo (Esnek, kesilmeyen düzen) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center h-full">
@@ -512,13 +516,19 @@ export function Header({
           >
             {/* Mobil Header: Kapat Butonu & Dil */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100 shrink-0 bg-white">
-              <Link 
-                href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
-                onClick={() => setMenuOpen(false)}
-                className="text-xs font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
-              >
-                {locale === "tr" ? "English (EN)" : "Türkçe (TR)"}
-              </Link>
+              {isEnglishEnabled ? (
+                <Link 
+                  href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xs font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
+                >
+                  {locale === "tr" ? "English (EN)" : "Türkçe (TR)"}
+                </Link>
+              ) : (
+                <span className="text-xs font-sans font-bold tracking-widest text-neutral-800 uppercase">
+                  {settings?.siteName || "AVLU34"}
+                </span>
+              )}
               <Button 
                 variant="ghost" 
                 size="icon" 

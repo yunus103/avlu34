@@ -1,9 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getInternalPath } from "./lib/i18n/routes";
+import { getInternalPath, getPublicPath } from "./lib/i18n/routes";
+import { isEnglishEnabled } from "./lib/i18n/config";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Redirect English requests to Turkish equivalent if English is disabled
+  if (!isEnglishEnabled) {
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments[0] === "en") {
+      const internalPath = getInternalPath(pathname);
+      const turkishPublicPath = getPublicPath(internalPath, "tr");
+      
+      const url = request.nextUrl.clone();
+      url.pathname = turkishPublicPath;
+      return NextResponse.redirect(url);
+    }
+  }
 
   // Resolve public path to internal route segment structure
   const internalPath = getInternalPath(pathname);
