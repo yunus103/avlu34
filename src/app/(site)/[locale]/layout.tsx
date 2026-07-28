@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { isLocale, Locale, isEnglishEnabled } from "@/lib/i18n/config";
 import { getLayoutData } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
@@ -13,8 +13,12 @@ type Props = {
 export default async function SiteLayout({ children, params }: Props) {
   const { locale } = await params;
 
-  if (!isLocale(locale) || (locale === "en" && !isEnglishEnabled)) {
+  if (!isLocale(locale)) {
     notFound();
+  }
+
+  if (locale === "en" && !isEnglishEnabled) {
+    redirect("/");
   }
 
   const data = await getLayoutData(locale);
