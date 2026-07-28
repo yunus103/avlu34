@@ -74,12 +74,14 @@ export function CampaignsEventsSection({
           <div className="pt-4 flex flex-wrap justify-center gap-4">
             <Link
               href={getPublicPath("kampanyalar", locale)}
+              prefetch={false}
               className="inline-block border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3.5 px-8 rounded-none cursor-pointer"
             >
               {campaignsCta}
             </Link>
             <Link
               href={getPublicPath("etkinlikler", locale)}
+              prefetch={false}
               className="inline-block border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3.5 px-8 rounded-none cursor-pointer"
             >
               {eventsCta}
@@ -91,6 +93,7 @@ export function CampaignsEventsSection({
         {featuredImage && (
           <Link
             href={getPublicPath("kampanyalar", locale)}
+            prefetch={false}
             className="block relative w-full aspect-[4/3] sm:aspect-[16/7] lg:aspect-[21/9] overflow-hidden bg-neutral-900 group border border-neutral-100 mt-12"
           >
             <div className="absolute inset-0 z-0">

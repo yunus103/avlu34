@@ -33,7 +33,11 @@ export async function GET(req: Request) {
       { next: { revalidate: 60 } }
     );
 
-    return NextResponse.json(results);
+    return NextResponse.json(results, {
+      headers: {
+        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+      },
+    });
   } catch (err: unknown) {
     const error = err as Error;
     console.error("Global search API error:", error.message);

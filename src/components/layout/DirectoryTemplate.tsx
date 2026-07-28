@@ -210,6 +210,7 @@ export function DirectoryTemplate({
             <div className="hidden min-[1250px]:flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
               <Link
                 href={allPath}
+                prefetch={false}
                 scroll={false}
                 className={`text-[11px] font-sans font-semibold tracking-wider uppercase px-3.5 py-1.5 border transition-all duration-300 shrink-0 ${
                   !activeCategorySlug
@@ -225,6 +226,7 @@ export function DirectoryTemplate({
                   <Link
                     key={cat._id}
                     href={`${allPath}/${cat.slug?.current}`}
+                    prefetch={false}
                     scroll={false}
                     className={`text-[11px] font-sans font-semibold tracking-wider uppercase px-3.5 py-1.5 border transition-all duration-300 shrink-0 ${
                       isActive
@@ -254,6 +256,7 @@ export function DirectoryTemplate({
                 <Link
                   key={item._id}
                   href={itemUrl}
+                  prefetch={false}
                   className="group border border-neutral-200 bg-white p-4 xl:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black hover:shadow-sm transition-all duration-300 rounded-none relative overflow-hidden"
                 >
                   {/* Brand Logo */}
@@ -316,6 +319,7 @@ export function DirectoryTemplate({
           {/* Campaigns CTA */}
           <Link 
             href={getPublicPath("kampanyalar", locale)}
+            prefetch={false}
             className="group relative h-48 bg-neutral-900 overflow-hidden flex flex-col justify-end p-6 border border-neutral-800"
           >
             <div className="absolute inset-0 bg-neutral-950 opacity-40 group-hover:opacity-30 transition-opacity duration-300 z-0" />
@@ -335,6 +339,7 @@ export function DirectoryTemplate({
           {/* Events CTA */}
           <Link 
             href={getPublicPath("etkinlikler", locale)}
+            prefetch={false}
             className="group relative h-48 bg-neutral-900 overflow-hidden flex flex-col justify-end p-6 border border-neutral-800"
           >
             <div className="absolute inset-0 bg-neutral-950 opacity-40 group-hover:opacity-30 transition-opacity duration-300 z-0" />

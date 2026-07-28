@@ -286,6 +286,7 @@ export function Header({
                 >
                   <Link
                     href={getPublicPath(item.href, locale)}
+                    prefetch={false}
                     target={item.openInNewTab ? "_blank" : undefined}
                     rel={item.openInNewTab ? "noopener noreferrer" : undefined}
                     className={cn(
@@ -314,6 +315,7 @@ export function Header({
                               <Link
                                 key={subIdx}
                                 href={getPublicPath(sub.href, locale)}
+                                prefetch={false}
                                 target={sub.openInNewTab ? "_blank" : undefined}
                                 rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
                                 className="w-fit text-[13px] md:text-[14px] font-sans font-semibold uppercase tracking-[0.12em] text-neutral-500 hover:text-black transition-all duration-300 group-hover/menu:opacity-50 hover:!opacity-100 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-black after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform after:duration-300"

@@ -134,6 +134,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
                 <Link
                   key={event._id}
                   href={eventUrl}
+                  prefetch={false}
                   className="group flex flex-col justify-between rounded-none overflow-hidden"
                 >
                   <div className="flex flex-col">

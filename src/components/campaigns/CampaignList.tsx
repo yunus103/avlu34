@@ -176,6 +176,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
                 <Link
                   key={camp._id}
                   href={campUrl}
+                  prefetch={false}
                   className="group flex flex-col justify-between rounded-none overflow-hidden"
                 >
                   <div className="flex flex-col">

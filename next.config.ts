@@ -47,6 +47,19 @@ const nextConfig: NextConfig = {
       { source: "/en/search", destination: "/en/arama" },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/:all*(svg|jpg|png|webp|avif|ico|woff|woff2|ttf|otf|css|js)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

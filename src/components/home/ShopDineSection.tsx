@@ -80,6 +80,7 @@ export function ShopDineSection({
             <div className="pt-2">
               <Link
                 href={getPublicPath("magazalar", locale)}
+                prefetch={false}
                 className="inline-block border border-white text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3 px-6 rounded-none cursor-pointer"
               >
                 {shopCta}
@@ -124,6 +125,7 @@ export function ShopDineSection({
             <div className="pt-2">
               <Link
                 href={getPublicPath("yeme-icme", locale)}
+                prefetch={false}
                 className="inline-block border border-white text-white hover:bg-white hover:text-black transition-all duration-300 uppercase tracking-[0.2em] text-xs font-semibold py-3 px-6 rounded-none cursor-pointer"
               >
                 {dineCta}

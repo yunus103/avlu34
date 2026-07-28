@@ -50,7 +50,7 @@ export function Footer({
           
           {/* Kolon 1: Logo & Slogan */}
           <div className="flex flex-col items-start gap-4 lg:col-span-3">
-            <Link href={getPublicPath("/", locale)} className="inline-block hover:opacity-90 transition-opacity">
+            <Link href={getPublicPath("/", locale)} prefetch={false} className="inline-block hover:opacity-90 transition-opacity">
               {settings?.logo ? (
                 <div className="h-20 w-auto flex items-center mb-1">
                   <SanityImage
@@ -86,6 +86,7 @@ export function Footer({
                     {item.href && item.href !== "#" && item.href !== "" ? (
                       <Link 
                         href={getPublicPath(item.href, locale)}
+                        prefetch={false}
                         target={item.openInNewTab ? "_blank" : undefined}
                         rel={item.openInNewTab ? "noopener noreferrer" : undefined}
                         className="text-[13px] sm:text-[14px] font-sans font-medium text-neutral-800 hover:text-black transition-colors uppercase"
@@ -104,6 +105,7 @@ export function Footer({
                           <Link
                             key={j}
                             href={getPublicPath(sub.href, locale)}
+                            prefetch={false}
                             target={sub.openInNewTab ? "_blank" : undefined}
                             rel={sub.openInNewTab ? "noopener noreferrer" : undefined}
                             className="text-xs font-sans font-light text-neutral-500 hover:text-black transition-colors"
@@ -225,6 +227,7 @@ export function Footer({
             <span className="hidden md:inline text-neutral-300">|</span>
             <Link 
               href={getPublicPath("kvkk", locale)} 
+              prefetch={false}
               className="hover:underline text-neutral-500 font-bold"
             >
               {locale === "en" ? "Privacy Policy" : "KVKK ve Gizlilik Sözleşmesi"}
