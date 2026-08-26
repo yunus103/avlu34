@@ -126,6 +126,7 @@ export function LightboxGallery({ images }: LightboxGalleryProps) {
               </div>
               <button
                 className="w-12 h-12 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer group"
+                aria-label="Kapat / Close"
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedImage(null);
@@ -143,6 +144,7 @@ export function LightboxGallery({ images }: LightboxGalleryProps) {
               <>
                 <button
                   className="hidden md:flex absolute left-4 md:left-10 top-1/2 -translate-y-1/2 w-16 h-16 items-center justify-center text-white/40 hover:text-white transition-all cursor-pointer z-20 group"
+                  aria-label="Önceki Görsel / Previous image"
                   onClick={(e) => {
                     e.stopPropagation();
                     paginate(-1);
@@ -155,6 +157,7 @@ export function LightboxGallery({ images }: LightboxGalleryProps) {
                 </button>
                 <button
                   className="hidden md:flex absolute right-4 md:right-10 top-1/2 -translate-y-1/2 w-16 h-16 items-center justify-center text-white/40 hover:text-white transition-all cursor-pointer z-20 group"
+                  aria-label="Sonraki Görsel / Next image"
                   onClick={(e) => {
                     e.stopPropagation();
                     paginate(1);

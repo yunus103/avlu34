@@ -199,6 +199,7 @@ export function Header({
               <Link 
                 href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
                 className="text-xs md:text-sm font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
+                aria-label={locale === "tr" ? "Switch to English" : "Türkçe'ye geç"}
               >
                 {locale === "tr" ? "EN" : "TR"}
               </Link>
@@ -209,16 +210,27 @@ export function Header({
 
           {/* Orta: Logo (Esnek, kesilmeyen düzen) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center h-full">
-            <Link href={getPublicPath("/", locale)} className="flex items-center group h-full py-1">
+            <Link 
+              href={getPublicPath("/", locale)} 
+              prefetch={false} 
+              className="flex items-center group h-full py-1"
+              aria-label={settings?.siteName ? `${settings.siteName} ${locale === "en" ? "Home" : "Ana Sayfa"}` : (locale === "en" ? "Home" : "Ana Sayfa")}
+            >
               {settings?.logo ? (
-                <SanityImage
-                  image={settings.logo}
-                  width={1200}
-                  height={551}
-                  fit="max"
-                  className="h-full w-auto object-contain transition-all duration-200 group-hover:scale-[1.02]"
-                  priority
-                />
+                <>
+                  <SanityImage
+                    image={{
+                      ...settings.logo,
+                      alt: settings.logo.alt || settings?.siteName || "AVLU34",
+                    }}
+                    width={1200}
+                    height={551}
+                    fit="max"
+                    className="h-full w-auto object-contain transition-all duration-200 group-hover:scale-[1.02]"
+                    priority
+                  />
+                  <span className="sr-only">{settings?.siteName || "AVLU34"}</span>
+                </>
               ) : (
                 <span className="font-serif font-bold text-xl md:text-2xl tracking-[0.2em] uppercase leading-none text-black">
                   {settings?.siteName}
@@ -246,6 +258,7 @@ export function Header({
             {/* Yol Tarifi / WhatsApp Butonu */}
             <Link 
               href={getPublicPath("/ziyaret-plani", locale)} 
+              prefetch={false}
               className="hidden md:inline-block border border-black px-4 py-2 text-[10px] md:text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300 rounded-none"
             >
               {locale === "en" ? "Visit Plan" : "Ziyaret Planı"}
@@ -354,6 +367,7 @@ export function Header({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={locale === "en" ? "TYPE TO SEARCH..." : "ARAMAK İÇİN YAZIN..."}
+                  aria-label={locale === "en" ? "Search query" : "Arama terimi"}
                   className="flex-1 bg-neutral-50 border border-neutral-300 px-4 py-3 text-xs font-sans tracking-widest uppercase focus:border-black focus:outline-none rounded-none text-black"
                 />
                 <button
@@ -523,6 +537,7 @@ export function Header({
                   href={locale === "tr" ? getPublicPath(pathname, "en") : getPublicPath(pathname, "tr")}
                   onClick={() => setMenuOpen(false)}
                   className="text-xs font-sans font-bold tracking-widest text-neutral-500 hover:text-black transition-colors uppercase"
+                  aria-label={locale === "tr" ? "Switch to English" : "Türkçe'ye geç"}
                 >
                   {locale === "tr" ? "English (EN)" : "Türkçe (TR)"}
                 </Link>
@@ -584,7 +599,7 @@ export function Header({
                               setExpandedMobileMenu(isExpanded ? null : (item.label as string));
                             }}
                             className="p-2 -mr-2 text-neutral-500 hover:text-black transition-colors cursor-pointer"
-                            aria-label={isExpanded ? "Collapse section" : "Expand section"}
+                            aria-label={isExpanded ? (locale === "en" ? "Collapse section" : "Bölümü daralt") : (locale === "en" ? "Expand section" : "Bölümü genişlet")}
                           >
                             <RiArrowDownSLine 
                               size={20} 
@@ -688,6 +703,7 @@ export function Header({
               {/* Ziyaret Planı Butonu */}
               <Link 
                 href={getPublicPath("/ziyaret-plani", locale)} 
+                prefetch={false}
                 onClick={() => setMenuOpen(false)}
                 className="block w-full text-center border border-black py-3 text-xs font-sans font-semibold tracking-widest uppercase text-black hover:bg-black hover:text-white transition-colors duration-300 rounded-none"
               >

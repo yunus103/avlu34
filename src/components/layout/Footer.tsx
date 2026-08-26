@@ -50,16 +50,25 @@ export function Footer({
           
           {/* Kolon 1: Logo & Slogan */}
           <div className="flex flex-col items-start gap-4 lg:col-span-3">
-            <Link href={getPublicPath("/", locale)} prefetch={false} className="inline-block hover:opacity-90 transition-opacity">
+            <Link 
+              href={getPublicPath("/", locale)} 
+              prefetch={false} 
+              className="inline-block hover:opacity-90 transition-opacity"
+              aria-label={settings?.siteName ? `${settings.siteName} ${locale === "en" ? "Home" : "Ana Sayfa"}` : (locale === "en" ? "Home" : "Ana Sayfa")}
+            >
               {settings?.logo ? (
                 <div className="h-20 w-auto flex items-center mb-1">
                   <SanityImage
-                    image={settings.logo}
+                    image={{
+                      ...settings.logo,
+                      alt: settings.logo.alt || settings?.siteName || "AVLU34",
+                    }}
                     width={1200}
                     height={551}
                     fit="max"
                     className="h-full w-auto object-contain"
                   />
+                  <span className="sr-only">{settings?.siteName || "AVLU34"}</span>
                 </div>
               ) : (
                 <h3 className="font-serif font-bold text-xl tracking-widest uppercase text-black">
@@ -178,7 +187,7 @@ export function Footer({
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={social.platform}
+                      aria-label={social.platform || "Sosyal Medya"}
                       className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white hover:bg-neutral-800 transition-colors"
                     >
                       <Icon size={14} />
@@ -238,10 +247,11 @@ export function Footer({
           <p className="text-[10px] font-sans font-semibold tracking-wider text-neutral-400 uppercase text-center md:text-right">
             {locale === "en" ? "Design & Development: " : "Tasarım ve Geliştirme: "}
             <a 
-              href="https://www.instagram.com/yaytechstudio/" 
+              href="https://yaytechstudio.com/" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-black hover:underline font-bold"
+              aria-label="YayTech Studio"
             >
               YayTech Studio
             </a>

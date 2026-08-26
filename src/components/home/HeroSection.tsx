@@ -280,7 +280,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
         onClick={() => paginate(-1)}
         onPointerDown={(e) => e.stopPropagation()}
         className="absolute left-4 lg:left-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
-        aria-label="Önceki Slayt"
+        aria-label={locale === "en" ? "Previous slide" : "Önceki slayt"}
       >
         <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))" }} />
       </button>
@@ -288,7 +288,7 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
         onClick={() => paginate(1)}
         onPointerDown={(e) => e.stopPropagation()}
         className="absolute right-4 lg:right-8 bottom-[200px] md:bottom-[250px] z-30 p-2 text-white/70 hover:text-white hover:scale-105 transition-all focus:outline-none hidden md:block cursor-pointer"
-        aria-label="Sonraki Slayt"
+        aria-label={locale === "en" ? "Next slide" : "Sonraki slayt"}
       >
         <ChevronRight className="w-8 h-8 md:w-10 md:h-10 stroke-[1.5]" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))" }} />
       </button>
@@ -305,12 +305,16 @@ export function HeroSection({ slides, settings, locale }: HeroSectionProps) {
               resetAutoplay();
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${
-              index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
-            }`}
-            aria-label={`Slayt ${index + 1}`}
-            style={{ filter: "drop-shadow(0px 1px 2px rgba(0,0,0,0.6))" }}
-          />
+            className="flex items-center justify-center p-2 -m-2 focus:outline-none cursor-pointer"
+            aria-label={`${locale === "en" ? "Slide" : "Slayt"} ${index + 1}`}
+          >
+            <span
+              className={`w-2 h-2 rounded-full transition-all duration-300 pointer-events-none ${
+                index === activeIndex ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"
+              }`}
+              style={{ filter: "drop-shadow(0px 1px 2px rgba(0,0,0,0.6))" }}
+            />
+          </button>
         ))}
       </div>
     </section>

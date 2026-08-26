@@ -144,6 +144,7 @@ export function DirectoryTemplate({
                 <select
                   value={selectedFloor}
                   onChange={(e) => setSelectedFloor(e.target.value)}
+                  aria-label={isEn ? "Filter by floor" : "Kata göre filtrele"}
                   className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
                 >
                   <option value="all">{isEn ? "All Floors" : "Tüm Katlar"}</option>
@@ -161,6 +162,7 @@ export function DirectoryTemplate({
                 <select
                   value={selectedSort}
                   onChange={(e) => setSelectedSort(e.target.value)}
+                  aria-label={isEn ? "Sort by" : "Sıralama ölçütü"}
                   className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
                 >
                   <option value="a-z">{isEn ? "Sort A-Z" : "Sırala A-Z"}</option>
@@ -176,6 +178,7 @@ export function DirectoryTemplate({
                   placeholder={isEn ? "Search brands..." : "Marka ara..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label={isEn ? "Search brands" : "Marka ara"}
                   className="w-full h-10 pl-10 pr-4 border border-neutral-200 rounded-none bg-neutral-50 text-xs font-sans tracking-wide text-neutral-800 placeholder-neutral-400 focus:border-black focus:bg-white focus:outline-none transition-colors duration-300"
                 />
                 <RiSearchLine size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
@@ -194,6 +197,7 @@ export function DirectoryTemplate({
                   const val = e.target.value;
                   router.push(val === "all" ? allPath : `${allPath}/${val}`, { scroll: false });
                 }}
+                aria-label={isEn ? "Filter by category" : "Kategoriye göre filtrele"}
                 className="w-full h-10 px-4 pr-10 border border-neutral-200 rounded-none bg-white text-xs font-sans font-semibold tracking-wider uppercase appearance-none focus:border-black focus:outline-none cursor-pointer"
               >
                 <option value="all">{isEn ? "All Categories" : "Tüm Kategoriler"}</option>
@@ -257,6 +261,7 @@ export function DirectoryTemplate({
                   key={item._id}
                   href={itemUrl}
                   prefetch={false}
+                  aria-label={item.title}
                   className="group border border-neutral-200 bg-white p-4 xl:p-6 flex flex-col justify-between aspect-[4/3] hover:border-black hover:shadow-sm transition-all duration-300 rounded-none relative overflow-hidden"
                 >
                   {/* Brand Logo */}

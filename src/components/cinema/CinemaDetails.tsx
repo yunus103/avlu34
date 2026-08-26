@@ -108,11 +108,17 @@ export function CinemaDetails({ data, locale }: CinemaDetailsProps) {
                   <div className="flex flex-row flex-wrap items-center gap-6 mt-1">
                     {data.privilegedHalls.map((hall, idx) => (
                       <React.Fragment key={idx}>
-                        {hall.asset?.url && (
+                        {hall?.asset && (
                           <div className="h-10 md:h-12 flex items-center justify-center shrink-0 hover:scale-105 transition-transform duration-300">
-                            <img
-                              src={hall.asset.url}
-                              alt={hall.alt || hall.title}
+                            <SanityImage
+                              image={{
+                                ...hall,
+                                alt: hall.alt || hall.title || (isEn ? "Cinema hall logo" : "Sinema salonu logosu"),
+                              }}
+                              width={120}
+                              height={48}
+                              fit="max"
+                              objectFit="contain"
                               className="h-full w-auto object-contain"
                             />
                           </div>

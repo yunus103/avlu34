@@ -87,6 +87,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
             type="text"
             placeholder={isEn ? "Search events..." : "Etkinlik ara..."}
             value={searchQuery}
+            aria-label={isEn ? "Search events" : "Etkinlik ara"}
             onChange={(e) => {
               setSearchQuery(e.target.value);
               setActiveLimit(12);
@@ -101,6 +102,7 @@ export function EventList({ activeEvents, pastEvents, locale }: EventListProps) 
         <div className="relative w-44">
           <select
             value={sortBy}
+            aria-label={isEn ? "Sort events" : "Etkinlikleri sırala"}
             onChange={(e) => {
               setSortBy(e.target.value);
               setActiveLimit(12);

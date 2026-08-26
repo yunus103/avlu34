@@ -104,6 +104,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
             type="text"
             placeholder={isEn ? "Search campaigns or brands..." : "Kampanya veya marka ara..."}
             value={searchQuery}
+            aria-label={isEn ? "Search campaigns or brands" : "Kampanya veya marka ara"}
             onChange={(e) => {
               setSearchQuery(e.target.value);
               setActiveLimit(9);
@@ -120,6 +121,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
           <div className="relative w-48">
             <select
               value={selectedFilter}
+              aria-label={isEn ? "Filter campaigns" : "Kampanyaları filtrele"}
               onChange={(e) => {
                 setSelectedFilter(e.target.value);
                 setActiveLimit(9);
@@ -138,6 +140,7 @@ export function CampaignList({ activeCampaigns, pastCampaigns, locale }: Campaig
           <div className="relative w-44">
             <select
               value={sortBy}
+              aria-label={isEn ? "Sort campaigns" : "Kampanyaları sırala"}
               onChange={(e) => {
                 setSortBy(e.target.value);
                 setActiveLimit(9);
