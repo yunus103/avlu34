@@ -1,7 +1,7 @@
 <div align="right">
-  <img src="https://img.shields.io/badge/English_🇬🇧-2563EB?style=for-the-badge" alt="English" />
+  <img src="https://img.shields.io/badge/English_EN-2563EB?style=for-the-badge" alt="English" />
   <a href="./README.tr.md">
-    <img src="https://img.shields.io/badge/Türkçe_🇹🇷-374151?style=for-the-badge" alt="Türkçe" />
+    <img src="https://img.shields.io/badge/Türkçe_TR-374151?style=for-the-badge" alt="Türkçe" />
   </a>
 </div>
 
