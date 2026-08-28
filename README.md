@@ -1,6 +1,9 @@
-﻿<p align="right">
-  <strong>English</strong> | <a href="./README.tr.md">Türkçe</a>
-</p>
+<div align="right">
+  <img src="https://img.shields.io/badge/Language-English%20🇬🇧-2563EB?style=for-the-badge" alt="English" />
+  <a href="./README.tr.md">
+    <img src="https://img.shields.io/badge/Türkçe'ye%20Geç-TR%20🇹🇷-374151?style=for-the-badge" alt="Türkçe" />
+  </a>
+</div>
 
 # AVLU34 Shopping & Life Center — Official Web Platform
 
