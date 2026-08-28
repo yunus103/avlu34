@@ -1,141 +1,120 @@
-# Next.js + Sanity Kurumsal Site Boilerplate
+# AVLU34 Alışveriş ve Yaşam Merkezi — Dijital Platformu
 
-Modern ajanslar için hazır, production-grade Next.js 15 + Sanity v3 boilerplate.
-
-## Tech Stack
-
-| Teknoloji | Versiyon | Açıklama |
-|-----------|----------|----------|
-| Next.js | 15+ | App Router, TypeScript |
-| Tailwind CSS | v4 | `@plugin` tabanlı konfigürasyon |
-| shadcn/ui | v4 | `@base-ui/react` tabanlı |
-| Sanity | v3 | Headless CMS |
-| Framer Motion | latest | Animasyonlar |
-| react-icons | latest | SVG ikon kütüphanesi |
-| Nodemailer | latest | İletişim formu e-postası |
-| Zod + @t3-oss/env-nextjs | latest | Type-safe env validasyonu |
+AVLU34 Alışveriş ve Yaşam Merkezi'nin ziyaretçi deneyimini en üst seviyeye taşımak amacıyla geliştirilmiş modern, yüksek performanslı ve headless içerik yönetimli kurumsal web platformu.
 
 ---
 
-## Hızlı Başlangıç
+## 🚀 Mimari ve Teknoloji Yığını
 
-```bash
-# 1. Repoyu klonla
-git clone https://github.com/kullanici/proje-adi.git
-cd proje-adi
+Platform; modern web standartları, üstün arama motoru optimizasyonu (SEO), yüksek erişilebilirlik ve içerik yönetim kolaylığı hedeflenerek tasarlanmıştır.
 
-# 2. Bağımlılıkları yükle
-npm install
-
-# 3. .env.local içindeki placeholder değerleri gerçek değerlerle doldur
-# (Aşağıdaki "Zorunlu Kurulum Adımları" bölümüne bak)
-
-# 4. Geliştirme sunucusunu başlat
-npm run dev
-```
-
-Tarayıcıda:
-- Site: `http://localhost:3000`
-- Sanity Studio: `http://localhost:3000/studio`
+| Katman | Teknoloji | Açıklama |
+| :--- | :--- | :--- |
+| **Framework & Core** | **Next.js 15+ (App Router)** | React 19, Server Components (RSC), SSR ve ISR mimarisi |
+| **İçerik Yönetimi (CMS)** | **Sanity CMS v3** | Gerçek zamanlı Headless CMS, Field-level i18n, Özelleştirilmiş Studio |
+| **Tip Güvenliği** | **TypeScript 5 & Zod** | Katı tip kontrolü, `@t3-oss/env-nextjs` ile runtime ortam değişkeni doğrulaması |
+| **Tasarım & UI** | **Tailwind CSS v4** | `@plugin` mimarisi, modern utility-first stil sistemi, `@base-ui/react` tabanlı UI bileşenleri |
+| **Etkileşim & Animasyon** | **Framer Motion** | Akıcı sayfa geçişleri, mikro etkileşimler ve animasyonlar |
+| **Önbellek & Performans** | **Edge ISR & Webhooks** | Sanity Webhook tabanlı anında tag revalidation ve zaman ayarlı sayfa yenileme |
+| **İletişim & Servisler** | **Nodemailer** | SMTP tabanlı güvenli iletişim formu entegrasyonu |
 
 ---
 
-## Zorunlu Kurulum Adımları
+## 🏛️ Temel Modüller ve Fonksiyonel Özellikler
 
-### 1. Sanity Projesi Oluştur
+### 1. 🏬 Mağazalar ve Yeme-İçme Rehberi
+- **Kategori Bazlı Keşif:** Giyim, teknoloji, çocuk, yeme-içme (restoran, kafe, fast food) vb. kategorilere göre filtrelenebilir dizin.
+- **Detaylı Mağaza Sayfaları:** Kat konumu, çalışma saatleri, doğrudan iletişim bilgileri, web/sosyal medya bağlantıları ve mağazaya özel aktif kampanyalar.
 
-1. [sanity.io/manage](https://sanity.io/manage) adresine git
-2. "New Project" → proje adını gir
-3. Proje ID'yi kopyala → `.env.local` içinde `NEXT_PUBLIC_SANITY_PROJECT_ID` değerini güncelle
+### 2. 🎁 Kampanya ve Etkinlik Yönetimi (Akıllı Zamanlama)
+- **Tarih Duyarlı Görünürlük:** Kampanyalar ve etkinlikler Sanity üzerinden tanımlanan başlangıç/bitiş tarihleri (`startsAt`, `endsAt`) ile GROQ seviyesinde filtrelenir.
+- **Otomatik Statü Geçişi:** Süresi geçen içerikler ana sayfadan ve aktif vitrinlerden otomatik olarak ayrıştırılarak geçmiş arşivine aktarılır, URL bütünlüğü ve SEO değeri korunur.
 
-### 2. Sanity API Token Al
+### 3. 🎬 Sinema & Eğlence Modülü
+- **Deneyim ve Salon Rehberi:** AVLU34 sinema salonu olanakları, fotoğraflar, koltuk konfigürasyonları ve güncel vizyon/bilet yönlendirmeleri.
 
-1. Sanity Dashboard → proje → **API** sekmesi
-2. **Tokens** → **Add API Token**
-3. İsim: `Read Token`, Yetki: **Editor**
-4. Token'ı kopyala → `.env.local` içinde `SANITY_API_READ_TOKEN` değerini güncelle
+### 4. 🗺️ Kat ve Ziyaret Planı
+- **Kroki ve Ulaşım Bilgileri:** AVM kat krokileri, otopark, engelli erişimi, bebek bakım odaları, mescit ve AVM hizmetleri.
+- **Yol Tarifi & İletişim:** Konum, çalışma saatleri ve müşteri hizmetleri erişim noktaları.
 
-### 3. Sanity Webhook Kur (ISR için)
-
-1. Sanity Dashboard → proje → **API** → **Webhooks**
-2. **Add Webhook**:
-   - URL: `https://siteadi.com/api/revalidate`
-   - HTTP Method: `POST`
-   - Trigger on: **Create, Update, Delete**
-   - Secret: Sanity Dashboard'daki Secret alanına `.env.local`'daki `SANITY_WEBHOOK_SECRET` değerini girin. (Header olarak değil, direkt dashboard'daki Secret kutusuna)
-3. `.env.local` içinde `SANITY_WEBHOOK_SECRET` değerini güncelleyin. Uygulama `@sanity/webhook` paketi ile imzayı otomatik doğrular.
-
-### 4. Gmail SMTP Kurulumu (İletişim Formu)
-
-1. Google Hesabı → **Güvenlik** → **2 Adımlı Doğrulama** → etkinleştir
-2. **Uygulama Şifreleri** → Uygulama: Mail → Şifreyi kopyala
-3. `.env.local` içinde `SMTP_USER` ve `SMTP_PASS` değerlerini güncelle
+### 5. 🔍 Dil Duyarlı Global Arama Motoru
+- **GROQ Tabanlı Hızlı Arama:** Mağazalar, yeme-içme noktaları, kampanyalar, etkinlikler ve kurumsal sayfalar arasında anlık eşleşme ve kategorize sonuç listeleme.
 
 ---
 
-## Yeni Projede Yapılacaklar Checklist
+## 🌐 Çoklu Dil (i18n) Mimarisi
 
-- [ ] `package.json` içinde `"name"` alanını güncelle
-- [ ] `.env.local` içindeki tüm `your-*` placeholder değerlerini gerçek değerlerle değiştir
-- [ ] `src/app/layout.tsx` içindeki `"Site Adı"` metnini güncelle
-- [ ] `src/app/globals.css` içindeki `:root` bloğundan marka renklerini güncelle
-- [ ] Sanity Studio'yu aç (`/studio`), **Site Ayarları** (Logo, Favicon) ve **Navigasyon** dokümanlarını doldur
-- [ ] Vercel'e deploy et, tüm `.env.local` env değişkenlerini Vercel paneline ekle
-- [ ] Sanity Dashboard → Webhooks: `https://siteadi.com/api/revalidate` ekle
+Platform, yerel ve yabancı ziyaretçiler için çoklu dil (Türkçe - İngilizce) desteğine tam uyumlu olarak inşa edilmiştir:
+
+- **Field-Level Localization:** İçerikler Sanity üzerinde tek doküman altında `title.tr` ve `title.en` şeklinde yönetilir.
+- **Veritabanı Seviyesinde Dil Çözümleme:** GROQ sorguları `coalesce(field[$locale], field.tr)` mantığı ile dili doğrudan veritabanı aşamasında projekte eder, istemciye yalın veri sunar.
+- **Ultra-Hafif URL Rewrite (Proxy):** `src/proxy.ts` üzerinden yürütülen rota eşleme mekanizmasıyla CPU yükü oluşturmadan SEO uyumlu temiz URL'ler (`/magazalar` ve `/en/stores`) tek bir internal route ağacına (`[locale]`) bağlanır.
 
 ---
 
-## Proje Yapısı
+## ⚡ Önbellekleme, Revalidation ve SEO Standartları
 
-```
+### 1. Anında İçerik Güncelleme (On-Demand ISR)
+Sanity Studio üzerinde bir içerik yayımlandığında, güncellendiğinde veya silindiğinde `src/app/api/revalidate` webhook uç noktası tetiklenerek ilgili cache tag'leri anında geçersiz kılınır:
+- `siteSettings` / `navigation` ➔ `layout`
+- `store` / `campaign` / `event` ➔ ilgili içerik ve `sitemap` etiketleri
+
+### 2. Yapılandırılmış Veriler (JSON-LD) ve Teknik SEO
+- **Otomatik Schema Enjeksiyonu:** `Organization`, `BreadcrumbList`, `FAQPage`, `Event` ve `Store` yapılandırılmış verileri ilgili sayfalarda otomatik olarak üretilir.
+- **Kusursuz İndekslenme (FAQ Kuralı):** Sıkça sorulan sorular arayüzde kapalı olsa dahi DOM üzerinde muhafaza edilerek arama motoru botlarının içeriği tam okuması sağlanır.
+- **Dinamik Çok Dilli Sitemap:** `sitemap.ts` tüm dinamik rotaları, mağazaları, etkinlikleri ve alternatif dil eşleşmelerini (hreflang) otomatik derler.
+- **Temiz Canonical URL'ler:** Varsayılan dilde dil prefix'i arındırılarak temiz URL yapısı oluşturulur.
+
+---
+
+## 📂 Proje Dizin Yapısı
+
+```txt
 src/
 ├── app/
-│   ├── (site)/           # Kullanıcıya görünen tüm sayfalar
-│   │   ├── [slug]/       # Dinamik blog detay sayfaları
-│   │   ├── page.tsx      # Ana sayfa
-│   │   ├── blog/         # Blog listesi hub sayfası
-│   │   ├── hizmetler/    # Hizmet hub ve [slug] detay sayfaları
-│   │   ├── projeler/     # Proje hub ve [slug] detay sayfaları
-│   │   ├── iletisim/     # İletişim sayfası
-│   ├── api/              # API route'ları
-│   │   ├── revalidate/   # ISR webhook
-│   │   └── contact/      # İletişim formu
-│   ├── studio/           # Sanity Studio (embedded)
-│   ├── layout.tsx        # Root layout
-│   ├── not-found.tsx     # 404 sayfası
-│   ├── sitemap.ts        # Dinamik sitemap
-│   └── robots.ts         # robots.txt
+│   ├── (site)/
+│   │   └── [locale]/                 # Rota ağacı (tr, en)
+│   │       ├── layout.tsx            # Global site layout (Header, Footer, Metadata)
+│   │       ├── page.tsx              # Ana sayfa vitrini
+│   │       ├── magazalar/            # Mağazalar dizini ve detay sayfaları
+│   │       ├── yeme-icme/            # Yeme-içme dizini ve kategori sayfaları
+│   │       ├── kampanyalar/          # Kampanyalar ve detay sayfaları
+│   │       ├── etkinlikler/          # Etkinlikler ve detay sayfaları
+│   │       ├── sinema/               # Sinema sayfası
+│   │       ├── kat-plani/            # Kat planı ve hizmetler
+│   │       ├── ziyaret-plani/        # Ulaşım, otopark, çalışma saatleri
+│   │       ├── arama/                # Global arama sonuç sayfası
+│   │       └── ...                   # Kurumsal ve yasal sayfalar (Hakkımızda, KVKK, İletişim)
+│   ├── api/
+│   │   ├── revalidate/               # Sanity webhook ISR temizleyici
+│   │   ├── search/                   # GROQ tabanlı global arama endpoint'i
+│   │   └── contact/                  # İletişim formu mail gönderim endpoint'i
+│   ├── proxy.ts                      # Ultra-hafif URL rewrite katmanı
+│   ├── sitemap.ts                    # Dinamik çok dilli XML sitemap
+│   └── robots.ts                     # Dinamik robots.txt yapılandırması
 ├── components/
-│   ├── forms/            # ContactForm
-│   ├── layout/           # Header, Footer, vb.
-│   ├── seo/              # JsonLd
-│   └── ui/               # SanityImage, RichText, FAQ, Breadcrumbs, FadeIn
+│   ├── forms/                        # Form bileşenleri
+│   ├── home/                         # Ana sayfa bölüm bileşenleri
+│   ├── layout/                       # Header, Footer, DirectoryTemplate, Navigasyon
+│   ├── ui/                           # SanityImage, RichText, FAQ, Breadcrumbs, Dialog vb.
+│   └── seo/                          # JsonLd bileşeni
 ├── lib/
-│   ├── env.ts            # Type-safe env validasyonu
-│   ├── seo.ts            # buildMetadata()
-│   └── utils.ts          # cn(), getSiteUrl(), formatDate()
-└── sanity/
-    ├── lib/              # client.ts, image.ts, queries.ts
-    ├── plugins/          # singletonPlugin
-    ├── schemaTypes/      # Tüm Sanity şemaları
-    └── structure.ts      # Studio sol panel yapısı
+│   ├── i18n/                         # Çoklu dil route eşleşmeleri ve yardımcılar
+│   ├── seo.ts                        # buildMetadata ve SEO yardımcı fonksiyonları
+│   └── utils.ts                      # Ortak yardımcı fonksiyonlar
+├── sanity/
+│   ├── lib/                          # Sanity Client, GROQ sorguları, Image URL builder
+│   ├── schemaTypes/                  # Doküman ve singleton şemaları
+│   └── structure.ts                  # Sanity Studio özel menü ve durum filtreleme yapısı
+└── types/
+    └── index.ts                      # Merkezi TypeScript tip tanımlamaları
 ```
 
 ---
 
-## SEO & Yapılandırılmış Veri (Structured Data) Yapılandırması
+## 🛡️ Güvenlik ve Kod Standartları
 
-Bu boilerplate, Google ve diğer arama motorları için en yüksek standartlarda SEO otomasyonuna sahiptir.
-
-### 1. Domain ve Canonical URL Kurulumu (`NEXT_PUBLIC_SITE_URL`)
-*   `.env.local` dosyasındaki `NEXT_PUBLIC_SITE_URL` değişkeni, arama motorlarının canonical (özgün) etiketlerini, sitemap girdilerini ve OpenGraph görsel yollarını oluşturmak için kullanılır.
-*   **Edge-case Koruması:** `getSiteUrl()` fonksiyonu, girilen URL'nin başında `https://` protokolü olmasa bile bunu otomatik algılar, sonundaki `/` işaretlerini temizler ve güvenli şekilde derler.
-
-### 2. Otomatik Yapılandırılmış Veriler (JSON-LD)
-Aşağıdaki zengin arama sonuçları şemaları kod yazmaya gerek kalmadan tamamen otomatik olarak yönetilir:
-*   **Site-wide Organization & WebSite:** Root Layout'ta `siteSettings`'ten gelen logo, iletişim ve sosyal ağ verileriyle otomatik oluşturulur.
-*   **Ekmek Kırıntıları (Breadcrumbs):** İç sayfalarda `<Breadcrumbs>` bileşeni çağrıldığı anda dinamik URL hiyerarşisi üzerinden `BreadcrumbList` şemasını oluşturup sayfaya enjekte eder.
-*   **Taranabilir Sıkça Sorulan Sorular (FAQ):** `<FAQ>` bileşeni kullanıldığında, arama botlarının kapalı cevapları da %100 okuyabilmesi için answers DOM'da saklanır ve `FAQPage` şeması dinamik olarak sayfaya basılır.
-*   **Blog Yazıları:** `[slug]/page.tsx` rotasında dinamik `Article` şeması otomatik olarak basılır.
-*   **Hizmet & Projeler:** İlgili detay sayfalarında `Service` ve `CreativeWork` şemaları otomatik olarak yer alır.
+- Tüm veri modelleri ve bileşen propları katı TypeScript tipleri ile tanımlanmıştır (`any` kullanımı engellenmiştir).
+- Hassas anahtarlar ve ortam değişkenleri `@t3-oss/env-nextjs` ile runtime/build aşamasında doğrulanır.
+- Görseller, LCP optimizasyonu ve layout shift'i engellemek amacıyla Sanity Image Pipeline ve responsive `<SanityImage>` bileşeni üzerinden işlenir.
 
