@@ -1,8 +1,8 @@
 <div align="right">
   <a href="./README.md">
-    <img src="https://img.shields.io/badge/Switch%20to-English%20🇬🇧-374151?style=for-the-badge" alt="English" />
+    <img src="https://img.shields.io/badge/English_🇬🇧-374151?style=for-the-badge" alt="English" />
   </a>
-  <img src="https://img.shields.io/badge/Dil-Türkçe%20🇹🇷-2563EB?style=for-the-badge" alt="Türkçe" />
+  <img src="https://img.shields.io/badge/Türkçe_🇹🇷-2563EB?style=for-the-badge" alt="Türkçe" />
 </div>
 
 # AVLU34 Alışveriş ve Yaşam Merkezi — Dijital Platformu
