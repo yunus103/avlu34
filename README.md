@@ -1,120 +1,123 @@
-# AVLU34 Alışveriş ve Yaşam Merkezi — Dijital Platformu
+﻿<p align="right">
+  <strong>English</strong> | <a href="./README.tr.md">Türkçe</a>
+</p>
 
-AVLU34 Alışveriş ve Yaşam Merkezi'nin ziyaretçi deneyimini en üst seviyeye taşımak amacıyla geliştirilmiş modern, yüksek performanslı ve headless içerik yönetimli kurumsal web platformu.
+# AVLU34 Shopping & Life Center — Official Web Platform
+
+A modern, high-performance, and headless CMS-powered corporate web platform developed to elevate the visitor and discovery experience for AVLU34 Shopping & Life Center.
 
 ---
 
-## 🚀 Mimari ve Teknoloji Yığını
+## 🚀 Architecture & Tech Stack
 
-Platform; modern web standartları, üstün arama motoru optimizasyonu (SEO), yüksek erişilebilirlik ve içerik yönetim kolaylığı hedeflenerek tasarlanmıştır.
+The platform is engineered with modern web standards, strict type safety, first-class SEO automation, edge-level caching, and frictionless content management.
 
-| Katman | Teknoloji | Açıklama |
+| Layer | Technology | Description |
 | :--- | :--- | :--- |
-| **Framework & Core** | **Next.js 15+ (App Router)** | React 19, Server Components (RSC), SSR ve ISR mimarisi |
-| **İçerik Yönetimi (CMS)** | **Sanity CMS v3** | Gerçek zamanlı Headless CMS, Field-level i18n, Özelleştirilmiş Studio |
-| **Tip Güvenliği** | **TypeScript 5 & Zod** | Katı tip kontrolü, `@t3-oss/env-nextjs` ile runtime ortam değişkeni doğrulaması |
-| **Tasarım & UI** | **Tailwind CSS v4** | `@plugin` mimarisi, modern utility-first stil sistemi, `@base-ui/react` tabanlı UI bileşenleri |
-| **Etkileşim & Animasyon** | **Framer Motion** | Akıcı sayfa geçişleri, mikro etkileşimler ve animasyonlar |
-| **Önbellek & Performans** | **Edge ISR & Webhooks** | Sanity Webhook tabanlı anında tag revalidation ve zaman ayarlı sayfa yenileme |
-| **İletişim & Servisler** | **Nodemailer** | SMTP tabanlı güvenli iletişim formu entegrasyonu |
+| **Framework & Core** | **Next.js 15+ (App Router)** | React 19, React Server Components (RSC), SSR and ISR architecture |
+| **Content Management (CMS)** | **Sanity CMS v3** | Real-time Headless CMS, Field-level i18n, custom Studio structure |
+| **Type Safety** | **TypeScript 5 & Zod** | Strict static types, runtime environment validation via `@t3-oss/env-nextjs` |
+| **Design & Styling** | **Tailwind CSS v4** | `@plugin` configuration, utility-first architecture, `@base-ui/react` primitives |
+| **Motion & Interaction** | **Framer Motion** | Fluid page transitions, micro-interactions, and accessible layout animations |
+| **Caching & Performance** | **Edge ISR & Webhooks** | Sanity Webhook on-demand tag revalidation and time-based fallback |
+| **Email & Communication** | **Nodemailer** | SMTP-backed secure contact form submission |
 
 ---
 
-## 🏛️ Temel Modüller ve Fonksiyonel Özellikler
+## 🏛️ Core Modules & Functional Capabilities
 
-### 1. 🏬 Mağazalar ve Yeme-İçme Rehberi
-- **Kategori Bazlı Keşif:** Giyim, teknoloji, çocuk, yeme-içme (restoran, kafe, fast food) vb. kategorilere göre filtrelenebilir dizin.
-- **Detaylı Mağaza Sayfaları:** Kat konumu, çalışma saatleri, doğrudan iletişim bilgileri, web/sosyal medya bağlantıları ve mağazaya özel aktif kampanyalar.
+### 1. 🏬 Stores & Dining Directory (Shop & Dine)
+- **Category-Driven Discovery:** Filterable directories for fashion, electronics, children, dining (restaurants, cafes, fast food, desserts), and services.
+- **Rich Store Profile Pages:** Floor locations, opening hours, contact details, official web/social links, and active store-specific offers.
 
-### 2. 🎁 Kampanya ve Etkinlik Yönetimi (Akıllı Zamanlama)
-- **Tarih Duyarlı Görünürlük:** Kampanyalar ve etkinlikler Sanity üzerinden tanımlanan başlangıç/bitiş tarihleri (`startsAt`, `endsAt`) ile GROQ seviyesinde filtrelenir.
-- **Otomatik Statü Geçişi:** Süresi geçen içerikler ana sayfadan ve aktif vitrinlerden otomatik olarak ayrıştırılarak geçmiş arşivine aktarılır, URL bütünlüğü ve SEO değeri korunur.
+### 2. 🎁 Campaign & Event Engine (Smart Scheduling)
+- **Time-Aware Availability:** Campaigns and events are evaluated at the database level (GROQ) using `startsAt` and `endsAt` date boundaries.
+- **Automatic Lifecycle Transitions:** Expired campaigns and past events automatically transition out of featured sections and into historical archives, maintaining URL integrity and SEO ranking power.
 
-### 3. 🎬 Sinema & Eğlence Modülü
-- **Deneyim ve Salon Rehberi:** AVLU34 sinema salonu olanakları, fotoğraflar, koltuk konfigürasyonları ve güncel vizyon/bilet yönlendirmeleri.
+### 3. 🎬 Cinema & Entertainment
+- **Venue & Screen Experience:** AVLU34 cinema hall features, photos, seating configurations, and direct ticketing portal links.
 
-### 4. 🗺️ Kat ve Ziyaret Planı
-- **Kroki ve Ulaşım Bilgileri:** AVM kat krokileri, otopark, engelli erişimi, bebek bakım odaları, mescit ve AVM hizmetleri.
-- **Yol Tarifi & İletişim:** Konum, çalışma saatleri ve müşteri hizmetleri erişim noktaları.
+### 4. 🗺️ Floor Plan & Visit Planning
+- **Layout & Amenities:** Mall floor layouts, parking guide, accessibility features, baby care rooms, prayer rooms, and on-site customer services.
+- **Directions & Concierge:** Navigation instructions, operating hours, and customer service contact points.
 
-### 5. 🔍 Dil Duyarlı Global Arama Motoru
-- **GROQ Tabanlı Hızlı Arama:** Mağazalar, yeme-içme noktaları, kampanyalar, etkinlikler ve kurumsal sayfalar arasında anlık eşleşme ve kategorize sonuç listeleme.
-
----
-
-## 🌐 Çoklu Dil (i18n) Mimarisi
-
-Platform, yerel ve yabancı ziyaretçiler için çoklu dil (Türkçe - İngilizce) desteğine tam uyumlu olarak inşa edilmiştir:
-
-- **Field-Level Localization:** İçerikler Sanity üzerinde tek doküman altında `title.tr` ve `title.en` şeklinde yönetilir.
-- **Veritabanı Seviyesinde Dil Çözümleme:** GROQ sorguları `coalesce(field[$locale], field.tr)` mantığı ile dili doğrudan veritabanı aşamasında projekte eder, istemciye yalın veri sunar.
-- **Ultra-Hafif URL Rewrite (Proxy):** `src/proxy.ts` üzerinden yürütülen rota eşleme mekanizmasıyla CPU yükü oluşturmadan SEO uyumlu temiz URL'ler (`/magazalar` ve `/en/stores`) tek bir internal route ağacına (`[locale]`) bağlanır.
+### 5. 🔍 Multilingual Global Search
+- **GROQ-Powered Instant Search:** Real-time query execution across stores, dining spots, active promotions, events, and editorial pages with categorized results.
 
 ---
 
-## ⚡ Önbellekleme, Revalidation ve SEO Standartları
+## 🌐 Internationalization (i18n) Architecture
 
-### 1. Anında İçerik Güncelleme (On-Demand ISR)
-Sanity Studio üzerinde bir içerik yayımlandığında, güncellendiğinde veya silindiğinde `src/app/api/revalidate` webhook uç noktası tetiklenerek ilgili cache tag'leri anında geçersiz kılınır:
+The platform provides a dual-language (Turkish - English) infrastructure:
+
+- **Field-Level Localization:** Content is stored within single document models (`title.tr`, `title.en`), avoiding document duplication in the CMS.
+- **Database-Level Projection:** GROQ queries resolve localized strings at the query boundary using `coalesce(field[$locale], field.tr)`, delivering flat, clean data directly to React components.
+- **Ultra-Lightweight Proxy Rewrite:** Handled via `src/proxy.ts`, seamlessly rewriting localized public URLs (`/magazalar` and `/en/stores`) into a unified internal route hierarchy (`[locale]`) with minimal CPU overhead.
+
+---
+
+## ⚡ Caching, Revalidation & SEO Engineering
+
+### 1. On-Demand ISR (Cache Invalidation)
+When content is published, updated, or removed in Sanity Studio, `src/app/api/revalidate` verifies the cryptographic webhook signature and purges specific cache tags instantly:
 - `siteSettings` / `navigation` ➔ `layout`
-- `store` / `campaign` / `event` ➔ ilgili içerik ve `sitemap` etiketleri
+- `store` / `campaign` / `event` ➔ respective entity tags and `sitemap`
 
-### 2. Yapılandırılmış Veriler (JSON-LD) ve Teknik SEO
-- **Otomatik Schema Enjeksiyonu:** `Organization`, `BreadcrumbList`, `FAQPage`, `Event` ve `Store` yapılandırılmış verileri ilgili sayfalarda otomatik olarak üretilir.
-- **Kusursuz İndekslenme (FAQ Kuralı):** Sıkça sorulan sorular arayüzde kapalı olsa dahi DOM üzerinde muhafaza edilerek arama motoru botlarının içeriği tam okuması sağlanır.
-- **Dinamik Çok Dilli Sitemap:** `sitemap.ts` tüm dinamik rotaları, mağazaları, etkinlikleri ve alternatif dil eşleşmelerini (hreflang) otomatik derler.
-- **Temiz Canonical URL'ler:** Varsayılan dilde dil prefix'i arındırılarak temiz URL yapısı oluşturulur.
+### 2. Structured Data (JSON-LD) & Technical SEO
+- **Automated Schema Generation:** `Organization`, `BreadcrumbList`, `FAQPage`, `Event`, and `Store` structured data injected dynamically per route.
+- **Indexable FAQ Architecture:** FAQ accordions maintain answer content within the DOM (managed via height animations), ensuring 100% crawlability by search engines.
+- **Dynamic Multilingual Sitemap:** `sitemap.ts` dynamically generates indexable URLs with bidirectional `hreflang` alternate references.
+- **Clean Canonical URLs:** Canonical tags automatically omit default locale prefixes (`/tr`) to prevent duplicate indexing.
 
 ---
 
-## 📂 Proje Dizin Yapısı
+## 📂 Project Directory Structure
 
 ```txt
 src/
 ├── app/
 │   ├── (site)/
-│   │   └── [locale]/                 # Rota ağacı (tr, en)
-│   │       ├── layout.tsx            # Global site layout (Header, Footer, Metadata)
-│   │       ├── page.tsx              # Ana sayfa vitrini
-│   │       ├── magazalar/            # Mağazalar dizini ve detay sayfaları
-│   │       ├── yeme-icme/            # Yeme-içme dizini ve kategori sayfaları
-│   │       ├── kampanyalar/          # Kampanyalar ve detay sayfaları
-│   │       ├── etkinlikler/          # Etkinlikler ve detay sayfaları
-│   │       ├── sinema/               # Sinema sayfası
-│   │       ├── kat-plani/            # Kat planı ve hizmetler
-│   │       ├── ziyaret-plani/        # Ulaşım, otopark, çalışma saatleri
-│   │       ├── arama/                # Global arama sonuç sayfası
-│   │       └── ...                   # Kurumsal ve yasal sayfalar (Hakkımızda, KVKK, İletişim)
+│   │   └── [locale]/                 # Unified internal route tree (tr, en)
+│   │       ├── layout.tsx            # Global site shell (Header, Footer, Metadata)
+│   │       ├── page.tsx              # Homepage showcase
+│   │       ├── magazalar/            # Store directory and slug pages
+│   │       ├── yeme-icme/            # Dining directory and category pages
+│   │       ├── kampanyalar/          # Campaigns and detail pages
+│   │       ├── etkinlikler/          # Events and detail pages
+│   │       ├── sinema/               # Cinema venue page
+│   │       ├── kat-plani/            # Floor plan and services
+│   │       ├── ziyaret-plani/        # Visit planning, hours, transportation
+│   │       ├── arama/                # Global search results
+│   │       └── ...                   # Legal and corporate pages (About, KVKK, Contact)
 │   ├── api/
-│   │   ├── revalidate/               # Sanity webhook ISR temizleyici
-│   │   ├── search/                   # GROQ tabanlı global arama endpoint'i
-│   │   └── contact/                  # İletişim formu mail gönderim endpoint'i
-│   ├── proxy.ts                      # Ultra-hafif URL rewrite katmanı
-│   ├── sitemap.ts                    # Dinamik çok dilli XML sitemap
-│   └── robots.ts                     # Dinamik robots.txt yapılandırması
+│   │   ├── revalidate/               # Sanity webhook ISR handler
+│   │   ├── search/                   # GROQ-based search endpoint
+│   │   └── contact/                  # Contact form mailer endpoint
+│   ├── proxy.ts                      # Ultra-lightweight route rewrite proxy
+│   ├── sitemap.ts                    # Dynamic multilingual XML sitemap generator
+│   └── robots.ts                     # Dynamic robots.txt configuration
 ├── components/
-│   ├── forms/                        # Form bileşenleri
-│   ├── home/                         # Ana sayfa bölüm bileşenleri
-│   ├── layout/                       # Header, Footer, DirectoryTemplate, Navigasyon
-│   ├── ui/                           # SanityImage, RichText, FAQ, Breadcrumbs, Dialog vb.
-│   └── seo/                          # JsonLd bileşeni
+│   ├── forms/                        # Form components (ContactForm)
+│   ├── home/                         # Homepage showcase sections
+│   ├── layout/                       # Header, Footer, DirectoryTemplate, Navigation
+│   ├── ui/                           # SanityImage, RichText, FAQ, Breadcrumbs, Dialog, etc.
+│   └── seo/                          # JsonLd component
 ├── lib/
-│   ├── i18n/                         # Çoklu dil route eşleşmeleri ve yardımcılar
-│   ├── seo.ts                        # buildMetadata ve SEO yardımcı fonksiyonları
-│   └── utils.ts                      # Ortak yardımcı fonksiyonlar
+│   ├── i18n/                         # Locale routes, translation maps, and path helpers
+│   ├── seo.ts                        # buildMetadata helper and SEO utilities
+│   └── utils.ts                      # Shared utility functions
 ├── sanity/
-│   ├── lib/                          # Sanity Client, GROQ sorguları, Image URL builder
-│   ├── schemaTypes/                  # Doküman ve singleton şemaları
-│   └── structure.ts                  # Sanity Studio özel menü ve durum filtreleme yapısı
+│   ├── lib/                          # Sanity client, GROQ queries, Image URL builder
+│   ├── schemaTypes/                  # Document, singleton, and object schema definitions
+│   └── structure.ts                  # Sanity Studio sidebar with status filtering
 └── types/
-    └── index.ts                      # Merkezi TypeScript tip tanımlamaları
+    └── index.ts                      # Centralized TypeScript interfaces
 ```
 
 ---
 
-## 🛡️ Güvenlik ve Kod Standartları
+## 🛡️ Security & Engineering Standards
 
-- Tüm veri modelleri ve bileşen propları katı TypeScript tipleri ile tanımlanmıştır (`any` kullanımı engellenmiştir).
-- Hassas anahtarlar ve ortam değişkenleri `@t3-oss/env-nextjs` ile runtime/build aşamasında doğrulanır.
-- Görseller, LCP optimizasyonu ve layout shift'i engellemek amacıyla Sanity Image Pipeline ve responsive `<SanityImage>` bileşeni üzerinden işlenir.
-
+- **Zero `any` Policy:** Strict TypeScript definitions enforced across all models, props, and API layers.
+- **Type-Safe Environment Variables:** Validated at build and runtime with `@t3-oss/env-nextjs` and Zod.
+- **Image Performance:** Fully responsive image delivery through Sanity Image Pipeline and `<SanityImage>`, guaranteeing optimal LCP and zero Cumulative Layout Shift (CLS).
